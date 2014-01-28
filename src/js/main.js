@@ -14,8 +14,14 @@ Main = {
 		var draw = function() {
 			var canvas = document.getElementById("main-canvas");
 			var context = canvas.getContext("2d");
-			context.fillStyle = "#0";
+			context.fillStyle = "black";
 			context.fillRect(0, 0, canvas.width, canvas.height);
+			context.fillStyle = "red";
+			context.fillRect(10, 10, 50, 50);
+			context.beginPath();
+			context.arc(100, 20, 0, 2 * Math.PI, false);
+			context.closePath();
+			context.fill();
 		}
 		var loop = setInterval(draw, 1000 / FPS);
     },
