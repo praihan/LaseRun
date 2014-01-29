@@ -14,19 +14,21 @@ Main = {
 		var draw = function() {
 			var canvas = document.getElementById("main-canvas");
 			var context = canvas.getContext("2d");
+			
 			context.fillStyle = "black";
 			context.fillRect(0, 0, canvas.width, canvas.height);
+			
 			context.fillStyle = "red";
-			context.fillRect(10, 10, 50, 50);
-			context.beginPath();
-			context.arc(100, 100, 20, 0, 2 * Math.PI, false);
-			context.closePath();
-			context.fill();
+			var rect = new RectangleShape(15, 15, 100, 100);
+			rect.fill(context);
+			
+			context.lineWidth = 5;
+			context.strokeStyle = "red";
+			var circle = new CircleShape(250, 250, 50);
+			circle.stroke(context);
 		}
-		var rect = new Rectangle(0, 0, 10, 10);
-		alert(rect);
 		
-		var loop = setInterval(draw, 1000 / FPS);
+		setInterval(draw, 1000 / FPS);
     },
 	
 }
