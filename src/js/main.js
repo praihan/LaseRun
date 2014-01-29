@@ -1,5 +1,5 @@
-var FPS = 60;
 
+var FPS = 60;
 Main = {
 	
     main: function() {
@@ -19,11 +19,16 @@ Main = {
 			context.fillStyle = "red";
 			context.fillRect(10, 10, 50, 50);
 			context.beginPath();
-			context.arc(100, 20, 0, 2 * Math.PI, false);
+			context.arc(100, 100, 20, 0, 2 * Math.PI, false);
 			context.closePath();
 			context.fill();
 		}
+		var rect = new Rectangle(0, 0, 10, 10);
+		alert(rect);
+		
 		var loop = setInterval(draw, 1000 / FPS);
     },
 	
 }
+
+
