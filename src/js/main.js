@@ -27,7 +27,6 @@ Main = {
 			var circle = new CircleShape(250, 250, 50);
 			circle.stroke(context);
 		}
-		
 		setInterval(draw, 1000 / FPS);
     },
 	

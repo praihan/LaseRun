@@ -108,6 +108,8 @@ RectangleShape.prototype.fill = function(context) {
 }
 
 
+
+
 function CircleShape(cX, cY, r) {
 	this._location = new Vector2(cX - r, cY - r);
 	this._size = new Vector2(r * 2, r * 2);
@@ -138,4 +140,21 @@ CircleShape.prototype.fill = function(context) {
 	context.arc(center.X(), center.Y(), this.getRadius(), 0, 2 * Math.PI, false);
 	context.closePath();
 	context.fill();
+}
+
+
+
+
+function SectorShape(cX, cY, r, startRad, endRad) {
+	// TODO: Implement
+}
+
+SectorShape.prototype = new Shape();
+
+SectorShape.prototype.stroke = function(context) {
+	// TODO: Implement
+}
+
+SectorShape.prototype.fill = function(context) {
+	// TODO: Implement
 }
