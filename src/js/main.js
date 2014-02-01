@@ -11,21 +11,24 @@ Main = {
 		window.onresize = resize;
 		resize();
 		
+		var rect = new RectangleShape(15, 15, 100, 100);
+		var circle = new CircleShape(250, 250, 50);
+		var img = new Image();
+		img.src = "assets/img/temp.png";
+		
+		var canvas = document.getElementById("main-canvas");
+		var context = canvas.getContext("2d");
 		var draw = function() {
-			var canvas = document.getElementById("main-canvas");
-			var context = canvas.getContext("2d");
-			
 			context.fillStyle = "black";
 			context.fillRect(0, 0, canvas.width, canvas.height);
 			
 			context.fillStyle = "red";
-			var rect = new RectangleShape(15, 15, 100, 100);
 			rect.fill(context);
 			
 			context.lineWidth = 5;
-			context.strokeStyle = "red";
-			var circle = new CircleShape(250, 250, 50);
+			context.strokeStyle = "red";			
 			circle.stroke(context);
+			context.drawImage(img, 300, 300);
 		}
 		setInterval(draw, 1000 / FPS);
     },
