@@ -1,4 +1,56 @@
+
 var CAL = CAL || {};
+
+CAL.Lang = CAL.Lang || {};
+
+CAL.Lang.hashCodeOf = function(obj) {
+	if (obj === null) {
+		return 0;
+	}
+    if (Array.prototype.reduce){
+        return obj.toString().split("").reduce(
+			function(a, b) {
+				a = ((a << 5) - a) + b.charCodeAt(0);
+				return a & a;
+			}, 
+			0);
+    }
+    var hash = 0;
+	var str = obj.toString();
+    if (str.length === 0) {
+		return 0;
+	}
+    for (var i = 0; i < str.length; ++i) {
+        var c  = str.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + c;
+        hash &= hash;
+    }
+    return hash;
+}
+
+CAL.Lang.format = function(str) {
+	var args = arguments;
+	return str.replace(/%(\d+)/g,
+		function(match, i) {
+    	return i < args.length ? args[i] : i;
+  	});
+}
+
+CAL.Lang.isArray = function(obj) {
+	return Object.prototype.toString.call(obj) === "[object Array]";
+}
+
+
+
+
+if (!Object.prototype.hashCode) {
+	Object.prototype.hashCode = function() {
+		return CAL.Lang.hashCodeOf(this);
+	}
+}
+
+
+
 
 CAL.Graphics = (function() {
 
@@ -69,7 +121,7 @@ CAL.Graphics = (function() {
 	 * @return vector as a string
 	 */
 	Vector2.prototype.toString = function() {
-		return Core.str_format("[Vector2] X: %1, Y: %2", this.X(), this.Y());
+		return CAL.Lang.format("[Vector2] X: %1, Y: %2", this.X(), this.Y());
 	}
 	
 	
@@ -100,7 +152,7 @@ CAL.Graphics = (function() {
 	}
 	
 	Shape.prototype.toString = function() {
-		return Core.str_format("[%1]: Location: {%2}, Size: {%3}", this.getName(), this.getLocation(), this.getSize());
+		return CAL.Lang.format("[%1]: Location: {%2}, Size: {%3}", this.getName(), this.getLocation(), this.getSize());
 	}
 	
 	Shape.prototype.stroke = function(context) {
@@ -288,6 +340,180 @@ CAL.Graphics = (function() {
 		context.fill();
 	}
 	
+	
+	var FontStyles = {
+		BOLD: "Bold",
+		ITALIC: "Italic"
+	}
+	
+	function getFont(baseName, size, props) {
+		if (!CAL.Lang.isArray(props)) {
+			props = typeof props === "undefined" ? [] : [props];
+		}
+		var rv = size.toString() + "px " + baseName + " ";
+		for (var i = 0; i < props.length; ++i) {
+			rv += props[i];
+		}
+		return rv;
+	}
+	
+	Colors = {
+		ALICE_BLUE: "AliceBlue",
+		ANTIQUE_WHITE: "AntiqueWhite",
+		AQUA: "Aqua",
+		AQUAMARINE: "Aquamarine",
+		AZURE: "Azure",
+		BEIGE: "Beige",
+		BISQUE: "Bisque",
+		BLACK: "BLACK",
+		BLANCHED_ALMOND: "BlanchedAlmond",
+		BLUE: "Blue",
+		BLUE_VIOLET: "BlueViolet",
+		BROWN: "Brown",
+		BURLY_WOOD: "BurleyWood",
+		CADET_BLUE: "CadetBlue",
+		CHARTREUSE: "Chartreuse",
+		CHOCOLATE: "Chocolate",
+		CORAL: "Coral",
+		CORNFLOWER_BLUE: "CornflowerBlue",
+		CORNSILK: "Consilk",
+		CRIMSON: "Crimson",
+		CYAN: "Cyan",
+		DARK_BLUE: "DarkBlue",
+		DARK_CYAN: "DarkCyan",
+		DARK_GOLDEN_ROD: "DarkGoldenRod",
+		DARK_KHAKI: "DarkKhaki",
+		DARK_MAGENTA: "DarkMagenta",
+		DARK_OLIVE_GREEN: "DarkOliveGreen",
+		DARK_ORANGE: "DarkOrange",
+		DARK_ORCHID: "DarkOrchid",
+		DARK_RED: "DarkRed",
+		DARK_SALMON: "DarkSalmon",
+		DARK_SEA_GREEN: "DarkSeaGreen",
+		DARK_SLATE_BLUE: "DarkSlateBlue",
+		DARK_SLATE_GRAY: "DarkTurquoise",
+		DARK_TURQUOISE: "DarkTurquoise",
+		DARK_VIOLET: "DarkViolet",
+		DEEP_PINK: "DeepPink",
+		DEEP_SKY_BLUE: "DeepSkyBlue",
+		DIM_GRAY: "DimGray",
+		DODGER_BLUE: "DodgerBlue",
+		FIRE_BRICK: "FireBrick",
+		FLORAL_WHITE: "FloralWhite",
+		FOREST_GREEN: "ForestGreen",
+		FUSHCIA: "Fushcia",
+		GAINSBORO: "Gainsboro",
+		GHOST_WHITE: "GhostWhite",
+		GOLD: "Gold",
+		GOLDEN_ROD: "GoldenRod",
+		GRAY: "Gray",
+		GREEN: "Green",
+		GREEN_YELLOW: "GreenYellow",
+		HONEY_DEW: "HoneyDew",
+		HOT_PINK: "HotPink",
+		INDIAN_RED: "IndianRed",
+		INDIGO: "Indigo",
+		IVORY: "Ivory",
+		KHAKI: "Khaki",
+		LAVENDER: "Lavender",
+		LAVENDER_BLUSH: "LavenderBlush",
+		LAWN_GREEN: "LawnGreen",
+		LEMON_CHIFFON: "LemonChiffon",
+		LIGHT_BLUE: "LightBlue",
+		LIGHT_CORAL: "LightCoral",
+		LIGHT_CYAN: "LightCyan",
+		LIGHT_GOLDEN_ROD_YELLOW: "LightGoldenRodYellow",
+		LIGHT_GRAY: "LightGray",
+		LIGHT_GREEN: "LightGreen",
+		LIGHT_PINK: "LightPink",
+		LIGHT_SALMON: "LightSalmon",
+		LIGHT_SEA_GREEN: "LightSeaGreen",
+		LIGHT_SKY_BLUE: "LightSkyBlue",
+		LIGHT_SLATE_GRAY: "LightSlateGray",
+		LIGHT_STEEL_BLUE: "LightSteelBlue",
+		LIGHT_YELLOW: "LightYellow",
+		LIME: "Lime",
+		LIME_GREEN: "LimeGreen",
+		LINEN: "Linen",
+		MAGENTA: "Magenta",
+		MAROON: "Maroon",
+		MEDIUM_AQUAMARINE: "MediumAquamarine",
+		MEDIUM_BLUE: "MediumBlue",
+		MEDIUM_ORCHID: "MediumOrchid",
+		MEDIUM_PURPLE: "MediumPurple",
+		MEDIUM_SEA_GREEN: "MediumSeaGreen",
+		MEDIUM_SLATE_BLUE: "MediumSlateBlue",
+		MEDIUM_SPRING_GREEN: "MediumSpringGreen",
+		MEDIUM_TURQUOISE: "MediumTurquoise",
+		MEDIUM_VIOLET: "MediumViolet",
+		MIDNIGHT_BLUE: "MidnightBlue",
+		MINT_CREAM: "MintCream",
+		MISTY_ROSE: "MistyRose",
+		MOCCASIN: "Moccasin",
+		NAVAJO_WHITE: "NavajoWhite",
+		NAVY: "Navy",
+		OLD_LACE: "OldLace",
+		OLIVE: "Olive",
+		OLIVE_DRAB: "OliveDrab",
+		ORANGE: "Orange",
+		ORANGE_RED: "OrangeRed",
+		ORCHID: "Orchid",
+		PALE_GOLDEN_ROD: "PaleGoldenRod",
+		PALE_GREEN: "PaleGreen",
+		PALE_TURQUOISE: "PaleTurquoise",
+		PALE_VIOLET_RED: "PaleVioletRed",
+		PAPAYA_WHIP: "PapayaWhip",
+		PEACH_PUFF: "PeachPuff",
+		PERU: "Peru",
+		PINK: "Pink",
+		PLUM: "Plum",
+		POWDER_BLUE: "PowderBlue",
+		PURPLE: "Purple",
+		RED: "Red",
+		ROSY_BROWN: "RosyBrown",
+		ROYAL_BLUE: "RoyalBlue",
+		SADDLE_BROWN: "SaddleBrown",
+		SALMON: "Salmon",
+		SANDY_BROWN: "SandyBrown",
+		SEA_GREEN: "SeaGreen",
+		SEA_SHELL: "SeaShell",
+		SIENNA: "Sienna",
+		SILVER: "Silver",
+		SKY_BLUE: "SkyBlue",
+		SLATE_BLUE: "SlateBlue",
+		SLATE_GRAY: "SlateGray",
+		SNOW: "Snow",
+		SPRING_GREEN: "SpringGreen",
+		STEEL_BLUE: "SteelBlue",
+		TAN: "Tan",
+		TEAL: "Teal",
+		THISTLE: "Thistle",
+		TOMATO: "Tomato",
+		TURQUOISE: "Turquoise",
+		VIOLET: "Violet",
+		WHEAT: "Wheat",
+		WHITE: "White",
+		WHITE_SMOKE: "WhiteSmoke",
+		YELLOW: "Yellow",
+		YELLOW_GREEN: "YellowGreen",
+		
+		getRGB: function(r, g, b) {
+			return "rgb(" + r.toString() + "," + g.toString() + "," + b.toString() + ")";
+		},
+		
+		isKnownColor: function(name) {
+			for (var obj in this) {
+				if ((typeof obj === "string") && obj.toLowerCase() == name.toLowerCase()) {
+					return true;
+				}
+			}
+			return false;
+		},
+		
+	}
+	
+	
+	
 	return {
 		Vector2: Vector2,
 		Shape: Shape,
@@ -295,7 +521,12 @@ CAL.Graphics = (function() {
 		CircleShape: CircleShape,
 		ArcShape: ArcShape,
 		ClosedArcShape: ClosedArcShape,
-		SectorShape: SectorShape
+		SectorShape: SectorShape,
+		
+		FontStyles: FontStyles,
+		getFont: getFont,
+		Colors: Colors
+		
 	};
 
 })();
