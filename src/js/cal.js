@@ -174,6 +174,22 @@ CAL.Graphics = (function() {
 	
 	
 	
+	function RenderParams(doc, tickRate) {
+		this._document = doc;
+		this._tickRate = tickRate;
+	}
+	
+	RenderParams.prototype.getDocument = function() {
+		return this._document;
+	}
+	
+	RenderParams.prototype.getTickRate = function() {
+		return this._tickRate;
+	}
+	
+	
+	
+	
 	/**
 	 * Represents an abstract shape
 	 *
@@ -612,7 +628,9 @@ CAL.Graphics = (function() {
 		
 		FontStyles: FontStyles,
 		getFont: getFont,
-		Colors: Colors
+		Colors: Colors,
+		
+		RenderParams: RenderParams
 		
 	};
 

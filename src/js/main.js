@@ -5,18 +5,9 @@ var CAL = CAL || {};
 
 CAL.Gamex = CAL.Gamex || {};
 
+CAL.Gamex.TARGET_FPS = 60;
+
 CAL.Gamex.Main = (function () {
-	
-	CAL._tick = new Date();
-	CAL._tickRate = 0;
-	
-	CAL.getDate = function() {
-		return CAL._tick;
-	}
-	
-	CAL.getTickRate = function() {
-		return CAL._tickRate;
-	}
 	
     function run() {
 		var resize = function() {
@@ -33,18 +24,20 @@ CAL.Gamex.Main = (function () {
 		var img = new Image();
 		img.src = "assets/img/temp.png";
 		
-		var canvas = document.getElementById("main-canvas");
-		var context = canvas.getContext("2d");
+		var lastTick = new Date();
 		
 		var globalUpdate = function() {
+			var canvas = document.getElementById("main-canvas");
+			var context = canvas.getContext("2d");
 			
-			var lastTick = CAL._tick;
 			var thisTick = new Date();
-			
+			var tickRate = CAL.Gamex.TARGET_FPS;
 			if (lastTick != thisTick) {
-				CAL._tickRate = 1000 / (thisTick - lastTick);
-				CAL._tick = thisTick;
+				tickRate = 1000 / (thisTick - lastTick);
+				lastTick = thisTick;
 			}
+			
+			var renderParams = new CAL.Graphics.RenderParams(context, tickRate);
 			
 			context.fillStyle = CAL.Graphics.Colors.BLACK;
 			context.fillRect(0, 0, canvas.width, canvas.height);
@@ -61,7 +54,7 @@ CAL.Gamex.Main = (function () {
 			
 			context.fillStyle = CAL.Graphics.Colors.WHITE;
 			
-			context.fillText(Math.floor(CAL.getTickRate()).toString(), 200, 50);
+			context.fillText(Math.floor(tickRate).toString(), 200, 50);
 		}
 		var intervalID = setInterval(globalUpdate, 1000 / TARGET_FPS);
     }
