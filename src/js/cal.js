@@ -3,6 +3,10 @@ var CAL = CAL || {};
 
 CAL.Lang = CAL.Lang || {};
 
+CAL.Lang.consoleExists = function () {
+	return (window.console || window.console.log) ? true : false;
+}
+
 CAL.Lang.hashCodeOf = function(obj) {
 	if (obj === null) {
 		return 0;
@@ -56,7 +60,10 @@ CAL.Graphics = (function() {
 
 	/**
 	 * Represents a 2D vector with X and Y components.
-	 *
+	 * 
+	 * @param x the X component
+	 * @param y the Y component
+	 * 
 	 * @constructor
 	 * @struct
 	 */
@@ -83,34 +90,74 @@ CAL.Graphics = (function() {
 		return this._y;
 	}
 	
+	/**
+	 * Adds two vectors, and returns the resulting vector.
+	 *
+	 * @return the sum of two vectors
+	 */
 	Vector2.prototype.add = function(other) {
 		return new Vector2(this.X() + other.X(), this.Y() + other.Y());
 	}
 	
+	/**
+	 * Subtracts a vector from this vector, and returns the resulting vector.
+	 *
+	 * @return the difference of two vectors
+	 */
 	Vector2.prototype.subtract = function(other) {
 		return new Vector2(this.X() - other.X(), this.Y() - other.Y());
 	}
 	
+	/**
+	 * Finds the dot product of two vectors, and returns the resulting vector.
+	 *
+	 * @return the dot product of two vectors
+	 */
 	Vector2.prototype.multiply = function(other) {
 		return new Vector2(this.X() * other.X(), this.Y() * other.Y());
 	}
 	
+	/**
+	 * Divides a vector from this vector, and returns the resulting vector.
+	 *
+	 * @return the division of two vectors
+	 */
 	Vector2.prototype.divide = function(other) {
 		return new Vector2(this.X() / other.X(), this.Y() / other.Y()); 
 	}
 	
+	/**
+	 * Divides x and y scalars from this vector, and returns the resulting vector.
+	 *
+	 * @return the division of this vector by x and y scalars
+	 */
 	Vector2.prototype.scale = function(xTimes, yTimes) {
 		return new Vector2(this.X() * xTimes, this.Y() * yTimes); 
 	}
 	
+	/**
+	 * Adds x and y scalars to this vector, and returns the resulting vector.
+	 *
+	 * @return the sum of this vector and x and y scalars
+	 */
 	Vector2.prototype.translate = function(xAmount, yAmount) {
 		return new Vector2(this.X() + xAmount, this.Y() + yAmount);
 	}
 	
+	/**
+	 * Negates both X and Y components of this vector, and returns the resulting vector.
+	 *
+	 * @return the negative of this vector
+	 */
 	Vector2.prototype.negate = function() {
 		return new Vector2(-this.X(), -this.Y());
 	}
 	
+	/**
+	 * Compares both X and Y components of the two vectors, and returns the predicate.
+	 *
+	 * @return if the vectors are equal
+	 */
 	Vector2.prototype.equals = function(other) {
 		return this.X() === other.X() && this.Y() === other.Y();
 	}
@@ -118,7 +165,7 @@ CAL.Graphics = (function() {
 	/**
 	 * Returns a canonical representation of this vector.
 	 * 
-	 * @return vector as a string
+	 * @return this vector as a string
 	 */
 	Vector2.prototype.toString = function() {
 		return CAL.Lang.format("[Vector2] X: %1, Y: %2", this.X(), this.Y());
@@ -127,37 +174,77 @@ CAL.Graphics = (function() {
 	
 	
 	
+	/**
+	 * Represents an abstract shape
+	 *
+	 * @constructor
+	 */
 	Shape = function Shape() {
 		this._location = new Vector2(0, 0);
 		this._size = new Vector2(0, 0);
 		this._name = "Shape"
 	}
 	
+	/**
+	 * Returns the X and Y location of this shape.
+	 * 
+	 * @return the location of this shape
+	 */
 	Shape.prototype.getLocation = function() {
 		return this._location;
 	}
 	
+	/**
+	 * Returns the width and height of this shape.
+	 * 
+	 * @return the size of this shape
+	 */
 	Shape.prototype.getSize = function() {
 		return this._size;
 	}
 	
+	/**
+	 * Returns the logical center of this shape as a vector.
+	 * 
+	 * @return the center of this shape
+	 */
 	Shape.prototype.getCenter = function() {
 		var loc = this.getLocation();
 		var size = this.getSize();
 		return new Vector2(loc.X() + size.X() / 2, loc.Y() + size.Y() / 2);
 	}
 	
+	/**
+	 * Returns the canonical name of this shape.
+	 * 
+	 * @return the name of this shape
+	 */
 	Shape.prototype.getName = function() {
 		return this._name;
 	}
 	
+	/**
+	 * Returns a canonical representation of this shape.
+	 * 
+	 * @return this shape as a string
+	 */
 	Shape.prototype.toString = function() {
 		return CAL.Lang.format("[%1]: Location: {%2}, Size: {%3}", this.getName(), this.getLocation(), this.getSize());
 	}
 	
+	/**
+	 * Strokes the shape on a context
+	 * 
+	 * @param context a drawing context, like a 2D canvas context
+	 */
 	Shape.prototype.stroke = function(context) {
 	}
 	
+	/**
+	 * Fills the shape on a context
+	 * 
+	 * @param context a drawing context, like a 2D canvas context
+	 */
 	Shape.prototype.fill = function(context) {
 	}
 	
