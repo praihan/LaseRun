@@ -1,4 +1,3 @@
-
 var CAL = CAL || {};
 
 CAL.Lang = CAL.Lang || {};
@@ -174,13 +173,13 @@ CAL.Graphics = (function() {
 	
 	
 	
-	function RenderParams(doc, tickRate) {
-		this._document = doc;
+	function RenderParams(canvas, tickRate) {
+		this._canvas = canvas;
 		this._tickRate = tickRate;
 	}
 	
-	RenderParams.prototype.getDocument = function() {
-		return this._document;
+	RenderParams.prototype.getCanvas = function() {
+		return this._canvas;
 	}
 	
 	RenderParams.prototype.getTickRate = function() {
