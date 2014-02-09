@@ -1,5 +1,3 @@
-var CAL = CAL || {};
-
 CAL.Gamex.Main = (function () {
 	
     function run() {
@@ -31,11 +29,13 @@ CAL.Gamex.Main = (function () {
 			game.update(updateParams);
 			game.draw(renderParams);
 		}
-		var intervalID = setInterval(globalUpdate, 1000 / CAL.Gamex.TARGET_FPS);
+		globalUpdate();
+		this.intervalID = setInterval(globalUpdate, 1000 / CAL.Gamex.TARGET_FPS);
     }
 	
 	return {
-		run: run
+		run: run,
+		intervalID: this.intervalID
 	};
 	
 })();
