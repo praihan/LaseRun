@@ -29,6 +29,7 @@ CAL.Gamex.Main = (function () {
 			game.update(updateParams);
 			game.draw(renderParams);
 		}
+		
 		globalUpdate();
 		this.intervalID = setInterval(globalUpdate, 1000 / CAL.Gamex.TARGET_FPS);
     }

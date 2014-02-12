@@ -20,12 +20,12 @@ CAL.Gamex.Game.prototype.update = function(updateParams) {
 }
 
 CAL.Gamex.Game.prototype.draw = function(renderParams) {
-	var canvas = renderParams.getCanvas()
+	var canvas = renderParams.getCanvas();
 	var context = canvas.getContext("2d");
 	
 	context.fillStyle = CAL.Graphics.Colors.BLACK;
 	context.fillRect(0, 0, canvas.width, canvas.height);
-	context.font = CAL.Graphics.getFont("Ubuntu Mono", 50, CAL.Graphics.FontStyles.BOLD);	
+	context.font = CAL.Graphics.getFont("Ubuntu Mono", 50, CAL.Graphics.FontStyles.BOLD);
 	
 	context.fillStyle = CAL.Graphics.Colors.RED;
 	this.rect.fill(context);

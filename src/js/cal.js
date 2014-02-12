@@ -452,10 +452,11 @@ CAL.Graphics = (function() {
 		if (!CAL.Lang.isArray(props)) {
 			props = typeof props === "undefined" ? [] : [props];
 		}
-		var rv = size.toString() + "px " + baseName + " ";
+		var rv = "";
 		for (var i = 0; i < props.length; ++i) {
-			rv += props[i];
+			rv += props[i] + " ";
 		}
+		rv += size.toString() + "px " + baseName;
 		return rv;
 	}
 	
