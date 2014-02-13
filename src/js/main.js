@@ -18,7 +18,7 @@ CAL.Gamex.Main = (function () {
 			
 			var thisTick = new Date();
 			var tickRate = CAL.Gamex.TARGET_FPS;
-			if (lastTick != thisTick) {
+			if (lastTick - thisTick != 0) {
 				tickRate = 1000 / (thisTick - lastTick);
 				lastTick = thisTick;
 			}

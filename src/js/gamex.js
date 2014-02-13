@@ -13,6 +13,7 @@ CAL.Gamex.Game = function() {
 	
 	this.img = new Image();
 	this.img.src = "assets/img/temp.png";
+	this._firstUpdate = false;
 }
 
 CAL.Gamex.Game.prototype.update = function(updateParams) {
@@ -25,7 +26,7 @@ CAL.Gamex.Game.prototype.draw = function(renderParams) {
 	
 	context.fillStyle = CAL.Graphics.Colors.BLACK;
 	context.fillRect(0, 0, canvas.width, canvas.height);
-	context.font = CAL.Graphics.getFont("Ubuntu Mono", 50, CAL.Graphics.FontStyles.BOLD);
+	context.font = CAL.Graphics.getFont("Ubuntu Mono", 50, [CAL.Graphics.FontStyles.BOLD, CAL.Graphics.FontStyles.ITALIC]);
 	
 	context.fillStyle = CAL.Graphics.Colors.RED;
 	this.rect.fill(context);
