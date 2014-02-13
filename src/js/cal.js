@@ -173,22 +173,6 @@ CAL.Graphics = (function() {
 	
 	
 	
-	function RenderParams(canvas, tickRate) {
-		this._canvas = canvas;
-		this._tickRate = tickRate;
-	}
-	
-	RenderParams.prototype.getCanvas = function() {
-		return this._canvas;
-	}
-	
-	RenderParams.prototype.getTickRate = function() {
-		return this._tickRate;
-	}
-	
-	
-	
-	
 	/**
 	 * Represents an abstract shape
 	 *

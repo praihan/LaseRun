@@ -1,37 +1,38 @@
 CAL.Gamex.Main = (function () {
 	
+	var manifest = [
+		{id: temp, src:"assets/img/temp.png"},
+	];
+	var CANVAS_NAME = "main-canvas";
+	
     function run() {
 		var resize = function() {
-			var c = document.getElementById("main-canvas");
+			var c = document.getElementById(CANVAS_NAME);
 			c.width = $(document).width();
 			c.height = $(document).height();
 		}
 		window.onresize = resize;
 		resize();
 		
-		var lastTick = new Date();
-		
+		var stage = new createjs.Stage(document.getElementById(CANVAS_NAME));
 		var game = new CAL.Gamex.Game();
 		
-		var globalUpdate = function() {
-			var canvas = document.getElementById("main-canvas");
-			
-			var thisTick = new Date();
-			var tickRate = CAL.Gamex.TARGET_FPS;
-			if (lastTick - thisTick != 0) {
-				tickRate = 1000 / (thisTick - lastTick);
-				lastTick = thisTick;
-			}
-			
-			var renderParams = new CAL.Graphics.RenderParams(canvas, tickRate);
-			var updateParams = {};
-			
-			game.update(updateParams);
-			game.draw(renderParams);
+		var globalUpdate = function(evt) {
 		}
 		
-		globalUpdate();
-		this.intervalID = setInterval(globalUpdate, 1000 / CAL.Gamex.TARGET_FPS);
+		var resources = new createjs.LoadQueue(false);
+		resources.addEventListener("complete", function() {
+			createjs.Ticker.timingMode = createjs.Ticker.RAF;
+			createjs.Ticker.addEventListener("tick", function(evt) {
+				var canvas = document.getElementById(CANVAS_NAME);
+				
+				var params = {event: evt, resources: resources, stage: stage};
+				
+				game.update(params);
+				game.draw(params);						  
+			});
+		});
+		resources.loadManifest(manifest);
     }
 	
 	return {

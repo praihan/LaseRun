@@ -7,13 +7,13 @@ CAL.Gamex.TARGET_FPS = CAL.Gamex.TARGET_FPS || 60;
 
 
 
-CAL.Gamex.Game = function() {
+CAL.Gamex.Game = function(resources) {
 	this.rect = new CAL.Graphics.RectangleShape(15, 15, 100, 100);
 	this.circle = new CAL.Graphics.CircleShape(250, 250, 50);
 	
 	this.img = new Image();
 	this.img.src = "assets/img/temp.png";
-	this._firstUpdate = false;
+	this._resources = resources;
 }
 
 CAL.Gamex.Game.prototype.update = function(updateParams) {
