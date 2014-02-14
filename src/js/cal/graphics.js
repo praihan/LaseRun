@@ -1,10 +1,13 @@
-var CAL = CAL || {};
+this.CAL = this.CAL || {};
 
 CAL.Graphics = (function() {
 
 	/**
 	 * Represents a 2D vector with X and Y components.
-	 *
+	 * 
+	 * @param x the X component
+	 * @param y the Y component
+	 * 
 	 * @constructor
 	 * @struct
 	 */
@@ -31,34 +34,74 @@ CAL.Graphics = (function() {
 		return this._y;
 	}
 	
+	/**
+	 * Adds two vectors, and returns the resulting vector.
+	 *
+	 * @return the sum of two vectors
+	 */
 	Vector2.prototype.add = function(other) {
 		return new Vector2(this.X() + other.X(), this.Y() + other.Y());
 	}
 	
+	/**
+	 * Subtracts a vector from this vector, and returns the resulting vector.
+	 *
+	 * @return the difference of two vectors
+	 */
 	Vector2.prototype.subtract = function(other) {
 		return new Vector2(this.X() - other.X(), this.Y() - other.Y());
 	}
 	
+	/**
+	 * Finds the dot product of two vectors, and returns the resulting vector.
+	 *
+	 * @return the dot product of two vectors
+	 */
 	Vector2.prototype.multiply = function(other) {
 		return new Vector2(this.X() * other.X(), this.Y() * other.Y());
 	}
 	
+	/**
+	 * Divides a vector from this vector, and returns the resulting vector.
+	 *
+	 * @return the division of two vectors
+	 */
 	Vector2.prototype.divide = function(other) {
 		return new Vector2(this.X() / other.X(), this.Y() / other.Y()); 
 	}
 	
+	/**
+	 * Divides x and y scalars from this vector, and returns the resulting vector.
+	 *
+	 * @return the division of this vector by x and y scalars
+	 */
 	Vector2.prototype.scale = function(xTimes, yTimes) {
 		return new Vector2(this.X() * xTimes, this.Y() * yTimes); 
 	}
 	
+	/**
+	 * Adds x and y scalars to this vector, and returns the resulting vector.
+	 *
+	 * @return the sum of this vector and x and y scalars
+	 */
 	Vector2.prototype.translate = function(xAmount, yAmount) {
 		return new Vector2(this.X() + xAmount, this.Y() + yAmount);
 	}
 	
+	/**
+	 * Negates both X and Y components of this vector, and returns the resulting vector.
+	 *
+	 * @return the negative of this vector
+	 */
 	Vector2.prototype.negate = function() {
 		return new Vector2(-this.X(), -this.Y());
 	}
 	
+	/**
+	 * Compares both X and Y components of the two vectors, and returns the predicate.
+	 *
+	 * @return if the vectors are equal
+	 */
 	Vector2.prototype.equals = function(other) {
 		return this.X() === other.X() && this.Y() === other.Y();
 	}
@@ -66,46 +109,86 @@ CAL.Graphics = (function() {
 	/**
 	 * Returns a canonical representation of this vector.
 	 * 
-	 * @return vector as a string
+	 * @return this vector as a string
 	 */
 	Vector2.prototype.toString = function() {
-		return Core.str_format("[Vector2] X: %1, Y: %2", this.X(), this.Y());
+		return CAL.Lang.format("[Vector2] X: %1, Y: %2", this.X(), this.Y());
 	}
 	
 	
 	
 	
+	/**
+	 * Represents an abstract shape
+	 *
+	 * @constructor
+	 */
 	Shape = function Shape() {
 		this._location = new Vector2(0, 0);
 		this._size = new Vector2(0, 0);
 		this._name = "Shape"
 	}
 	
+	/**
+	 * Returns the X and Y location of this shape.
+	 * 
+	 * @return the location of this shape
+	 */
 	Shape.prototype.getLocation = function() {
 		return this._location;
 	}
 	
+	/**
+	 * Returns the width and height of this shape.
+	 * 
+	 * @return the size of this shape
+	 */
 	Shape.prototype.getSize = function() {
 		return this._size;
 	}
 	
+	/**
+	 * Returns the logical center of this shape as a vector.
+	 * 
+	 * @return the center of this shape
+	 */
 	Shape.prototype.getCenter = function() {
 		var loc = this.getLocation();
 		var size = this.getSize();
 		return new Vector2(loc.X() + size.X() / 2, loc.Y() + size.Y() / 2);
 	}
 	
+	/**
+	 * Returns the canonical name of this shape.
+	 * 
+	 * @return the name of this shape
+	 */
 	Shape.prototype.getName = function() {
 		return this._name;
 	}
 	
+	/**
+	 * Returns a canonical representation of this shape.
+	 * 
+	 * @return this shape as a string
+	 */
 	Shape.prototype.toString = function() {
-		return Core.str_format("[%1]: Location: {%2}, Size: {%3}", this.getName(), this.getLocation(), this.getSize());
+		return CAL.Lang.format("[%1]: Location: {%2}, Size: {%3}", this.getName(), this.getLocation(), this.getSize());
 	}
 	
+	/**
+	 * Strokes the shape on a context
+	 * 
+	 * @param context a drawing context, like a 2D canvas context
+	 */
 	Shape.prototype.stroke = function(context) {
 	}
 	
+	/**
+	 * Fills the shape on a context
+	 * 
+	 * @param context a drawing context, like a 2D canvas context
+	 */
 	Shape.prototype.fill = function(context) {
 	}
 	
@@ -288,6 +371,179 @@ CAL.Graphics = (function() {
 		context.fill();
 	}
 	
+	
+	var FontStyles = {
+		BOLD: "Bold",
+		ITALIC: "Italic"
+	}
+	
+	function getFont(baseName, size, props) {
+		if (!CAL.Lang.isArray(props)) {
+			props = typeof props === "undefined" ? [] : [props];
+		}
+		var rv = "";
+		for (var i = 0; i < props.length; ++i) {
+			rv += props[i] + " ";
+		}
+		rv += size.toString() + "px " + baseName;
+		return rv;
+	}
+	
+	Colors = {
+		ALICE_BLUE: "AliceBlue",
+		ANTIQUE_WHITE: "AntiqueWhite",
+		AQUA: "Aqua",
+		AQUAMARINE: "Aquamarine",
+		AZURE: "Azure",
+		BEIGE: "Beige",
+		BISQUE: "Bisque",
+		BLACK: "BLACK",
+		BLANCHED_ALMOND: "BlanchedAlmond",
+		BLUE: "Blue",
+		BLUE_VIOLET: "BlueViolet",
+		BROWN: "Brown",
+		BURLY_WOOD: "BurleyWood",
+		CADET_BLUE: "CadetBlue",
+		CHARTREUSE: "Chartreuse",
+		CHOCOLATE: "Chocolate",
+		CORAL: "Coral",
+		CORNFLOWER_BLUE: "CornflowerBlue",
+		CORNSILK: "Consilk",
+		CRIMSON: "Crimson",
+		CYAN: "Cyan",
+		DARK_BLUE: "DarkBlue",
+		DARK_CYAN: "DarkCyan",
+		DARK_GOLDEN_ROD: "DarkGoldenRod",
+		DARK_KHAKI: "DarkKhaki",
+		DARK_MAGENTA: "DarkMagenta",
+		DARK_OLIVE_GREEN: "DarkOliveGreen",
+		DARK_ORANGE: "DarkOrange",
+		DARK_ORCHID: "DarkOrchid",
+		DARK_RED: "DarkRed",
+		DARK_SALMON: "DarkSalmon",
+		DARK_SEA_GREEN: "DarkSeaGreen",
+		DARK_SLATE_BLUE: "DarkSlateBlue",
+		DARK_SLATE_GRAY: "DarkTurquoise",
+		DARK_TURQUOISE: "DarkTurquoise",
+		DARK_VIOLET: "DarkViolet",
+		DEEP_PINK: "DeepPink",
+		DEEP_SKY_BLUE: "DeepSkyBlue",
+		DIM_GRAY: "DimGray",
+		DODGER_BLUE: "DodgerBlue",
+		FIRE_BRICK: "FireBrick",
+		FLORAL_WHITE: "FloralWhite",
+		FOREST_GREEN: "ForestGreen",
+		FUSHCIA: "Fushcia",
+		GAINSBORO: "Gainsboro",
+		GHOST_WHITE: "GhostWhite",
+		GOLD: "Gold",
+		GOLDEN_ROD: "GoldenRod",
+		GRAY: "Gray",
+		GREEN: "Green",
+		GREEN_YELLOW: "GreenYellow",
+		HONEY_DEW: "HoneyDew",
+		HOT_PINK: "HotPink",
+		INDIAN_RED: "IndianRed",
+		INDIGO: "Indigo",
+		IVORY: "Ivory",
+		KHAKI: "Khaki",
+		LAVENDER: "Lavender",
+		LAVENDER_BLUSH: "LavenderBlush",
+		LAWN_GREEN: "LawnGreen",
+		LEMON_CHIFFON: "LemonChiffon",
+		LIGHT_BLUE: "LightBlue",
+		LIGHT_CORAL: "LightCoral",
+		LIGHT_CYAN: "LightCyan",
+		LIGHT_GOLDEN_ROD_YELLOW: "LightGoldenRodYellow",
+		LIGHT_GRAY: "LightGray",
+		LIGHT_GREEN: "LightGreen",
+		LIGHT_PINK: "LightPink",
+		LIGHT_SALMON: "LightSalmon",
+		LIGHT_SEA_GREEN: "LightSeaGreen",
+		LIGHT_SKY_BLUE: "LightSkyBlue",
+		LIGHT_SLATE_GRAY: "LightSlateGray",
+		LIGHT_STEEL_BLUE: "LightSteelBlue",
+		LIGHT_YELLOW: "LightYellow",
+		LIME: "Lime",
+		LIME_GREEN: "LimeGreen",
+		LINEN: "Linen",
+		MAGENTA: "Magenta",
+		MAROON: "Maroon",
+		MEDIUM_AQUAMARINE: "MediumAquamarine",
+		MEDIUM_BLUE: "MediumBlue",
+		MEDIUM_ORCHID: "MediumOrchid",
+		MEDIUM_PURPLE: "MediumPurple",
+		MEDIUM_SEA_GREEN: "MediumSeaGreen",
+		MEDIUM_SLATE_BLUE: "MediumSlateBlue",
+		MEDIUM_SPRING_GREEN: "MediumSpringGreen",
+		MEDIUM_TURQUOISE: "MediumTurquoise",
+		MEDIUM_VIOLET: "MediumViolet",
+		MIDNIGHT_BLUE: "MidnightBlue",
+		MINT_CREAM: "MintCream",
+		MISTY_ROSE: "MistyRose",
+		MOCCASIN: "Moccasin",
+		NAVAJO_WHITE: "NavajoWhite",
+		NAVY: "Navy",
+		OLD_LACE: "OldLace",
+		OLIVE: "Olive",
+		OLIVE_DRAB: "OliveDrab",
+		ORANGE: "Orange",
+		ORANGE_RED: "OrangeRed",
+		ORCHID: "Orchid",
+		PALE_GOLDEN_ROD: "PaleGoldenRod",
+		PALE_GREEN: "PaleGreen",
+		PALE_TURQUOISE: "PaleTurquoise",
+		PALE_VIOLET_RED: "PaleVioletRed",
+		PAPAYA_WHIP: "PapayaWhip",
+		PEACH_PUFF: "PeachPuff",
+		PERU: "Peru",
+		PINK: "Pink",
+		PLUM: "Plum",
+		POWDER_BLUE: "PowderBlue",
+		PURPLE: "Purple",
+		RED: "Red",
+		ROSY_BROWN: "RosyBrown",
+		ROYAL_BLUE: "RoyalBlue",
+		SADDLE_BROWN: "SaddleBrown",
+		SALMON: "Salmon",
+		SANDY_BROWN: "SandyBrown",
+		SEA_GREEN: "SeaGreen",
+		SEA_SHELL: "SeaShell",
+		SIENNA: "Sienna",
+		SILVER: "Silver",
+		SKY_BLUE: "SkyBlue",
+		SLATE_BLUE: "SlateBlue",
+		SLATE_GRAY: "SlateGray",
+		SNOW: "Snow",
+		SPRING_GREEN: "SpringGreen",
+		STEEL_BLUE: "SteelBlue",
+		TAN: "Tan",
+		TEAL: "Teal",
+		THISTLE: "Thistle",
+		TOMATO: "Tomato",
+		TURQUOISE: "Turquoise",
+		VIOLET: "Violet",
+		WHEAT: "Wheat",
+		WHITE: "White",
+		WHITE_SMOKE: "WhiteSmoke",
+		YELLOW: "Yellow",
+		YELLOW_GREEN: "YellowGreen",
+		
+		getRGB: function(r, g, b) {
+			return "rgb(" + r.toString() + "," + g.toString() + "," + b.toString() + ")";
+		},
+		
+		isKnownColor: function(name) {
+			for (var obj in this) {
+				if ((typeof obj === "string") && obj.toLowerCase() == name.toLowerCase()) {
+					return true;
+				}
+			}
+			return false;
+		},
+		
+	}
+	
 	return {
 		Vector2: Vector2,
 		Shape: Shape,
@@ -295,7 +551,11 @@ CAL.Graphics = (function() {
 		CircleShape: CircleShape,
 		ArcShape: ArcShape,
 		ClosedArcShape: ClosedArcShape,
-		SectorShape: SectorShape
+		SectorShape: SectorShape,
+		
+		FontStyles: FontStyles,
+		getFont: getFont,
+		Colors: Colors,	
 	};
 
 })();

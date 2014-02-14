@@ -1,8 +1,9 @@
 CAL.Gamex.Main = (function () {
 	
 	var manifest = [
-		{id: temp, src:"assets/img/temp.png"},
+		{id: "temp", src:"assets/img/temp.png"},
 	];
+	
 	var CANVAS_NAME = "main-canvas";
 	
     function run() {
@@ -14,30 +15,41 @@ CAL.Gamex.Main = (function () {
 		window.onresize = resize;
 		resize();
 		
-		var stage = new createjs.Stage(document.getElementById(CANVAS_NAME));
-		var game = new CAL.Gamex.Game();
-		
-		var globalUpdate = function(evt) {
-		}
+		var canvas = document.getElementById(CANVAS_NAME);		
+		var stage = new createjs.Stage(canvas);
 		
 		var resources = new createjs.LoadQueue(false);
-		resources.addEventListener("complete", function() {
+		
+		var game = new CAL.Gamex.Game(resources);
+		
+		resources.on("complete", function() {
+			
 			createjs.Ticker.timingMode = createjs.Ticker.RAF;
-			createjs.Ticker.addEventListener("tick", function(evt) {
+			createjs.Ticker.setFPS(CAL.Gamex.TARGET_FPS);
+			
+			createjs.Ticker.on("tick", function(evt) {
 				var canvas = document.getElementById(CANVAS_NAME);
 				
-				var params = {event: evt, resources: resources, stage: stage};
+				var params = {
+					event: evt, 
+					resources: resources, 
+					stage: stage, 
+					canvas: document.getElementById(CANVAS_NAME)
+				};
 				
 				game.update(params);
-				game.draw(params);						  
-			});
-		});
+				game.draw(params);
+				 
+			}, this);
+			
+		}, this);
+		
 		resources.loadManifest(manifest);
+		
     }
 	
 	return {
 		run: run,
-		intervalID: this.intervalID
 	};
 	
 })();
