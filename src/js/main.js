@@ -16,29 +16,30 @@ CAL.Gamex.Main = (function () {
 		resize();
 		
 		var canvas = document.getElementById(CANVAS_NAME);		
-		var stage = new createjs.Stage(canvas);
 		
 		var resources = new createjs.LoadQueue(false);
 		
-		var game = new CAL.Gamex.Game(resources);
+		var game = new CAL.Gamex.Game();
 		
 		resources.on("complete", function() {
 			
 			createjs.Ticker.timingMode = createjs.Ticker.RAF;
 			createjs.Ticker.setFPS(CAL.Gamex.TARGET_FPS);
 			
+			var first = true;
 			createjs.Ticker.on("tick", function(evt) {
 				var canvas = document.getElementById(CANVAS_NAME);
 				
 				var params = {
 					event: evt, 
 					resources: resources, 
-					stage: stage, 
-					canvas: document.getElementById(CANVAS_NAME)
+					canvas: canvas, 
+					first: first,
 				};
 				
 				game.update(params);
 				game.draw(params);
+				first = false;
 				 
 			}, this);
 			
