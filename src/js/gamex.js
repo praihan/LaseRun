@@ -61,7 +61,7 @@ var gamex = this.CAL.Gamex = this.CAL.Gamex || {};
 			},
 			rotation: 0.5,
 		});
-		s.draw(context);
+		s.clone().draw(context);
 		// context.drawImage(this.tempImage, 200, 200, this.tempImage.width, this.tempImage.height);
 	};
 	

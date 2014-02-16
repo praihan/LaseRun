@@ -10,8 +10,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	}
 	
 	var Sprite = function(params) {
-		this.setDimensions(params.dimensions || {});
-		this.setClipping(params.clipping || params.dimensions);
+		this.setDimensions(params.dimensions || {x: 0, y: 0, width: 0, height: 0});
+		this.setClipping(params.clipping || this.getDimensions());
 		this.setRotation(params.rotation || 0);
 		
 		if (params.image) {
@@ -29,13 +29,16 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		}
 		if (params.sprite) {
 			var sprite = params.sprite;
-			this._img = sprite._img;
-			this._spritesheetPtr = sprite._spritesheetPtr;
+			this._image = sprite._image;
+			this._imageOrigin = sprite._imageOrigin;
 			if (!params.dimensions) {
 				this.setDimensions(sprite.getDimensions());
 			}
 			if (!params.clipping) {
 				this.setClipping(sprite.getClipping());
+			}
+			if (!params.rotation) {
+				this.setRotation(sprite.getRotation());
 			}
 			return;
 		}
