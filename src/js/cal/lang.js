@@ -43,11 +43,17 @@ CAL.Lang = (function() {
 		return Object.prototype.toString.call(obj) === "[object Array]";
 	}
 	
+	var CALException = function(what) {
+		this.what = function() { return "CALException: " + what.toString(); };
+		this.toString = this.what;
+	}
+	
 	return {
 		consoleExists: consoleExists,
 		hashCodeOf: hashCodeOf,
 		format: format,
-		isArray: isArray
+		isArray: isArray,
+		CALException: CALException
 	}
 	
 })();

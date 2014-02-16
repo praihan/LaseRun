@@ -4,12 +4,12 @@ this.CAL.Util = this.CAL.Util || {};
 
 (function() {
 	
-	var DeltaTimer = function(msInterval, callback, callbackContext, currentTime) {
+	var DeltaTimer = function(msInterval, callback, scope, currentTime) {
 		this._msInterval = msInterval;
 		this._currentTime = currentTime || 0;
 		this._resetValue = 0;
 		this._callback = callback;
-		this._callbackContext = callbackContext || null;
+		this._callbackScope = scope || callback || this;
 	}
 	
 	var p = DeltaTimer.prototype;
@@ -26,11 +26,7 @@ this.CAL.Util = this.CAL.Util || {};
 		this._currentTime += delta;
 		if (this._currentTime >= this._msInterval) {
 			this._currentTime = this._resetValue;
-			if (this._callbackContext == null) {
-				this._callback();
-			} else {
-				this._callback(this._callbackContext);
-			}
+			this._callback.call(this._callbackScope);
 		}
 	}
 	

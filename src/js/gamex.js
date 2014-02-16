@@ -26,8 +26,8 @@ var gamex = this.CAL.Gamex = this.CAL.Gamex || {};
 			this.tempImage = updateParams.resources.getResult("temp");
 			this._fpsTimer = new CAL.Util.DeltaTimer(
 				CAL.Gamex.TARGET_UPDATE_FPS, 
-				function(_this) {
-					_this._cachedDelta = _this._lastUpdateParams.event.delta;
+				function() {
+					this._cachedDelta = this._lastUpdateParams.event.delta;
 				}, 
 				this,
 				CAL.Gamex.TARGET_UPDATE_FPS);
@@ -47,7 +47,22 @@ var gamex = this.CAL.Gamex = this.CAL.Gamex || {};
 		
 		context.fillText(this._cachedDelta == 0 ? "Infinite" : Math.floor(1000 / this._cachedDelta).toString(), 200, 50);
 		
-		context.drawImage(this.tempImage, 200, 200, this.tempImage.width, this.tempImage.height);
+		var s = new CAL.Graphics.Sprite({
+			image: this.tempImage, 
+			dimensions: {
+				x: 200, 
+				y: 200, 
+				width: 100, 
+				height: 100
+			}, 
+			clipping: {
+				x: 50,
+				y: 50,
+			},
+			rotation: 0.5,
+		});
+		s.draw(context);
+		// context.drawImage(this.tempImage, 200, 200, this.tempImage.width, this.tempImage.height);
 	};
 	
 })();
