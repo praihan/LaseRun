@@ -9,8 +9,8 @@ CAL.Gamex.Main = (function () {
     function run() {
 		var resize = function() {
 			var c = document.getElementById(CANVAS_NAME);
-			c.width = $(document).width();
-			c.height = $(document).height();
+			c.width = jQuery(document).width();
+			c.height = jQuery(document).height();
 		}
 		window.onresize = resize;
 		resize();

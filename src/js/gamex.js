@@ -22,7 +22,7 @@ var gamex = this.CAL.Gamex = this.CAL.Gamex || {};
 		
 		if (updateParams.first) {
 			var canvas = updateParams.canvas;
-			$(canvas).css("background-color", CAL.Graphics.Colors.BLACK);
+			jQuery(canvas).css("background-color", CAL.Graphics.Colors.BLACK);
 			this.tempImage = updateParams.resources.getResult("temp");
 			this._fpsTimer = new CAL.Util.DeltaTimer(
 				CAL.Gamex.TARGET_UPDATE_FPS, 
