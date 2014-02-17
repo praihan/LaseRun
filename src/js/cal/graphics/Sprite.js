@@ -11,14 +11,14 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	}
 	
 	var Sprite = function(params) {
-		this.setDimensions(params.dimensions || {x: 0, y: 0, width: 0, height: 0});
-		this.setClipping(params.clipping || this.getDimensions());
+		this._setDimensions(params.dimensions || {x: 0, y: 0, width: 0, height: 0});
+		this.setClipping(params.clipping || this._getDimensions());
 		this.setRotation(params.rotation || 0);
 		
 		if (params.image) {
 			this._image = params.image;
 			if (!params.dimensions) {
-					this.setDimensions({
+					this._setDimensions({
 					x: this._image.x, 
 					y: this._image.y, 
 					width: this._image.width, 
@@ -33,7 +33,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 			this._image = sprite._image;
 			this._imageOrigin = sprite._imageOrigin;
 			if (!params.dimensions) {
-				this.setDimensions(sprite.getDimensions());
+				this._setDimensions(sprite._getDimensions());
 			}
 			if (!params.clipping) {
 				this.setClipping(sprite.getClipping());
@@ -46,10 +46,10 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		if (params.spritesheet) {
 			var ss = params.spritesheet;
 			if (!ss.sheet) {
-				throw new CALException("No sheet specified for spritesheet option");
+				throw new CAL.Lang.CALException("No sheet specified for spritesheet option");
 			}
 			if (!ss.x || !ss.y) {
-				throw new CALException("Bad coordinate for image on spritesheet");
+				throw new CAL.Lang.CALException("Bad coordinate for image on spritesheet");
 			}
 			
 			
@@ -62,42 +62,24 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 			
 			return;
 		}
-		throw new CALException("No image source specified");
+		throw new CAL.Lang.CALException("No image source specified");
 	}
 	
-	var p = Sprite.prototype;
+	var p = Sprite.prototype = new CAL.Graphics.DisplayObject();
 	var s = Sprite;
 	
 	
 	
 	
-	p.getDimensions = function() {
-		return this._dimensions;
+	p._getDimensions = function() {
+		var l = this.getLocation();
+		var s = this.getSize();
+		return {x: l.x, y: l.y, width: s.x, height: s.y};
 	}
 	
-	p.setX = function(x) {
-		this.getDimensions().x = x;
-	}
-	
-	p.setY = function(y) {
-		this.getDimensions().y = y;
-	}
-	
-	p.setWidth = function(width) {
-		this.getDimensions().width = width;
-	}
-	
-	p.setHeight = function(height) {
-		this.getDimensions().height = height;
-	}
-	
-	p.setDimensions = function(d) {
-		this._dimensions = {
-			x: d.x || 0, 
-			y: d.y || 0, 
-			width: d.width || 0, 
-			height: d.height || 0
-		};
+	p._setDimensions = function(d) {
+		this.setLocation(d.x, d.y);
+		this.setSize(d.width, d.height);
 	}
 	
 	p.getClipping = function() {
@@ -131,7 +113,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		context.save();
 		if (this._imageOrigin == ImageOrigin.Image) {
 			var c = this.getClipping();
-			var d = this.getDimensions();
+			var d = this._getDimensions();
 			var r = this.getRotation();
 			
 			var position;
