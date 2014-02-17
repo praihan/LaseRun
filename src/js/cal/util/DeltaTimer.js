@@ -3,6 +3,7 @@ this.CAL = this.CAL || {};
 this.CAL.Util = this.CAL.Util || {};
 
 (function() {
+	"use strict";
 	
 	var DeltaTimer = function(msInterval, callback, scope, currentTime) {
 		this._msInterval = msInterval;
@@ -30,6 +31,6 @@ this.CAL.Util = this.CAL.Util || {};
 		}
 	}
 	
-	this.CAL.Util.DeltaTimer = DeltaTimer;
+	CAL.Util.DeltaTimer = DeltaTimer;
 	
 })();

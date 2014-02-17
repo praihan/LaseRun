@@ -1,6 +1,7 @@
 this.CAL = this.CAL || {};
 
 CAL.Lang = (function() {
+	"use strict";
 	
 	var consoleExists = function () {
 		return (window.console || window.console.log) ? true : false;

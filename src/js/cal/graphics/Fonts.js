@@ -3,6 +3,7 @@ this.CAL = this.CAL || {};
 this.CAL.Graphics = this.CAL.Graphics || {};
 
 (function() {
+	"use strict";
 	
 	var FontStyles = {
 		BOLD: "Bold",
@@ -21,7 +22,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		return rv;
 	}
 	
-	this.CAL.Graphics.FontStyles = FontStyles;
-	this.CAL.Graphics.getFont = getFont;
+	CAL.Graphics.FontStyles = FontStyles;
+	CAL.Graphics.getFont = getFont;
 	
 })();

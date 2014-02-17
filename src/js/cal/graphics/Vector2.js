@@ -3,6 +3,7 @@ this.CAL = this.CAL || {};
 this.CAL.Graphics = this.CAL.Graphics || {};
 
 (function() {
+	"use strict"
 	
 	/**
 	 * Represents a 2D vector with X and Y components.
@@ -14,38 +15,18 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 * @struct
 	 */
 	var Vector2 = function(x, y) {
-		this._x = x;
-		this._y = y;
+		return {x: x, y: y};
 	}
 	
-	var p = Vector2.prototype;
 	var s = Vector2;
-	
-	/**
-	 * Returns the X-component of this vector.
-	 *
-	 * @return X component
-	 */
-	p.X = function() {
-		return this._x;
-	}
-	
-	/**
-	 * Returns the Y-component of this vector.
-	 *
-	 * @return Y component
-	 */
-	p.Y = function() {
-		return this._y;
-	}
 	
 	/**
 	 * Adds two vectors, and returns the resulting vector.
 	 *
 	 * @return the sum of two vectors
 	 */
-	p.add = function(other) {
-		return new Vector2(this.X() + other.X(), this.Y() + other.Y());
+	s.add = function(v1, v2) {
+		return new Vector2(v1.x + v2.x, v1.x + v2.x);
 	}
 	
 	/**
@@ -53,8 +34,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 *
 	 * @return the difference of two vectors
 	 */
-	p.subtract = function(other) {
-		return new Vector2(this.X() - other.X(), this.Y() - other.Y());
+	s.subtract = function(v1, v2) {
+		return new Vector2(v1.x - v2.x, v1.x - v2.x);
 	}
 	
 	/**
@@ -62,8 +43,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 *
 	 * @return the dot product of two vectors
 	 */
-	p.multiply = function(other) {
-		return new Vector2(this.X() * other.X(), this.Y() * other.Y());
+	s.multiply = function(v1, v2) {
+		return new Vector2(v1.x * v2.x, v1.y * v2.y);
 	}
 	
 	/**
@@ -71,8 +52,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 *
 	 * @return the division of two vectors
 	 */
-	p.divide = function(other) {
-		return new Vector2(this.X() / other.X(), this.Y() / other.Y()); 
+	s.divide = function(v1, v2) {
+		return new Vector2(v1.x / v2.x, v1.y / v2.y); 
 	}
 	
 	/**
@@ -80,8 +61,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 *
 	 * @return the division of this vector by x and y scalars
 	 */
-	p.scale = function(xTimes, yTimes) {
-		return new Vector2(this.X() * xTimes, this.Y() * yTimes); 
+	s.scale = function(v, xTimes, yTimes) {
+		return new Vector2(v.x * xTimes, v.y * yTimes); 
 	}
 	
 	/**
@@ -89,8 +70,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 *
 	 * @return the sum of this vector and x and y scalars
 	 */
-	p.translate = function(xAmount, yAmount) {
-		return new Vector2(this.X() + xAmount, this.Y() + yAmount);
+	s.translate = function(v, xAmount, yAmount) {
+		return new Vector2(v.x + xAmount, v.y + yAmount);
 	}
 	
 	/**
@@ -98,8 +79,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 *
 	 * @return the negative of this vector
 	 */
-	p.negate = function() {
-		return new Vector2(-this.X(), -this.Y());
+	s.negate = function(v) {
+		return new Vector2(-v.x, -v.y);
 	}
 	
 	/**
@@ -107,8 +88,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 *
 	 * @return if the vectors are equal
 	 */
-	p.equals = function(other) {
-		return this.X() === other.X() && this.Y() === other.Y();
+	s.equals = function(v1, v2) {
+		return v1.x === v2.x && v1.y === v2.y;
 	}
 	
 	/**
@@ -116,10 +97,10 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 * 
 	 * @return this vector as a string
 	 */
-	p.toString = function() {
-		return CAL.Lang.format("[Vector2] X: %1, Y: %2", this.X(), this.Y());
+	s.toString = function(v) {
+		return CAL.Lang.format("[Vector2] X: %1, Y: %2", v.x, v.y);
 	}
 	
-	this.CAL.Graphics.Vector2 = Vector2;
+	CAL.Graphics.Vector2 = Vector2;
 	
 })();

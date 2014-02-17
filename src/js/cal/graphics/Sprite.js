@@ -3,6 +3,7 @@ this.CAL = this.CAL || {};
 this.CAL.Graphics = this.CAL.Graphics || {};
 
 (function() {
+	"use strict";
 	
 	var ImageOrigin = {
 		Image: "image",
@@ -157,6 +158,6 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		return new Sprite({sprite: this});
 	}
 	
-	this.CAL.Graphics.Sprite = Sprite;
+	CAL.Graphics.Sprite = Sprite;
 	
 })();

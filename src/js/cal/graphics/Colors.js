@@ -3,6 +3,7 @@ this.CAL = this.CAL || {};
 this.CAL.Graphics = this.CAL.Graphics || {};
 
 (function() {
+	"use strict";
 	
 	var Colors = {
 		ALICE_BLUE: "AliceBlue",
@@ -159,6 +160,6 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		
 	}
 	
-	this.CAL.Graphics.Colors = Colors;
+	CAL.Graphics.Colors = Colors;
 	
 })();
