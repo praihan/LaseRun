@@ -12,8 +12,11 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	
 	var Sprite = function(params) {
 		this._setDimensions(params.dimensions || {x: 0, y: 0, width: 0, height: 0});
-		this.setClipping(params.clipping || this._getDimensions());
+		var d = this._getDimensions();
+		this.setClipping(params.clipping || d);
 		this.setRotation(params.rotation || 0);
+		this.setOrigin(params.origin || {x: d.width / 2, y: d.height / 2});
+		this.setFlip(params.flip || {x: false, y: false});
 		
 		if (params.image) {
 			this._image = params.image;
@@ -40,6 +43,12 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 			}
 			if (!params.rotation) {
 				this.setRotation(sprite.getRotation());
+			}
+			if (!params.origin) {
+				this.setOrigin(sprite.getOrigin());
+			}
+			if (!params.flip) {
+				this.setFlip(sprite._getFlip());
 			}
 			return;
 		}
@@ -86,19 +95,20 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		return this._clipping;
 	}
 	
+	p.setClipping = function(x, y) {
+		if (!y) {
+			this._clipping = new CAL.Graphics.Vector2(x.x || 0, x.y || 0);
+		} else {
+			this._clipping = new CAL.Graphics.Vector2(x || 0, y);
+		}
+	}
+	
 	p.setClippingX = function(x) {
-		this.getClipping().x = x;
+		this._clipping.x = x;
 	}
 	
 	p.setClippingY = function(y) {
-		this.getClipping().y = y;
-	}
-	
-	p.setClipping = function(d) {
-		this._clipping = {
-			x: d.x || 0, 
-			y: d.y || 0, 
-		};
+		this._clipping.y = y;
 	}
 	
 	p.setRotation = function(radians) {
@@ -109,16 +119,75 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		return this._rotation;
 	}
 	
+	p.getOrigin = function() {
+		return this._origin;
+	}
+	
+	p.setOrigin = function(x, y) {
+		if (!y) {
+			this._origin = new CAL.Graphics.Vector2(x.x || 0, x.y || 0);
+		} else {
+			this._origin = new CAL.Graphics.Vector2(x || 0, y);
+		}
+	}
+	
+	p.setOriginX = function(x) {
+		this._origin.x = x;
+	}
+	
+	p.setOriginY = function(y) {
+		this._origin.y = y;
+	}
+	
+	p.setFlip = function(boolX, boolY) {
+		if (typeof boolY === "undefined") {
+			this._flip = {x: boolX.x, y: boolX.y};
+			return;
+		}
+		this._flip = {x: boolX, y: boolY};
+	}
+	
+	p._getFlip = function() {
+		return this._flip;
+	}
+	
+	p.flip = function(boolX, boolY) {
+		if (typeof boolY === "undefined") {
+			if (typeof boolX === "undefined") {
+				boolX = boolY = true;
+			} else {
+				boolY = boolX.y;
+				boolX = boolX.x;
+			}
+		}
+		if (boolX) {
+			this._flip.x ^= true;
+		}
+		if (boolY) {
+			this._flip.y ^= true;
+		}
+	}
+	
+	p.flipX = function() {
+		this.flip(true, false);
+	}
+	
+	p.flipY = function() {
+		this.flip(false, true);
+	}
+	
 	p.draw = function(context) {
 		context.save();
 		if (this._imageOrigin == ImageOrigin.Image) {
 			var c = this.getClipping();
 			var d = this._getDimensions();
 			var r = this.getRotation();
+			var f = this._getFlip();
 			
 			var position;
 			if (r != 0) {
-				context.translate(d.x + d.width / 2, d.y + d.height / 2);
+				var o = this.getOrigin();
+				context.translate(d.x + o.x, d.y + o.y);
 				context.rotate(r);
 				position = {
 					x: -d.width / 2,
@@ -130,7 +199,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 					y: d.y
 				}
 			}
-						
+			
+			context.scale(f.x ? -1 : 1, f.y ? -1 : 1);
 			context.drawImage(this._image, c.x, c.y, d.width, d.height, position.x, position.y, d.width, d.height);
 		}
 		context.restore();

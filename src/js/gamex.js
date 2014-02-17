@@ -1,38 +1,61 @@
 this.CAL = this.CAL || {};
 
-var gamex = this.CAL.Gamex = this.CAL.Gamex || {};
+this.CAL.Gamex = this.CAL.Gamex || {};
 
 (function() {
+	"use strict";
 	
-	gamex.TARGET_FPS = CAL.Gamex.TARGET_FPS || 60;
-
-	gamex.TARGET_UPDATE_FPS = CAL.Gamex.TARGET_UPDATE_FPS || 1000;
+	CAL.Gamex.TARGET_FPS = CAL.Gamex.TARGET_FPS || 60;
+	CAL.Gamex.TARGET_UPDATE_FPS = CAL.Gamex.TARGET_UPDATE_FPS || 1000;
 	
-	gamex.Game = function(resources) {	
+	var DELTA_KEY = 0;
+	var UPDATEPARAMS_KEY = 1;
+	var SPRITE_KEY = 2;
+	var FPS_TIMER_KEY = 3;
+	
+	
+	
+	var Game = function(resources) {	
 		this._lastFPSUpdate = CAL.Gamex.TARGET_UPDATE_FPS;
-		this._cachedDelta = 0;
-		this.tempImg = null;
+		this.cache[DELTA_KEY] = 0;
 	}
 	
-	var p = gamex.Game.prototype;
+	var p = Game.prototype = new CAL.Lang.CachingObject();
 	
 	p.update = function(updateParams) {
 		var delta = updateParams.event.delta;
-		this._lastUpdateParams = updateParams;
+		this.cache[UPDATEPARAMS_KEY] = updateParams;
 		
 		if (updateParams.first) {
 			var canvas = updateParams.canvas;
 			jQuery(canvas).css("background-color", CAL.Graphics.Colors.BLACK);
-			this.tempImage = updateParams.resources.getResult("temp");
-			this._fpsTimer = new CAL.Util.DeltaTimer(
-				CAL.Gamex.TARGET_UPDATE_FPS, 
-				function() {
-					this._cachedDelta = this._lastUpdateParams.event.delta;
+			
+			var sprite = new CAL.Graphics.Sprite({
+				image: updateParams.resources.getResult("temp"), 
+				dimensions: {
+					x: 200, 
+					y: 200, 
+					width: 100, 
+					height: 100
 				}, 
-				this,
-				CAL.Gamex.TARGET_UPDATE_FPS);
+				clipping: {
+					x: 50,
+					y: 50,
+				}, 
+				rotation: 0.5,
+				flip: {x: false, y: true}
+			});
+			
+			this.cache[SPRITE_KEY] = sprite;
+			var fps = CAL.Gamex.TARGET_UPDATE_FPS;
+			this.cache[FPS_TIMER_KEY] = new CAL.Util.DeltaTimer(fps, fps)
+				.postCallback(
+					function() {
+						this.cache[DELTA_KEY] = this.cache[UPDATEPARAMS_KEY].event.delta;
+					}, 
+					this);
 		}
-		this._fpsTimer.update(delta);
+		this.cache[FPS_TIMER_KEY].update(delta);
 	}
 	
 	p.draw = function(renderParams) {
@@ -45,24 +68,12 @@ var gamex = this.CAL.Gamex = this.CAL.Gamex || {};
 		context.font = CAL.Graphics.getFont("Ubuntu Mono", 50, [CAL.Graphics.FontStyles.BOLD, CAL.Graphics.FontStyles.ITALIC]);	
 		context.fillStyle = CAL.Graphics.Colors.WHITE;
 		
-		context.fillText(this._cachedDelta == 0 ? "Infinite" : Math.floor(1000 / this._cachedDelta).toString(), 200, 50);
+		var delta = this.cache[DELTA_KEY];
+		context.fillText(delta == 0 ? "Infinite" : Math.floor(1000 / delta).toString(), 200, 50);
 		
-		var s = new CAL.Graphics.Sprite({
-			image: this.tempImage, 
-			dimensions: {
-				x: 200, 
-				y: 200, 
-				width: 100, 
-				height: 100
-			}, 
-			clipping: {
-				x: 50,
-				y: 50,
-			},
-			rotation: 0.5,
-		});
-		s.clone().draw(context);
-		// context.drawImage(this.tempImage, 200, 200, this.tempImage.width, this.tempImage.height);
+		this.cache[SPRITE_KEY].draw(context);
 	};
+	
+	CAL.Gamex.Game = Game;
 	
 })();

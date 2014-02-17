@@ -27,6 +27,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	p.setLocation = function(x, y) {
 		if (!y) {
 			this._location = new CAL.Graphics.Vector2(x.x, x.y);
+			return;
 		}
 		this._location = new CAL.Graphics.Vector2(x, y);
 	}
@@ -54,6 +55,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	p.setSize = function(w, h) {
 		if (!h) {
 			this._size = new CAL.Graphics.Vector2(w.width, w.height);
+			return;
 		}
 		this._size = new CAL.Graphics.Vector2(w, h);
 	}

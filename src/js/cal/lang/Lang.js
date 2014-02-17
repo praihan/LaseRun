@@ -3,10 +3,6 @@ this.CAL = this.CAL || {};
 CAL.Lang = (function() {
 	"use strict";
 	
-	var consoleExists = function () {
-		return (window.console || window.console.log) ? true : false;
-	}
-	
 	var hashCodeOf = function(obj) {
 		if (obj === null) {
 			return 0;
@@ -50,7 +46,6 @@ CAL.Lang = (function() {
 	}
 	
 	return {
-		consoleExists: consoleExists,
 		hashCodeOf: hashCodeOf,
 		format: format,
 		isArray: isArray,

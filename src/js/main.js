@@ -1,6 +1,6 @@
 CAL.Gamex.Main = (function () {
 	
-	var manifest = [
+	var preloadManifest = [
 		{id: "temp", src:"assets/img/temp.png"},
 	];
 	
@@ -23,7 +23,7 @@ CAL.Gamex.Main = (function () {
 		
 		resources.on("complete", function() {
 			
-			createjs.Ticker.timingMode = createjs.Ticker.RAF;
+			createjs.Ticker.timingMode = createjs.Ticker.TIMEOUT;
 			createjs.Ticker.setFPS(CAL.Gamex.TARGET_FPS);
 			
 			var first = true;
@@ -45,7 +45,7 @@ CAL.Gamex.Main = (function () {
 			
 		}, this);
 		
-		resources.loadManifest(manifest);
+		resources.loadManifest(preloadManifest);
 		
     }
 	
