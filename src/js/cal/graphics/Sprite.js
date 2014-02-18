@@ -5,70 +5,53 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 (function() {
 	"use strict";
 	
-	var ImageOrigin = {
-		Image: "image",
-		SpriteSheet: "spritesheet",
-	}
-	
 	var Sprite = function(params) {
-		this._setDimensions(params.dimensions || {x: 0, y: 0, width: 0, height: 0});
-		var d = this._getDimensions();
-		this.setClipping(params.clipping || d);
+		if (!params) {
+			throw new CAL.Lang.CALException("Undefined paramaters");
+		}
+		this.setLocation(params.location || {x: 0, y: 0});
+		this.setSize(params.size || {width: 0, height: 0});
+		var l = this.getLocation();
+		var s = this.getSize();
+		this.setClipping(params.clipping || {x: 0, y: 0});
 		this.setRotation(params.rotation || 0);
-		this.setOrigin(params.origin || {x: d.width / 2, y: d.height / 2});
+		this.setOrigin(params.origin || {x: s.x / 2, y: s.y / 2});
 		this.setFlip(params.flip || {x: false, y: false});
 		
 		if (params.image) {
 			this._image = params.image;
-			if (!params.dimensions) {
-					this._setDimensions({
-					x: this._image.x, 
-					y: this._image.y, 
-					width: this._image.width, 
-					height: this._image.height
+			if (!params.size) {
+				this.setSize({
+					x: this._image.width, 
+					y: this._image.height
 				});
 			}
-			this._imageOrigin = ImageOrigin.Image;
+			if (!params.location) {
+				this.setLocation(0, 0);
+			}
 			return;
 		}
 		if (params.sprite) {
 			var sprite = params.sprite;
 			this._image = sprite._image;
-			this._imageOrigin = sprite._imageOrigin;
-			if (!params.dimensions) {
-				this._setDimensions(sprite._getDimensions());
+			if (!params.location) {
+				this.setLocation(sprite.getLocation());
+			}
+			if (!params.size) {
+				this.setSize(sprite.getSize());
 			}
 			if (!params.clipping) {
 				this.setClipping(sprite.getClipping());
 			}
-			if (!params.rotation) {
+			if (typeof params.rotation === "undefined") {
 				this.setRotation(sprite.getRotation());
 			}
 			if (!params.origin) {
 				this.setOrigin(sprite.getOrigin());
 			}
 			if (!params.flip) {
-				this.setFlip(sprite._getFlip());
+				this.setFlip(sprite.getFlip());
 			}
-			return;
-		}
-		if (params.spritesheet) {
-			var ss = params.spritesheet;
-			if (!ss.sheet) {
-				throw new CAL.Lang.CALException("No sheet specified for spritesheet option");
-			}
-			if (!ss.x || !ss.y) {
-				throw new CAL.Lang.CALException("Bad coordinate for image on spritesheet");
-			}
-			
-			
-			
-			
-			// spritesheet code here
-			
-			
-			
-			
 			return;
 		}
 		throw new CAL.Lang.CALException("No image source specified");
@@ -77,26 +60,25 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	var p = Sprite.prototype = new CAL.Graphics.DisplayObject();
 	var s = Sprite;
 	
+	var DisplayObject$getAttributes = p.getAttributes;
 	
-	
-	
-	p._getDimensions = function() {
-		var l = this.getLocation();
-		var s = this.getSize();
-		return {x: l.x, y: l.y, width: s.x, height: s.y};
+	p.getAttributes = function() {
+		var sAttr = DisplayObject$getAttributes.call(this);
+		sAttr.image = this._image;
+		sAttr.clipping = this.getClipping();
+		sAttr.rotation = this.getRotation();
+		sAttr.origin = this.getOrigin();
+		sAttr.flip = this.getFlip();
+		return sAttr;
 	}
 	
-	p._setDimensions = function(d) {
-		this.setLocation(d.x, d.y);
-		this.setSize(d.width, d.height);
-	}
 	
 	p.getClipping = function() {
 		return this._clipping;
 	}
 	
 	p.setClipping = function(x, y) {
-		if (!y) {
+		if (typeof y === "undefined") {
 			this._clipping = new CAL.Graphics.Vector2(x.x || 0, x.y || 0);
 		} else {
 			this._clipping = new CAL.Graphics.Vector2(x || 0, y);
@@ -124,7 +106,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	}
 	
 	p.setOrigin = function(x, y) {
-		if (!y) {
+		if (typeof y === "undefined") {
 			this._origin = new CAL.Graphics.Vector2(x.x || 0, x.y || 0);
 		} else {
 			this._origin = new CAL.Graphics.Vector2(x || 0, y);
@@ -147,7 +129,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		this._flip = {x: boolX, y: boolY};
 	}
 	
-	p._getFlip = function() {
+	p.getFlip = function() {
 		return this._flip;
 	}
 	
@@ -178,31 +160,30 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	
 	p.draw = function(context) {
 		context.save();
-		if (this._imageOrigin == ImageOrigin.Image) {
-			var c = this.getClipping();
-			var d = this._getDimensions();
-			var r = this.getRotation();
-			var f = this._getFlip();
-			
-			var position;
-			if (r != 0) {
-				var o = this.getOrigin();
-				context.translate(d.x + o.x, d.y + o.y);
-				context.rotate(r);
-				position = {
-					x: -d.width / 2,
-					y: -d.height / 2
-				}
-			} else {
-				position = {
-					x: d.x,
-					y: d.y
-				}
+		var c = this.getClipping();
+		var s = this.getSize();
+		var l = this.getLocation();
+		var r = this.getRotation();
+		var f = this.getFlip();
+		
+		var position;
+		if (r != 0) {
+			var o = this.getOrigin();
+			context.translate(l.x + o.x, l.y + o.y);
+			context.rotate(r);
+			position = {
+				x: -s.x / 2,
+				y: -s.y / 2
 			}
-			
-			context.scale(f.x ? -1 : 1, f.y ? -1 : 1);
-			context.drawImage(this._image, c.x, c.y, d.width, d.height, position.x, position.y, d.width, d.height);
+		} else {
+			position = {
+				x: l.x,
+				y: l.y
+			}
 		}
+		
+		context.scale(f.x ? -1 : 1, f.y ? -1 : 1);
+		context.drawImage(this._image, c.x, c.y, s.x, s.y, position.x, position.y, s.x, s.y);
 		context.restore();
 	}
 	

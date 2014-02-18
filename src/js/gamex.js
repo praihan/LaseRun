@@ -29,24 +29,27 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		if (updateParams.first) {
 			var canvas = updateParams.canvas;
 			jQuery(canvas).css("background-color", CAL.Graphics.Colors.BLACK);
-			
+			/*
 			var sprite = new CAL.Graphics.Sprite({
 				image: updateParams.resources.getResult("temp"), 
-				dimensions: {
-					x: 200, 
-					y: 200, 
-					width: 100, 
-					height: 100
+				location: {
+					x: 100, 
+					y: 100, 
+				}, 
+				size: {
+					width: 200, 
+					height: 200
 				}, 
 				clipping: {
 					x: 50,
 					y: 50,
 				}, 
 				rotation: 0.5,
-				flip: {x: false, y: true}
+				flip: {x: true, y: false}
 			});
-			
-			this.cache[SPRITE_KEY] = sprite;
+			*/
+			var sheet = new CAL.Graphics.SpriteSheet({image: updateParams.resources.getResult("temp")});
+			this.cache[SPRITE_KEY] = sheet.spriteAt(0, 0);
 			var fps = CAL.Gamex.TARGET_UPDATE_FPS;
 			this.cache[FPS_TIMER_KEY] = new CAL.Util.DeltaTimer(fps, fps)
 				.postCallback(
