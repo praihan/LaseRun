@@ -8,23 +8,26 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 	CAL.Gamex.TARGET_FPS = CAL.Gamex.TARGET_FPS || 60;
 	CAL.Gamex.TARGET_UPDATE_FPS = CAL.Gamex.TARGET_UPDATE_FPS || 1000;
 	
-	var DELTA_KEY = 0;
-	var UPDATEPARAMS_KEY = 1;
-	var SPRITE_KEY = 2;
-	var FPS_TIMER_KEY = 3;
+	var Keys = {
+		DELTA: 0,
+		UPDATEPARAMS: 1,
+		SPRITE: 2,
+		FPS_TIME: 3
+	}
+	
 	
 	
 	
 	var Game = function(resources) {	
 		this._lastFPSUpdate = CAL.Gamex.TARGET_UPDATE_FPS;
-		this.cache[DELTA_KEY] = 0;
+		this.cache[Keys.DELTA] = 0;
 	}
 	
 	var p = Game.prototype = new CAL.Lang.CachingObject();
 	
 	p.update = function(updateParams) {
 		var delta = updateParams.event.delta;
-		this.cache[UPDATEPARAMS_KEY] = updateParams;
+		this.cache[Keys.UPDATEPARAMS] = updateParams;
 		
 		if (updateParams.first) {
 			var canvas = updateParams.canvas;
@@ -37,28 +40,29 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 					y: 100, 
 				}, 
 				size: {
-					width: 200, 
-					height: 200
+					width: 500, 
+					height: 500
 				}, 
 				clipping: {
-					x: 50,
-					y: 50,
+					x: 0,
+					y: 50
 				}, 
-				rotation: 0.5,
-				flip: {x: true, y: false}
+				rotation: 0.1,
+				flip: {x: false, y: false}
 			});
 			*/
 			var sheet = new CAL.Graphics.SpriteSheet({image: updateParams.resources.getResult("temp")});
-			this.cache[SPRITE_KEY] = sheet.spriteAt(0, 0);
+			this.cache[Keys.SPRITE] = sheet.spriteAt(0, 0);
+
 			var fps = CAL.Gamex.TARGET_UPDATE_FPS;
-			this.cache[FPS_TIMER_KEY] = new CAL.Util.DeltaTimer(fps, fps)
+			this.cache[Keys.FPS_TIMER] = new CAL.Util.DeltaTimer(fps, fps)
 				.postCallback(
 					function() {
-						this.cache[DELTA_KEY] = this.cache[UPDATEPARAMS_KEY].event.delta;
+						this.cache[Keys.DELTA] = this.cache[Keys.UPDATEPARAMS].event.delta;
 					}, 
 					this);
 		}
-		this.cache[FPS_TIMER_KEY].update(delta);
+		this.cache[Keys.FPS_TIMER].update(delta);
 	}
 	
 	p.draw = function(renderParams) {
@@ -71,10 +75,10 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		context.font = CAL.Graphics.getFont("Ubuntu Mono", 50, [CAL.Graphics.FontStyles.BOLD, CAL.Graphics.FontStyles.ITALIC]);	
 		context.fillStyle = CAL.Graphics.Colors.WHITE;
 		
-		var delta = this.cache[DELTA_KEY];
+		var delta = this.cache[Keys.DELTA];
 		context.fillText(delta == 0 ? "Infinite" : Math.floor(1000 / delta).toString(), 200, 50);
 		
-		this.cache[SPRITE_KEY].draw(context);
+		this.cache[Keys.SPRITE].draw(context);
 	};
 	
 	CAL.Gamex.Game = Game;

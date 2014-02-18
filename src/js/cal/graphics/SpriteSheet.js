@@ -45,7 +45,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 			return img;
 		}
 		return this.cache[str] = new CAL.Graphics.Sprite({
-			image: cutImage(this._image, 0, 0, 50, 50)
+			image: cutImage(this._image, (x + 1) * 1 , 0, 50, 50)
 		});
 	}
 	

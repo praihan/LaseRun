@@ -6,16 +6,14 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	"use strict";
 	
 	var Sprite = function(params) {
-		if (!params) {
+		if (typeof params === "undefined") {
 			throw new CAL.Lang.CALException("Undefined paramaters");
 		}
 		this.setLocation(params.location || {x: 0, y: 0});
 		this.setSize(params.size || {width: 0, height: 0});
 		var l = this.getLocation();
-		var s = this.getSize();
 		this.setClipping(params.clipping || {x: 0, y: 0});
 		this.setRotation(params.rotation || 0);
-		this.setOrigin(params.origin || {x: s.x / 2, y: s.y / 2});
 		this.setFlip(params.flip || {x: false, y: false});
 		
 		if (params.image) {
@@ -29,30 +27,34 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 			if (!params.location) {
 				this.setLocation(0, 0);
 			}
+			var s = this.getSize();
+			this.setOrigin(params.origin || {x: s.x / 2, y: s.y / 2});
 			return;
-		}
-		if (params.sprite) {
+		} else if (params.sprite) {
 			var sprite = params.sprite;
 			this._image = sprite._image;
-			if (!params.location) {
+			if (typeof params.location === "undefined") {
 				this.setLocation(sprite.getLocation());
 			}
-			if (!params.size) {
+			if (typeof params.size === "undefined") {
 				this.setSize(sprite.getSize());
 			}
-			if (!params.clipping) {
+			if (typeof params.clipping === "undefined") {
 				this.setClipping(sprite.getClipping());
 			}
 			if (typeof params.rotation === "undefined") {
 				this.setRotation(sprite.getRotation());
 			}
-			if (!params.origin) {
+			if (typeof params.origin === "undefined") {
 				this.setOrigin(sprite.getOrigin());
 			}
-			if (!params.flip) {
+			if (typeof params.flip === "undefined") {
 				this.setFlip(sprite.getFlip());
 			}
 			return;
+		} else {
+			var s = this.getSize();
+			this.setOrigin(params.origin || {x: s.x / 2, y: s.y / 2});
 		}
 		throw new CAL.Lang.CALException("No image source specified");
 	}
@@ -79,9 +81,9 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	
 	p.setClipping = function(x, y) {
 		if (typeof y === "undefined") {
-			this._clipping = new CAL.Graphics.Vector2(x.x || 0, x.y || 0);
+			this._clipping = new CAL.Graphics.Vector2(x.x, x.y);
 		} else {
-			this._clipping = new CAL.Graphics.Vector2(x || 0, y);
+			this._clipping = new CAL.Graphics.Vector2(x, y);
 		}
 	}
 	
