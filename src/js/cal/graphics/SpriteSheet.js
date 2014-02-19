@@ -11,14 +11,14 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		}
 		this._image = params.image;
 		this._padding = params.padding ? 
-						new CAL.Graphics.Vector2(params.padding.x || 0, params.padding.y || 0) : 
-						new CAL.Graphics.Vector2(0, 0);
+						CAL.Graphics.Vector2(params.padding.x || 0, params.padding.y || 0) : 
+						CAL.Graphics.Vector2(0, 0);
 		this._clipping = params.clipping ? 
-						new CAL.Graphics.Vector2(params.clipping.x || 0, params.clipping.y || 0) : 
-						new CAL.Graphics.Vector2(0, 0);
+						CAL.Graphics.Vector2(params.clipping.x || 0, params.clipping.y || 0) : 
+						CAL.Graphics.Vector2(0, 0);
 		this._tile = params.tile ?
-						new CAL.Graphics.Vector2(params.tile.width || this._image.width, params.tile.height || this._image.width) : 
-						new CAL.Graphics.Vector2(this._image.width, this._image.height);
+						CAL.Graphics.Vector2(params.tile.width || this._image.width, params.tile.height || this._image.width) : 
+						CAL.Graphics.Vector2(this._image.width, this._image.height);
 	}
 	
 	var p = SpriteSheet.prototype = new CAL.Lang.CachingObject();
