@@ -11,13 +11,13 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		}
 		this._image = params.image;
 		this._padding = params.padding ? 
-						new CAL.Graphics.Vector2(params.padding.x, params.padding.y) : 
+						new CAL.Graphics.Vector2(params.padding.x || 0, params.padding.y || 0) : 
 						new CAL.Graphics.Vector2(0, 0);
-		this._clipping = params.clipping ?
-						new CAL.Graphics.Vector2(params.clipping.x, params.clipping.y) : 
+		this._clipping = params.clipping ? 
+						new CAL.Graphics.Vector2(params.clipping.x || 0, params.clipping.y || 0) : 
 						new CAL.Graphics.Vector2(0, 0);
 		this._tile = params.tile ?
-						new CAL.Graphics.Vector2(params.tile.width, params.tile.height) : 
+						new CAL.Graphics.Vector2(params.tile.width || this._image.width, params.tile.height || this._image.width) : 
 						new CAL.Graphics.Vector2(this._image.width, this._image.height);
 	}
 	
@@ -39,13 +39,20 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 			y = x.y;
 			x = x.x;
 		}
-		var str = x.toString() + ", " + y.toString();
-		var img = this.cache[str]
+		var str = x.toString() + "," + y.toString();
+		var img = this.cache[str];
 		if (img) {
 			return img;
 		}
+		var p = this._padding;
+		var t = this._tile;
+		var c = this._clipping;
 		return this.cache[str] = new CAL.Graphics.Sprite({
-			image: cutImage(this._image, (x + 1) * 1 , 0, 50, 50)
+			image: cutImage(this._image, 
+							(x + 1) * p.x + x * t.x + c.x, 
+							(y + 1) * p.y + y * t.y + c.x, 
+							t.x, 
+							t.y)
 		});
 	}
 	

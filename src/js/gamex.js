@@ -51,7 +51,17 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 				flip: {x: false, y: false}
 			});
 			*/
-			var sheet = new CAL.Graphics.SpriteSheet({image: updateParams.resources.getResult("temp")});
+			var sheet = new CAL.Graphics.SpriteSheet({
+				image: updateParams.resources.getResult("temp"), 
+				padding: {
+					x: 0,
+					y: 0
+				},
+				tile: {
+					width: 600 / 5,
+					height: 350 / 2
+				}
+			});
 			this.cache[Keys.SPRITE] = sheet.spriteAt(0, 0);
 
 			var fps = CAL.Gamex.TARGET_UPDATE_FPS;
