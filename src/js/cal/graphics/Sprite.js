@@ -5,6 +5,8 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 (function() {
 	"use strict";
 	
+	var TWO_PI = Math.PI * 2;
+	
 	var Sprite = function(params) {
 		if (typeof params === "undefined") {
 			throw new CAL.Lang.CALException("Undefined paramaters");
@@ -96,11 +98,15 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	}
 	
 	p.setRotation = function(radians) {
-		this._rotation = radians;
+		this._rotation = radians % TWO_PI;
 	}
 	
 	p.getRotation = function() {
 		return this._rotation;
+	}
+	
+	p.rotate = function(radians) {
+		this._rotation = (this._rotation + radians) % TWO_PI;
 	}
 	
 	p.getOrigin = function() {

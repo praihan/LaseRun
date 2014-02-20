@@ -62,7 +62,8 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 					height: 350 / 2
 				}
 			});
-			this.cache[Keys.SPRITE] = sheet.spriteAt(0, 0);
+			var sprite = this.cache[Keys.SPRITE] = sheet.spriteAt(0, 0);
+			sprite.setLocation(200, 200);
 
 			var fps = CAL.Gamex.TARGET_UPDATE_FPS;
 			this.cache[Keys.FPS_TIMER] = new CAL.Util.DeltaTimer(fps, fps)
@@ -88,7 +89,9 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		var delta = this.cache[Keys.DELTA];
 		context.fillText(delta == 0 ? "Infinite" : Math.floor(1000 / delta).toString(), 200, 50);
 		
-		this.cache[Keys.SPRITE].draw(context);
+		var sprite = this.cache[Keys.SPRITE];
+		sprite.rotate(0.001 * renderParams.event.delta);
+		sprite.draw(context);
 	};
 	
 	CAL.Gamex.Game = Game;
