@@ -26,31 +26,12 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 	var p = Game.prototype = new CAL.Lang.CachingObject();
 	
 	p.update = function(updateParams) {
-		var delta = updateParams.event.delta;
+		var delta = updateParams.tickEvent.delta;
 		this.cache[Keys.UPDATEPARAMS] = updateParams;
 		
 		if (updateParams.first) {
 			var canvas = updateParams.canvas;
 			jQuery(canvas).css("background-color", CAL.Graphics.Colors.BLACK);
-			/*
-			var sprite = new CAL.Graphics.Sprite({
-				image: updateParams.resources.getResult("temp"), 
-				location: {
-					x: 100, 
-					y: 100, 
-				}, 
-				size: {
-					width: 500, 
-					height: 500
-				}, 
-				clipping: {
-					x: 0,
-					y: 50
-				}, 
-				rotation: 0.1,
-				flip: {x: false, y: false}
-			});
-			*/
 			var sheet = new CAL.Graphics.SpriteSheet({
 				image: updateParams.resources.getResult("temp"), 
 				padding: {
@@ -69,7 +50,7 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 			this.cache[Keys.FPS_TIMER] = new CAL.Util.DeltaTimer(fps, fps)
 				.postCallback(
 					function() {
-						this.cache[Keys.DELTA] = this.cache[Keys.UPDATEPARAMS].event.delta;
+						this.cache[Keys.DELTA] = this.cache[Keys.UPDATEPARAMS].tickEvent.delta;
 					}, 
 					this);
 		}
@@ -90,7 +71,8 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		context.fillText(delta == 0 ? "Infinite" : Math.floor(1000 / delta).toString(), 200, 50);
 		
 		var sprite = this.cache[Keys.SPRITE];
-		sprite.rotate(0.001 * renderParams.event.delta);
+		sprite.rotate(0.001 * renderParams.tickEvent.delta);
+		sprite.setLocation(renderParams.pointerState.location);
 		sprite.draw(context);
 	};
 	
