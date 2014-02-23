@@ -2,7 +2,7 @@ this.CAL = this.CAL || {};
 
 this.CAL.Lang = this.CAL.Lang || {};
 
-(function() {
+(function(undefined) {
 	"use strict";
 	
 	var IUpdateableObject = function() {	

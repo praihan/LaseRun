@@ -2,7 +2,7 @@ this.CAL = this.CAL || {};
 
 this.CAL.Gamex = this.CAL.Gamex || {};
 
-(function() {
+(function(undefined) {
 	"use strict";
 	
 	CAL.Gamex.TARGET_FPS = CAL.Gamex.TARGET_FPS || 60;
@@ -12,7 +12,8 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		DELTA: 0,
 		UPDATEPARAMS: 1,
 		SPRITE: 2,
-		FPS_TIME: 3
+		FPS_TIME: 3,
+		FONT: 4,
 	}
 	
 	
@@ -53,6 +54,7 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 						this.cache[Keys.DELTA] = this.cache[Keys.UPDATEPARAMS].tickEvent.delta;
 					}, 
 					this);
+			this.cache[Keys.FONT] = CAL.Graphics.getFont("Ubuntu Mono", 50, [CAL.Graphics.FontStyles.BOLD, CAL.Graphics.FontStyles.ITALIC]);
 		}
 		this.cache[Keys.FPS_TIMER].update(delta);
 	}
@@ -64,7 +66,7 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		context.fillStyle = CAL.Graphics.Colors.BLACK;
 		context.fillRect(0, 0, canvas.width, canvas.height);
 		
-		context.font = CAL.Graphics.getFont("Ubuntu Mono", 50, [CAL.Graphics.FontStyles.BOLD, CAL.Graphics.FontStyles.ITALIC]);	
+		context.font = this.cache[Keys.FONT];
 		context.fillStyle = CAL.Graphics.Colors.WHITE;
 		
 		var delta = this.cache[Keys.DELTA];
@@ -72,7 +74,10 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		
 		var sprite = this.cache[Keys.SPRITE];
 		sprite.rotate(0.001 * renderParams.tickEvent.delta);
-		sprite.setLocation(renderParams.pointerState.location);
+		var pointerState = renderParams.pointerState;
+		if (pointerState.down[pointerState.LEFT]) {
+			sprite.setLocation(renderParams.pointerState.location);
+		}
 		sprite.draw(context);
 	};
 	

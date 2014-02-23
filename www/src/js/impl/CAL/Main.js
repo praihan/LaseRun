@@ -1,4 +1,4 @@
-CAL.Gamex.Main = (function () {
+CAL.Gamex.Main = (function(undefined) {
 	
 	var preloadManifest = [
 		{id: "temp", src:"assets/img/temp.png"},
@@ -21,14 +21,9 @@ CAL.Gamex.Main = (function () {
 			MIDDLE: 2,
 			RIGHT: 3,
 			
-			down: {},
+			down: {"1": false, "2": false, "3": false},
 			location: {x: 0, y: 0},
 		};
-		
-		var mousedownListener = function(evt) {
-			pointerState.down[evt.which] = true;
-		};
-		canvas.addEventListener("mousedown", mousedownListener);
 		
 		var mouseupListener = function(evt) {
 			pointerState.down[evt.which] = false;
@@ -40,28 +35,31 @@ CAL.Gamex.Main = (function () {
 		}
 		canvas.addEventListener("mousemove", mousemoveListener);
 		
-		function touchHandler(evt) {
-			var touches = evt.changedTouches,
-				first = touches[0],
-				type = "";
-			switch(evt.type) {
-				case "touchstart": type = "mousedown"; break;
-				case "touchmove":  type = "mousemove"; break;        
-				case "touchend":   type = "mouseup"; break;
-				default: return;
+		var mousedownListener = function(evt) {
+			pointerState.down[evt.which] = true;
+			mousemoveListener(evt);
+		};
+		canvas.addEventListener("mousedown", mousedownListener);
+		
+		if ("ontouchstart" in document.documentElement) {
+			var touchstartListener = function(evt) {
+				var first = evt.changedTouches[0];
+				pointerState.down[pointerState.LEFT] = true;
+				mousemoveListener(first);
 			}
-			var simulatedEvent = canvas.createEvent("MouseEvent");
-			simulatedEvent.initMouseEvent(type, true, true, window, 1, 
-										  first.screenX, first.screenY, 
-									  	  first.clientX, first.clientY, false, 
-									  	  false, false, false, 0, null);
+			canvas.addEventListener("touchstart", touchstartListener);
 			
-			first.target.dispatchEvent(simulatedEvent);
-			evt.preventDefault();
+			var touchmoveListener = function(evt) {
+				mousemoveListener(evt.changedTouches[0]);
+			}
+			canvas.addEventListener("touchmove", touchmoveListener);
+			
+			var touchendListener = function(evt) {
+				var first = evt.changedTouches[0];
+				pointerState.down[pointerState.LEFT] = false;
+			}
+			canvas.addEventListener("touchend", touchendListener);
 		}
-		canvas.addEventListener("touchstart", touchHandler);
-		canvas.addEventListener("touchmove", touchHandler);
-		canvas.addEventListener("touchend", touchHandler);
 		
 		var resources = new createjs.LoadQueue(false);
 		

@@ -2,7 +2,7 @@ this.CAL = this.CAL || {};
 
 this.CAL.Util = this.CAL.Util || {};
 
-(function() {
+(function(undefined) {
 	"use strict";
 	
 	var DeltaTimer = function(msInterval, currentTime) {

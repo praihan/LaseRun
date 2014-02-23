@@ -2,7 +2,7 @@ this.CAL = this.CAL || {};
 
 this.CAL.Graphics = this.CAL.Graphics || {};
 
-(function() {
+(function(undefined) {
 	"use strict";
 	
 	var TWO_PI = Math.PI * 2;

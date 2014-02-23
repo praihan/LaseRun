@@ -1,6 +1,6 @@
 this.CAL = this.CAL || {};
 
-CAL.Lang = (function() {
+CAL.Lang = (function(undefined) {
 	"use strict";
 	
 	var hashCodeOf = function(obj) {
