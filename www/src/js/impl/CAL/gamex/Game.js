@@ -1,12 +1,12 @@
 this.CAL = this.CAL || {};
 
-this.CAL.Gamex = this.CAL.Gamex || {};
+this.CAL.gamex = this.CAL.gamex || {};
 
 (function(undefined) {
 	"use strict";
 	
-	CAL.Gamex.TARGET_FPS = CAL.Gamex.TARGET_FPS || 60;
-	CAL.Gamex.TARGET_UPDATE_FPS = CAL.Gamex.TARGET_UPDATE_FPS || 1000;
+	CAL.gamex.TARGET_FPS = CAL.gamex.TARGET_FPS || 60;
+	CAL.gamex.TARGET_UPDATE_FPS = CAL.gamex.TARGET_UPDATE_FPS || 1000;
 	
 	var Keys = {
 		DELTA: 0,
@@ -20,11 +20,11 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 	
 	
 	var Game = function(resources) {	
-		this._lastFPSUpdate = CAL.Gamex.TARGET_UPDATE_FPS;
+		this._lastFPSUpdate = CAL.gamex.TARGET_UPDATE_FPS;
 		this.cache[Keys.DELTA] = 0;
 	}
 	
-	var p = Game.prototype = new CAL.Lang.CachingObject();
+	var p = Game.prototype = new CAL.lang.CachingObject();
 	
 	p.update = function(updateParams) {
 		var delta = updateParams.tickEvent.delta;
@@ -32,8 +32,8 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		
 		if (updateParams.first) {
 			var canvas = updateParams.canvas;
-			jQuery(canvas).css("background-color", CAL.Graphics.Colors.BLACK);
-			var sheet = new CAL.Graphics.SpriteSheet({
+			jQuery(canvas).css("background-color", CAL.graphics.Colors.BLACK);
+			var sheet = new CAL.graphics.SpriteSheet({
 				image: updateParams.resources.getResult("temp"), 
 				padding: {
 					x: 0,
@@ -47,15 +47,28 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 			var sprite = this.cache[Keys.SPRITE] = sheet.spriteAt(0, 0);
 			sprite.setLocation(200, 200);
 
-			var fps = CAL.Gamex.TARGET_UPDATE_FPS;
-			this.cache[Keys.FPS_TIMER] = new CAL.Util.DeltaTimer(fps, fps)
+			var fps = CAL.gamex.TARGET_UPDATE_FPS;
+			this.cache[Keys.FPS_TIMER] = new CAL.util.DeltaTimer(fps, fps)
 				.postCallback(
 					function() {
 						this.cache[Keys.DELTA] = this.cache[Keys.UPDATEPARAMS].tickEvent.delta;
 					}, 
 					this);
-			this.cache[Keys.FONT] = CAL.Graphics.getFont("Ubuntu Mono", 50, [CAL.Graphics.FontStyles.BOLD, CAL.Graphics.FontStyles.ITALIC]);
+			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 50, [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
+			
+			/*
+			updateParams.pointer.addEventListener("click", function(evt) {
+				if (evt.which === updateParams.pointer.LEFT)
+					sprite.setLocation(evt.clientX, evt.clientY);
+			}, this);
+			*/
 		}
+		var keyboard = updateParams.keyboard;
+		if (keyboard.down[keyboard.getKeyCode("Up")]) {
+			// sprite.translate(-0.001 * delta, 0);
+		} else {
+		}
+		
 		this.cache[Keys.FPS_TIMER].update(delta);
 	}
 	
@@ -63,24 +76,20 @@ this.CAL.Gamex = this.CAL.Gamex || {};
 		var canvas = renderParams.canvas;
 		var context = canvas.getContext("2d");
 		
-		context.fillStyle = CAL.Graphics.Colors.BLACK;
+		context.fillStyle = CAL.graphics.Colors.BLACK;
 		context.fillRect(0, 0, canvas.width, canvas.height);
 		
 		context.font = this.cache[Keys.FONT];
-		context.fillStyle = CAL.Graphics.Colors.WHITE;
+		context.fillStyle = CAL.graphics.Colors.WHITE;
 		
 		var delta = this.cache[Keys.DELTA];
 		context.fillText(delta == 0 ? "Infinite" : Math.floor(1000 / delta).toString(), 200, 50);
 		
 		var sprite = this.cache[Keys.SPRITE];
 		sprite.rotate(0.001 * renderParams.tickEvent.delta);
-		var pointerState = renderParams.pointerState;
-		if (pointerState.down[pointerState.LEFT]) {
-			sprite.setLocation(renderParams.pointerState.location);
-		}
 		sprite.draw(context);
 	};
 	
-	CAL.Gamex.Game = Game;
+	CAL.gamex.Game = Game;
 	
 })();

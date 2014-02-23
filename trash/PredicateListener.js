@@ -5,14 +5,12 @@ this.CAL.util = this.CAL.util || {};
 (function(undefined) {
 	"use strict";
 	
-	var DeltaTimer = function(msInterval, currentTime) {
-		this._msInterval = msInterval;
-		this._currentTime = currentTime || 0;
-		this._resetValue = 0;
+	var PredicateListener = function(predicateCallback) {
 		this._callbacks = new Array();
+		this._predicateCallback = predicateCallback || function() { return false; };
 	}
 	
-	var p = DeltaTimer.prototype = new CAL.lang.IUpdateableObject();
+	var p = PredicateListener.prototype = new CAL.lang.IUpdateableObject();
 	
 	p.postCallback = function(callback, scope) {
 		var cs = this._callbacks;
@@ -30,10 +28,8 @@ this.CAL.util = this.CAL.util || {};
 		return this;
 	}
 	
-	p.update = function(delta) {
-		this._currentTime += delta;
-		if (this._currentTime >= this._msInterval) {
-			this._currentTime = this._resetValue;
+	p.update = function(params) {
+		if (this._predicateCallback()) {
 			for (var i = 0; i < this._callbacks.length; ++i) {
 				var c = this._callbacks[i];
 				c.callback.call(c.scope);
@@ -41,10 +37,6 @@ this.CAL.util = this.CAL.util || {};
 		}
 	}
 	
-	p.clear = function() {
-		this._callbacks.length = 0;
-	}
-	
-	CAL.util.DeltaTimer = DeltaTimer;
+	CAL.util.PredicateListener = PredicateListener;
 	
 })();

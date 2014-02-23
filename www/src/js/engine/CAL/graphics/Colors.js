@@ -1,6 +1,6 @@
 this.CAL = this.CAL || {};
 
-this.CAL.Graphics = this.CAL.Graphics || {};
+this.CAL.graphics = this.CAL.graphics || {};
 
 (function(undefined) {
 	"use strict";
@@ -160,6 +160,6 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		
 	}
 	
-	CAL.Graphics.Colors = Colors;
+	CAL.graphics.Colors = Colors;
 	
 })();

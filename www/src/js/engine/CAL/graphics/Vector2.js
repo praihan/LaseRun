@@ -1,6 +1,6 @@
 this.CAL = this.CAL || {};
 
-this.CAL.Graphics = this.CAL.Graphics || {};
+this.CAL.graphics = this.CAL.graphics || {};
 
 (function(undefined) {
 	"use strict"
@@ -117,9 +117,9 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	 * @return this vector as a string
 	 */
 	s.toString = function(v) {
-		return CAL.Lang.format("[Vector2] X: %1, Y: %2", v.x, v.y);
+		return CAL.lang.format("[Vector2] X: %1, Y: %2", v.x, v.y);
 	}
 	
-	CAL.Graphics.Vector2 = Vector2;
+	CAL.graphics.Vector2 = Vector2;
 	
 })();

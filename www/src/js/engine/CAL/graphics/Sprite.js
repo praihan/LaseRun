@@ -1,6 +1,6 @@
 this.CAL = this.CAL || {};
 
-this.CAL.Graphics = this.CAL.Graphics || {};
+this.CAL.graphics = this.CAL.graphics || {};
 
 (function(undefined) {
 	"use strict";
@@ -9,7 +9,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	
 	var Sprite = function(params) {
 		if (typeof params === "undefined") {
-			throw new CAL.Lang.CALException("Undefined paramaters");
+			throw new CAL.lang.CALException("Undefined paramaters");
 		}
 		this.setLocation(params.location || {x: 0, y: 0});
 		this.setSize(params.size || {width: 0, height: 0});
@@ -58,10 +58,10 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 			var s = this.getSize();
 			this.setOrigin(params.origin || {x: s.x / 2, y: s.y / 2});
 		}
-		throw new CAL.Lang.CALException("No image source specified");
+		throw new CAL.lang.CALException("No image source specified");
 	}
 	
-	var p = Sprite.prototype = new CAL.Graphics.DisplayObject();
+	var p = Sprite.prototype = new CAL.graphics.DisplayObject();
 	var s = Sprite;
 	
 	var DisplayObject$getAttributes = p.getAttributes;
@@ -83,9 +83,9 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	
 	p.setClipping = function(x, y) {
 		if (typeof y === "undefined") {
-			this._clipping = new CAL.Graphics.Vector2(x.x, x.y);
+			this._clipping = CAL.graphics.Vector2(x.x, x.y);
 		} else {
-			this._clipping = new CAL.Graphics.Vector2(x, y);
+			this._clipping = CAL.graphics.Vector2(x, y);
 		}
 	}
 	
@@ -115,9 +115,9 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	
 	p.setOrigin = function(x, y) {
 		if (typeof y === "undefined") {
-			this._origin = new CAL.Graphics.Vector2(x.x || 0, x.y || 0);
+			this._origin = CAL.graphics.Vector2(x.x || 0, x.y || 0);
 		} else {
-			this._origin = new CAL.Graphics.Vector2(x || 0, y);
+			this._origin = CAL.graphics.Vector2(x || 0, y);
 		}
 	}
 	
@@ -199,6 +199,6 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		return new Sprite({sprite: this});
 	}
 	
-	CAL.Graphics.Sprite = Sprite;
+	CAL.graphics.Sprite = Sprite;
 	
 })();

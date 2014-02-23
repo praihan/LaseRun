@@ -1,9 +1,12 @@
 this.CAL = this.CAL || {};
 
-CAL.Lang = (function(undefined) {
+(function(undefined) {
 	"use strict";
 	
-	var hashCodeOf = function(obj) {
+	var lang = function() {
+	}
+	
+	lang.hashCodeOf = function(obj) {
 		if (obj === null) {
 			return 0;
 		}
@@ -28,7 +31,7 @@ CAL.Lang = (function(undefined) {
 		return hash;
 	}
 	
-	var format = function(str) {
+	lang.format = function(str) {
 		var args = arguments;
 		return str.replace(/%(\d+)/g,
 			function(match, i) {
@@ -36,20 +39,22 @@ CAL.Lang = (function(undefined) {
 		});
 	}
 	
-	var isArray = function(obj) {
+	lang.toCamelCase = function(str) {
+		return str.replace(/(\-[a-z])/g, function($1){return $1.toUpperCase().replace('-','');});
+	};
+
+	
+	lang.isArray = function(obj) {
 		return Object.prototype.toString.call(obj) === "[object Array]";
 	}
 	
-	var CALException = function(what) {
+	lang.CALException = function(what) {
 		this.what = function() { return "CALException: " + what.toString(); };
 		this.toString = this.what;
 	}
 	
-	return {
-		hashCodeOf: hashCodeOf,
-		format: format,
-		isArray: isArray,
-		CALException: CALException
-	}
+	
+	
+	CAL.lang = lang;
 	
 })();

@@ -1,6 +1,6 @@
 this.CAL = this.CAL || {};
 
-this.CAL.Lang = this.CAL.Lang || {};
+this.CAL.lang = this.CAL.lang || {};
 
 (function(undefined) {
 	"use strict";
@@ -12,6 +12,6 @@ this.CAL.Lang = this.CAL.Lang || {};
 		this.cache = {};
 	}
 	
-	CAL.Lang.CachingObject = CachingObject;
+	CAL.lang.CachingObject = CachingObject;
 	
 })();

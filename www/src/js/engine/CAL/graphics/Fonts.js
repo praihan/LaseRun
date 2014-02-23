@@ -1,6 +1,6 @@
 this.CAL = this.CAL || {};
 
-this.CAL.Graphics = this.CAL.Graphics || {};
+this.CAL.graphics = this.CAL.graphics || {};
 
 (function(undefined) {
 	"use strict";
@@ -11,7 +11,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 	}
 	
 	var getFont = function(baseName, size, props) {
-		if (!CAL.Lang.isArray(props)) {
+		if (!CAL.lang.isArray(props)) {
 			props = typeof props === "undefined" ? [] : [props];
 		}
 		var rv = "";
@@ -22,7 +22,7 @@ this.CAL.Graphics = this.CAL.Graphics || {};
 		return rv;
 	}
 	
-	CAL.Graphics.FontStyles = FontStyles;
-	CAL.Graphics.getFont = getFont;
+	CAL.graphics.FontStyles = FontStyles;
+	CAL.graphics.getFont = getFont;
 	
 })();

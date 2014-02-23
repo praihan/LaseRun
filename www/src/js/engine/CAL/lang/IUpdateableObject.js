@@ -1,6 +1,6 @@
 this.CAL = this.CAL || {};
 
-this.CAL.Lang = this.CAL.Lang || {};
+this.CAL.lang = this.CAL.lang || {};
 
 (function(undefined) {
 	"use strict";
@@ -11,6 +11,6 @@ this.CAL.Lang = this.CAL.Lang || {};
 	IUpdateableObject.prototype.update = function(params) {
 	}
 	
-	CAL.Lang.IUpdateableObject = IUpdateableObject;
+	CAL.lang.IUpdateableObject = IUpdateableObject;
 	
 })();
