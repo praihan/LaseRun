@@ -80,6 +80,9 @@ this.CAL.graphics = this.CAL.graphics || {};
 			y = x.y;
 			x = x.x;
 		}
+		if (x == 0 && y == 0) {
+			return;
+		}
 		var l = this.getLocation();
 		this.setLocation(l.x + x, l.y + y);
 	}

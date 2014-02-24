@@ -55,19 +55,24 @@ this.CAL.gamex = this.CAL.gamex || {};
 					}, 
 					this);
 			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 50, [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
-			
-			/*
-			updateParams.pointer.addEventListener("click", function(evt) {
-				if (evt.which === updateParams.pointer.LEFT)
-					sprite.setLocation(evt.clientX, evt.clientY);
-			}, this);
-			*/
 		}
+		var sprite = this.cache[Keys.SPRITE];
 		var keyboard = updateParams.keyboard;
-		if (keyboard.down[keyboard.getKeyCode("Up")]) {
-			// sprite.translate(-0.001 * delta, 0);
-		} else {
+		
+		var down = keyboard.isDown("S")
+		var up = keyboard.isDown("W");
+		var left = keyboard.isDown("A");
+		var right = keyboard.isDown("D");
+		
+		var vel = 0.1 * delta;
+		var deltaV = {x: 0, y: 0};
+		if (up ^ down) {
+			deltaV.y = up ? -vel : vel;
 		}
+		if (left ^ right){
+			deltaV.x = right ? vel : -vel;
+		}
+		sprite.translate(deltaV);
 		
 		this.cache[Keys.FPS_TIMER].update(delta);
 	}
