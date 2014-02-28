@@ -54,9 +54,16 @@ this.CAL.gamex = this.CAL.gamex || {};
 						this.cache[Keys.DELTA] = this.cache[Keys.UPDATEPARAMS].tickEvent.delta;
 					}, 
 					this);
-			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 50, [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
+			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 
+														 50, 
+														 [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
+			updateParams.keyboard.addPressListener(13, function(keyCode, evt) {
+																console.log(keyCode);
+																}, this);
 		}
 		var sprite = this.cache[Keys.SPRITE];
+		sprite.rotate(0.001 * updateParams.tickEvent.delta);
+		
 		var keyboard = updateParams.keyboard;
 		
 		var down = keyboard.isDown("S")
@@ -91,7 +98,6 @@ this.CAL.gamex = this.CAL.gamex || {};
 		context.fillText(delta == 0 ? "Infinite" : Math.floor(1000 / delta).toString(), 200, 50);
 		
 		var sprite = this.cache[Keys.SPRITE];
-		sprite.rotate(0.001 * renderParams.tickEvent.delta);
 		sprite.draw(context);
 	};
 	

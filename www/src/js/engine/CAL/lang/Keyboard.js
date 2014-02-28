@@ -13,16 +13,35 @@ this.CAL.lang = this.CAL.lang || {};
 		
 		var down = this._down = {};
 		
-		var listeners = this._listeners = {};
+		this._listeners = {};
+		this._globalListeners = [];
 		
-		this._globalListeners = {};
+		this._pressListeners = {};
+		this._globalPressListeners = [];
+		
+		var globalCallback = function(keyboard, evt) {
+			for (var i = 0; i < keyboard._globalListeners.length; ++i) {
+				var c = keyboard._globalListeners[i];
+				c.callback.call(c.scope, evt);
+			}
+		}
+		
+		var globalPressCallback = function(keyboard, evt) {
+			for (var i = 0; i < keyboard._pressListeners.length; ++i) {
+				var c = keyboard._pressListeners[i];
+				c.callback.call(c.scope, evt);
+			}
+		}
 		
 		var keydownListener = function(evt) {
 			down[evt.which] = true;
+			globalCallback(this, evt);
 		}
 		
 		var keyupListener = function(evt) {
 			delete down[evt.which];
+			globalCallback(this, evt);
+			globalPressCallback(this, evt);
 		}
 		
 		element.addEventListener("keydown", keydownListener);
@@ -42,8 +61,12 @@ this.CAL.lang = this.CAL.lang || {};
 	}
 	
 	p.addEventListener = function(keyCode, callback, scope) {
-		var listeners = this._listeners;
 		var toPush = {callback: callback, scope: scope || callback};
+		if (keyCode === -1) {
+			this._globalListeners.push(toPush);
+			return;
+		}
+		var listeners = this._listeners;
 		if (!listeners[keyCode]) {
 			listeners[keyCode] = [toPush];
 		} else {
@@ -52,19 +75,45 @@ this.CAL.lang = this.CAL.lang || {};
 	}
 	
 	p.addPressListener = function(keyCode, callback, scope) {
-		
+		var toPush = {callback: callback, scope: scope || callback};
+		if (keyCode === -1) {
+			this._globalPressListeners.push(toPush);
+			return;
+		}
+		var pressListeners = this._pressListeners;
+		if (!pressListeners[keyCode]) {
+			pressListeners[keyCode] = [toPush];
+		} else {
+			pressListeners[keyCode].push(toPush);
+		}
 	}
 	
 	p.clearEventListeners = function(keyCode) {
 		if (typeof keyCode === "undefined") {
 			delete this._listeners;
+			this._globalListeners.length = 0;
+			this._pressListeners.length = 0;
 			this._listeners = {};
+			return;
+		} else if (keyCode === -1) {
+			this._globalListeners.length = 0;
+			return;
+		} else if (keyCode === -2) {
+			this._pressListeners.length = 0;
 			return;
 		}
 		listeners[keyCode].length = 0;
 	}
 	
 	p.removeEventListener = function(keyCode, callbackObj) {
+		if (keyCode === -1) {
+			var l = this._globalListeners;
+			for (var i = 0; i < l.length; ++i) {
+				if (callbackObj === l[i]) {
+					delete this._globalListeners[i];
+				}
+			}
+		}
 		var listeners = this._listeners;
 		var arr = listeners[keyCode];
 		if (!arr) {
