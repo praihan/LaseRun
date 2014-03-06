@@ -44,7 +44,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 					height: 350 / 2
 				}
 			});
-			var sprite = this.cache[Keys.SPRITE] = sheet.spriteAt(0, 0);
+			var sprite = this.cache[Keys.SPRITE] = sheet.spriteAt(3, 1);
 			sprite.setLocation(200, 200);
 
 			var fps = CAL.gamex.TARGET_UPDATE_FPS;
@@ -62,16 +62,16 @@ this.CAL.gamex = this.CAL.gamex || {};
 																}, this);
 		}
 		var sprite = this.cache[Keys.SPRITE];
-		sprite.rotate(0.001 * updateParams.tickEvent.delta);
+		sprite.rotate(10.000 * updateParams.tickEvent.delta);
 		
 		var keyboard = updateParams.keyboard;
 		
-		var down = keyboard.isDown("S")
-		var up = keyboard.isDown("W");
-		var left = keyboard.isDown("A");
-		var right = keyboard.isDown("D");
+		var down = keyboard.isDown("S") || keyboard.isDown("Down");
+		var up = keyboard.isDown("W") || keyboard.isDown("Up");
+		var left = keyboard.isDown("A") || keyboard.isDown("Left");
+		var right = keyboard.isDown("D") || keyboard.isDown("Right");
 		
-		var vel = 0.1 * delta;
+		var vel = 5 * delta;
 		var deltaV = {x: 0, y: 0};
 		if (up ^ down) {
 			deltaV.y = up ? -vel : vel;

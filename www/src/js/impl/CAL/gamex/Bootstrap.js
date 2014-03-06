@@ -39,6 +39,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 			createjs.Ticker.setFPS(CAL.gamex.TARGET_FPS);
 			
 			var first = true;
+			canvas.focus();
 			createjs.Ticker.on("tick", function(evt) {			
 				var params = {
 					tickEvent: evt, 
