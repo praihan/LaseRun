@@ -6,6 +6,12 @@ this.CAL.lang = this.CAL.lang || {};
 	
 	var Mouse = function(element) {
 		var down = this._down = {};
+		
+		this._listeners = {};
+		this._globalListeners = {};		
+		
 	}
+	
+	
 	
 })();
