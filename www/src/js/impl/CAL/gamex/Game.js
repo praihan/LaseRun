@@ -57,12 +57,17 @@ this.CAL.gamex = this.CAL.gamex || {};
 			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 
 														 50, 
 														 [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
-			updateParams.keyboard.addPressListener(13, function(keyCode, evt) {
-																console.log(keyCode);
+			updateParams.keyboard.addPressListener(13, function(evt) {
+																console.log(evt);
 																}, this);
+			
+			updateParams.pointer.addPressListener(1, function(evt) {
+				this.cache[Keys.SPRITE].setLocation(evt.clientX, evt.clientY);
+			}, this);
+			
 		}
 		var sprite = this.cache[Keys.SPRITE];
-		sprite.rotate(10.000 * updateParams.tickEvent.delta);
+		sprite.rotate(0.001 * updateParams.tickEvent.delta);
 		
 		var keyboard = updateParams.keyboard;
 		
@@ -71,7 +76,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 		var left = keyboard.isDown("A") || keyboard.isDown("Left");
 		var right = keyboard.isDown("D") || keyboard.isDown("Right");
 		
-		var vel = 5 * delta;
+		var vel = 0.1 * delta;
 		var deltaV = {x: 0, y: 0};
 		if (up ^ down) {
 			deltaV.y = up ? -vel : vel;

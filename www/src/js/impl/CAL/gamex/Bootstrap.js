@@ -25,7 +25,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 		window.onresize = resize;
 		resize();
 		
-		var pointerState = registerPointer(canvas);
+		var pointerState = new CAL.lang.Mouse(canvas); // registerPointer(canvas);
 		
 		var keyboardState = new CAL.lang.Keyboard(canvas);
 		

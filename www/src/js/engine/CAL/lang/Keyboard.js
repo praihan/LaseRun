@@ -26,22 +26,38 @@ this.CAL.lang = this.CAL.lang || {};
 			}
 		}
 		
+		var pressCallback = function(keyboard, evt) {
+			var arr = keyboard._pressListeners[evt.which];
+			if (arr) {
+				for (var i = 0; i < arr.length; ++i) {
+					var c = arr[i];
+					c.callback.call(c.scope, evt);
+				}
+			}
+		}
+		
 		var globalPressCallback = function(keyboard, evt) {
-			for (var i = 0; i < keyboard._pressListeners.length; ++i) {
-				var c = keyboard._pressListeners[i];
+			for (var i = 0; i < keyboard._globalPressListeners.length; ++i) {
+				var c = keyboard._globalPressListeners[i];
 				c.callback.call(c.scope, evt);
 			}
 		}
 		
+		var _this = this;
+		
 		var keydownListener = function(evt) {
 			down[evt.which] = true;
-			globalCallback(this, evt);
+			globalCallback(_this, evt);
 		}
 		
 		var keyupListener = function(evt) {
+			if (typeof down[evt.which] === "undefined") {
+				return;
+			}
 			delete down[evt.which];
-			globalCallback(this, evt);
-			globalPressCallback(this, evt);
+			globalCallback(_this, evt);
+			pressCallback(_this, evt);
+			globalPressCallback(_this, evt);
 		}
 		
 		element.addEventListener("keydown", keydownListener);
@@ -88,23 +104,6 @@ this.CAL.lang = this.CAL.lang || {};
 		}
 	}
 	
-	p.clearEventListeners = function(keyCode) {
-		if (typeof keyCode === "undefined") {
-			delete this._listeners;
-			this._globalListeners.length = 0;
-			this._pressListeners.length = 0;
-			this._listeners = {};
-			return;
-		} else if (keyCode === -1) {
-			this._globalListeners.length = 0;
-			return;
-		} else if (keyCode === -2) {
-			this._pressListeners.length = 0;
-			return;
-		}
-		listeners[keyCode].length = 0;
-	}
-	
 	p.removeEventListener = function(keyCode, callbackObj) {
 		if (keyCode === -1) {
 			var l = this._globalListeners;
@@ -124,6 +123,31 @@ this.CAL.lang = this.CAL.lang || {};
 				delete arr[i];
 				if (arr.length = 0) {
 					delete this._listeners[keyCode];
+				}
+				return;
+			}
+		}
+	}
+	
+	p.removePressListener = function(keyCode, callbackObj) {
+		if (keyCode === -1) {
+			var l = this._globalPressListeners;
+			for (var i = 0; i < l.length; ++i) {
+				if (callbackObj === l[i]) {
+					delete this._globalPressListeners[i];
+				}
+			}
+		}
+		var listeners = this._pressListeners;
+		var arr = listeners[keyCode];
+		if (!arr) {
+			return;
+		}
+		for (var i = 0; i < arr.length; ++i) {
+			if (arr[i] === callbackObj) {
+				delete arr[i];
+				if (arr.length = 0) {
+					delete this._pressListeners[keyCode];
 				}
 				return;
 			}
