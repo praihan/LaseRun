@@ -8,7 +8,7 @@ this.CAL.lang = this.CAL.lang || {};
 	var buttonCodeToName = {1:"Left",2:"Middle",3:"Right"};
 	var buttonNameToCode = {"Left":1,"Middle":2,"Right":3};
 	
-	var Mouse = function(element) {
+	var Mouse = function(element, attachTouch) {
 		
 		var down = this._down = {};
 		
@@ -57,6 +57,10 @@ this.CAL.lang = this.CAL.lang || {};
 			globalCallback(_this, evt);
 			pressCallback(_this, evt);
 			globalPressCallback(_this, evt);
+		}
+		
+		if (attachTouch) {
+			
 		}
 		
 		element.addEventListener("mousedown", mousedownListener);
