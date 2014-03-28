@@ -9,7 +9,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	var Sprite = function(params) {
 		if (typeof params === "undefined") {
-			throw new CAL.lang.CALException("Undefined paramaters");
+			throw "Undefined paramaters";
 		}
 		this.setLocation(params.location || {x: 0, y: 0});
 		this.setSize(params.size || {width: 0, height: 0});
@@ -58,7 +58,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 			var s = this.getSize();
 			this.setOrigin(params.origin || {x: s.x / 2, y: s.y / 2});
 		}
-		throw new CAL.lang.CALException("No image source specified");
+		throw "No image source specified";
 	}
 	
 	var p = Sprite.prototype = new CAL.graphics.DisplayObject();

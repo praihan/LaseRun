@@ -47,14 +47,7 @@ this.CAL = this.CAL || {};
 	lang.isArray = function(obj) {
 		return Object.prototype.toString.call(obj) === "[object Array]";
 	}
-	
-	lang.CALException = function(what) {
-		this.what = function() { return "CALException: " + what.toString(); };
-		this.toString = this.what;
-	}
-	
-	
-	
+		
 	CAL.lang = lang;
 	
 })();

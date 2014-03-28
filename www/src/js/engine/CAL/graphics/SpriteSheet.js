@@ -7,7 +7,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	var SpriteSheet = function(params) {
 		if (!params.image) {
-			throw new CAL.lang.CALException("No image source");
+			throw "No image source";
 		}
 		this._image = params.image;
 		this._padding = params.padding ? 

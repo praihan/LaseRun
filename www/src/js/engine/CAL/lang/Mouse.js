@@ -8,7 +8,13 @@ this.CAL.lang = this.CAL.lang || {};
 	var buttonCodeToName = {1:"Left",2:"Middle",3:"Right"};
 	var buttonNameToCode = {"Left":1,"Middle":2,"Right":3};
 	
-	var Mouse = function(element, attachTouch) {
+	var Mouse = function(element, attachTouch, disableMouse) {
+		
+		/*
+		if (!element ||  !(!!disableMouse ^ !!(!attachTouch))) {
+			throw "Invalid parameter(s)";
+		}
+		*/
 		
 		var down = this._down = {};
 		
@@ -44,19 +50,21 @@ this.CAL.lang = this.CAL.lang || {};
 		
 		var _this = this;
 		
-		var mousedownListener = function(evt) {
-			down[evt.which] = true;
-			globalCallback(_this, evt);
-		}
-		
-		var mouseupListener = function(evt) {
-			if (typeof down[evt.which] === "undefined") {
-				return;
+		if (!disableMouse) {
+			var mousedownListener = function(evt) {
+				down[evt.which] = true;
+				globalCallback(_this, evt);
 			}
-			delete down[evt.which];
-			globalCallback(_this, evt);
-			pressCallback(_this, evt);
-			globalPressCallback(_this, evt);
+			
+			var mouseupListener = function(evt) {
+				if (typeof down[evt.which] === "undefined") {
+					return;
+				}
+				delete down[evt.which];
+				globalCallback(_this, evt);
+				pressCallback(_this, evt);
+				globalPressCallback(_this, evt);
+			}
 		}
 		
 		if (attachTouch) {
