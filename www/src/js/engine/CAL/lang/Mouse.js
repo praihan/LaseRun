@@ -8,18 +8,14 @@ this.CAL.lang = this.CAL.lang || {};
 	var buttonCodeToName = {1:"Left",2:"Middle",3:"Right"};
 	var buttonNameToCode = {"Left":1,"Middle":2,"Right":3};
 	
-	var Mouse = function(element, attachTouch, disableMouse) {
-		
-		/*
-		if (!element ||  !(!!disableMouse ^ !!(!attachTouch))) {
-			throw "Invalid parameter(s)";
-		}
-		*/
-		
+	var Mouse = function(element) {		
 		var down = this._down = {};
 		
+		this.location = new CAL.graphics.Vector2(0, 0);
+		this._mousemoveListeners = [];
+		
 		this._listeners = {};
-		this._globalListeners = [];	
+		this._globalListeners = [];
 		
 		this._pressListeners = {};
 		this._globalPressListeners = [];
@@ -48,27 +44,33 @@ this.CAL.lang = this.CAL.lang || {};
 			}
 		}
 		
-		var _this = this;
-		
-		if (!disableMouse) {
-			var mousedownListener = function(evt) {
-				down[evt.which] = true;
-				globalCallback(_this, evt);
-			}
-			
-			var mouseupListener = function(evt) {
-				if (typeof down[evt.which] === "undefined") {
-					return;
-				}
-				delete down[evt.which];
-				globalCallback(_this, evt);
-				pressCallback(_this, evt);
-				globalPressCallback(_this, evt);
+		var mousemoveCallback = function(mouse, evt) {
+			for (var i = 0; i < mouse._mousemoveListeners.length; ++i) {
+				var c = mouse._mousemoveListeners[i];
+				c.callback.call(c.scope, evt);
 			}
 		}
 		
-		if (attachTouch) {
-			
+		var _this = this;
+		
+		var mousedownListener = function(evt) {
+			down[evt.which] = true;
+			globalCallback(_this, evt);
+		}
+		
+		var mousemoveListener = function(evt) {
+			_this.location = new CAL.graphics.Vector2(evt.clientX, evt.clientY);
+			mousemoveCallback(_mouse, evt);
+		}
+		
+		var mouseupListener = function(evt) {
+			if (typeof down[evt.which] === "undefined") {
+				return;
+			}
+			delete down[evt.which];
+			globalCallback(_this, evt);
+			pressCallback(_this, evt);
+			globalPressCallback(_this, evt);
 		}
 		
 		element.addEventListener("mousedown", mousedownListener);
@@ -85,6 +87,11 @@ this.CAL.lang = this.CAL.lang || {};
 	
 	p.resume = function() {
 		delete this._paused;
+	}
+	
+	p.addMousemoveListener = function(calllback, scope) {
+		var toPush = {callback: callback, scope: scope || callback};
+		this._mousemoveListeners.push(toPush);
 	}
 	
 	p.addEventListener = function(buttonCode, callback, scope) {
@@ -161,6 +168,14 @@ this.CAL.lang = this.CAL.lang || {};
 					delete this._pressListeners[buttonCode];
 				}
 				return;
+			}
+		}
+	}
+	
+	p.removeMousemoveListener = function(callbackObj) {
+		for (var i = 0; i < this._mousemoveListeners.length; ++i) {
+			if (this._mousemoveListeners[i] === callbackObj) {
+				delete this._mousemoveListeners[i];
 			}
 		}
 	}
