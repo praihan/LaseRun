@@ -90,7 +90,7 @@ this.CAL.lang = this.CAL.lang || {};
 		delete this._paused;
 	}
 	
-	p.addMousemoveListener = function(calllback, scope) {
+	p.addMousemoveListener = function(callback, scope) {
 		var toPush = {callback: callback, scope: scope || callback};
 		this._mousemoveListeners.push(toPush);
 	}
