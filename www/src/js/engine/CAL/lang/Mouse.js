@@ -74,6 +74,7 @@ this.CAL.lang = this.CAL.lang || {};
 		}
 		
 		element.addEventListener("mousedown", mousedownListener);
+        element.addEventListener("mousemove", mousemoveListener);
 		element.addEventListener("mouseup", mouseupListener);
 	}
 	
