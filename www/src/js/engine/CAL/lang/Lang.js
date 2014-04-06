@@ -47,6 +47,14 @@ this.CAL = this.CAL || {};
 	lang.isArray = function(obj) {
 		return Object.prototype.toString.call(obj) === "[object Array]";
 	}
+	
+	lang.extend = function(child, parent) {
+		for (var i in parent) {
+			if (!child[i]) {
+				child[i] = parent[i];
+			}
+		}
+	}
 		
 	CAL.lang = lang;
 	

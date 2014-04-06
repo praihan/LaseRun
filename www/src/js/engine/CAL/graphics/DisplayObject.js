@@ -43,7 +43,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 		this._location.x = x;
 	}
 	
-	p.setY = function(x) {
+	p.setY = function(y) {
 		this._location.y = y;
 	}
 	
@@ -61,10 +61,16 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	p.setSize = function(w, h) {
 		if (typeof h === "undefined") {
-			this._size = CAL.graphics.Vector2(w.x || w.width, w.y || w.height);
+			this.setWidth(w.x || w.width);
+			this.setHeight(w.y || w.height);
 			return;
 		}
-		this._size = CAL.graphics.Vector2(w, h);
+		this.setWidth(w);
+		this.setHeight(h);
+	}
+	
+	p.scale = function(x, y) {
+		this.setSize(this.getWidth() * x, this.getHeight() * y);
 	}
 	
 	p.setWidth = function(w) {

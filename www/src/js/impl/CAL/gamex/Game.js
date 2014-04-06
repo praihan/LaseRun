@@ -7,45 +7,47 @@ this.CAL.gamex = this.CAL.gamex || {};
 	
 	CAL.gamex.TARGET_FPS = CAL.gamex.TARGET_FPS || 60;
 	CAL.gamex.TARGET_UPDATE_FPS = CAL.gamex.TARGET_UPDATE_FPS || 1000;
+	CAL.gamex.ASPECT_RATIO_Y = 16;
+	CAL.gamex.ASPECT_RATIO_X = 9;
+	CAL.gamex.ASPECT_RATIO = CAL.gamex.ASPECT_RATIO_Y / CAL.gamex.ASPECT_RATIO_X;
 	
 	var Keys = {
 		DELTA: 0,
 		UPDATEPARAMS: 1,
-		SPRITE: 2,
-		FPS_TIME: 3,
-		FONT: 4,
+		FPS_TIME: 2,
+		FONT: 3,
+		SPRITE_SKY: 4,
+		SPRITE_GROUND: 5,
 	}
 	
 	
 	
 	
-	var Game = function(resources) {	
+	var Game = function(resources) {
+		CAL.lang.extend(this, new CAL.lang.CachingObject());
 		this._lastFPSUpdate = CAL.gamex.TARGET_UPDATE_FPS;
 		this.cache[Keys.DELTA] = 0;
 	}
 	
-	var p = Game.prototype = new CAL.lang.CachingObject();
+	var p = Game.prototype;
 	
 	p.update = function(updateParams) {
 		var delta = updateParams.tickEvent.delta;
 		this.cache[Keys.UPDATEPARAMS] = updateParams;
+		var canvas = updateParams.canvas;
 		
 		if (updateParams.first) {
-			var canvas = updateParams.canvas;
 			jQuery(canvas).css("background-color", CAL.graphics.Colors.BLACK);
-			var sheet = new CAL.graphics.SpriteSheet({
-				image: updateParams.resources.getResult("temp"), 
-				padding: {
-					x: 0,
-					y: 0
-				},
-				tile: {
-					width: 600 / 5,
-					height: 350 / 2
-				}
+			
+			this.cache[Keys.SPRITE_SKY] = new CAL.graphics.Sprite({
+				image: updateParams.resources.getResult("sky"),
 			});
-			var sprite = this.cache[Keys.SPRITE] = sheet.spriteAt(3, 1);
-			sprite.setLocation(200, 200);
+			
+			this.cache[Keys.SPRITE_GROUND] = new CAL.graphics.Sprite({
+				image: updateParams.resources.getResult("dirt_ground_1"),
+			});
+			
+			console.log(this.cache[Keys.SPRITE_SKY]);
 
 			var fps = CAL.gamex.TARGET_UPDATE_FPS;
 			this.cache[Keys.FPS_TIMER] = new CAL.util.DeltaTimer(fps, fps)
@@ -54,56 +56,37 @@ this.CAL.gamex = this.CAL.gamex || {};
 						this.cache[Keys.DELTA] = this.cache[Keys.UPDATEPARAMS].tickEvent.delta;
 					}, 
 					this);
-			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 
-														 50, 
-														 [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
-			updateParams.keyboard.addPressListener(13, function(evt) {
-																console.log(evt);
-																}, this);
-			
-			updateParams.pointer.addPressListener(1, function(evt) {
-				this.cache[Keys.SPRITE].setLocation(evt.clientX, evt.clientY);
-			}, this);
-			
+			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 50, [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
 		}
-		var sprite = this.cache[Keys.SPRITE];
-		sprite.rotate(0.001 * updateParams.tickEvent.delta);
-		
-		var keyboard = updateParams.keyboard;
-		
-		var down = keyboard.isDown("S") || keyboard.isDown("Down");
-		var up = keyboard.isDown("W") || keyboard.isDown("Up");
-		var left = keyboard.isDown("A") || keyboard.isDown("Left");
-		var right = keyboard.isDown("D") || keyboard.isDown("Right");
-		
-		var vel = 0.1 * delta;
-		var deltaV = {x: 0, y: 0};
-		if (up ^ down) {
-			deltaV.y = up ? -vel : vel;
-		}
-		if (left ^ right){
-			deltaV.x = right ? vel : -vel;
-		}
-		sprite.translate(deltaV);
 		
 		this.cache[Keys.FPS_TIMER].update(delta);
+		var viewport = updateParams.viewport;
+		
+		var skySprite = this.cache[Keys.SPRITE_SKY];
+		skySprite.scaleTo(updateParams.viewport);
+		
+		var groundSprite = this.cache[Keys.SPRITE_GROUND];
+		groundSprite.scaleWidthTo(viewport.x);
+		groundSprite.scaleHeightTo(viewport.y / 4);
+		
+		groundSprite.setY(viewport.y - groundSprite.getHeight());
 	}
 	
 	p.draw = function(renderParams) {
 		var canvas = renderParams.canvas;
 		var context = canvas.getContext("2d");
 		
+		// Clear screen
 		context.fillStyle = CAL.graphics.Colors.BLACK;
 		context.fillRect(0, 0, canvas.width, canvas.height);
 		
+		this.cache[Keys.SPRITE_SKY].draw(context);
+		this.cache[Keys.SPRITE_GROUND].draw(context);
+		
 		context.font = this.cache[Keys.FONT];
-		context.fillStyle = CAL.graphics.Colors.WHITE;
-		
+		context.fillStyle = CAL.graphics.Colors.BLACK;
 		var delta = this.cache[Keys.DELTA];
-		context.fillText(delta == 0 ? "Infinite" : Math.floor(1000 / delta).toString(), 200, 50);
-		
-		var sprite = this.cache[Keys.SPRITE];
-		sprite.draw(context);
+		context.fillText(delta == 0 ? "Infinite" : Math.floor(1000 / delta).toString(), 50, 50);
 	};
 	
 	CAL.gamex.Game = Game;

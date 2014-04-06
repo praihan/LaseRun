@@ -8,6 +8,8 @@ this.CAL.graphics = this.CAL.graphics || {};
 	var TWO_PI = Math.PI * 2;
 	
 	var Sprite = function(params) {
+		CAL.lang.extend(this, new CAL.graphics.DisplayObject());
+		
 		if (typeof params === "undefined") {
 			throw "Undefined paramaters";
 		}
@@ -53,6 +55,9 @@ this.CAL.graphics = this.CAL.graphics || {};
 			if (typeof params.flip === "undefined") {
 				this.setFlip(sprite.getFlip());
 			}
+			if (typeof params.scale === "undefined") {
+				this.setScale(sprite.getScale());
+			}
 			return;
 		} else {
 			var s = this.getSize();
@@ -61,7 +66,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 		throw "No image source specified";
 	}
 	
-	var p = Sprite.prototype = new CAL.graphics.DisplayObject();
+	var p = Sprite.prototype;
 	var s = Sprite;
 	
 	var DisplayObject$getAttributes = p.getAttributes;
@@ -75,7 +80,6 @@ this.CAL.graphics = this.CAL.graphics || {};
 		sAttr.flip = this.getFlip();
 		return sAttr;
 	}
-	
 	
 	p.getClipping = function() {
 		return this._clipping;
@@ -166,6 +170,40 @@ this.CAL.graphics = this.CAL.graphics || {};
 		this.flip(false, true);
 	}
 	
+	// var DisplayObject$setWidth = p.setWidth;
+	// var DisplayObject$setHeight = p.setHeight;
+	
+	p.scaleWidthTo = function(w) {
+		this.setWidth(w);
+		this.setOriginX(w / 2);
+	}
+	
+	p.scaleHeightTo = function(h) {
+		this.setHeight(h);
+		this.setOriginX(h / 2);
+	}
+	
+	p.scaleTo = function(w, h) {
+		if (typeof h === "undefined") {
+			h = w.y || w.height;
+			w = w.x || w.width;
+		}
+		this.scaleWidthTo(w);
+		this.scaleHeightTo(h);
+	}
+	
+	p.scaleByWidthTo = function(w) {
+		var newHeight = this.getHeight() * w / this.getWidth();
+		this.scaleWidthTo(w);
+		this.scaleHeightTo(newHeight);
+	}
+	
+	p.scaleByHeightTo = function(h) {
+		var newWidth = this.getWidth() * h / this.getHeight();
+		this.scaleHeightTo(h);
+		this.scaleWidthTo(newWidth);
+	}
+	
 	p.draw = function(context) {
 		context.save();
 		var c = this.getClipping();
@@ -191,7 +229,8 @@ this.CAL.graphics = this.CAL.graphics || {};
 		}
 		
 		context.scale(f.x ? -1 : 1, f.y ? -1 : 1);
-		context.drawImage(this._image, c.x, c.y, s.x, s.y, position.x, position.y, s.x, s.y);
+		// context.drawImage(this._image, c.x, c.y, s.x, s.y, position.x, position.y, s.x, s.y);
+		context.drawImage(this._image, c.x, c.y, this._image.width + c.x, this._image.height + c.y, position.x, position.y, s.x, s.y);
 		context.restore();
 	}
 	

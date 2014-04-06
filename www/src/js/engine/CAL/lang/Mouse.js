@@ -60,7 +60,7 @@ this.CAL.lang = this.CAL.lang || {};
 		
 		var mousemoveListener = function(evt) {
 			_this.location = new CAL.graphics.Vector2(evt.clientX, evt.clientY);
-			mousemoveCallback(_mouse, evt);
+			mousemoveCallback(_this, evt);
 		}
 		
 		var mouseupListener = function(evt) {

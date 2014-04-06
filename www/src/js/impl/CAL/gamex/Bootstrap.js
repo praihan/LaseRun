@@ -4,28 +4,39 @@ this.CAL.gamex = this.CAL.gamex || {};
 
 (function(undefined) {
 	
-	var preloadManifest = [
-		{id: "temp", src:"assets/img/temp.png"},
-	];
+	var subPath = function(basePath, relPath) {
+		return (basePath.charAt(basePath.length - 1) == '/' ? basePath + relPath : basePath + "/" + relPath);
+	}
 	
-	var CANVAS_NAME = "main-canvas";
+	var assetDir = "assets";
+	var imgDir = subPath(assetDir, "img");
+	
+	var imgPath = function(relPath) {
+		return subPath(imgDir, relPath);
+	}
+	
+	var preloadManifest = [
+		{id: "sky", src: imgPath("sky.png")},
+		{id: "dirt_ground_1", src: imgPath("dirt_ground_1.png")}
+	];
 	
 	var Bootstrap = function() {
 	}
 	
 	var s = Bootstrap;
 	
-    s.run = function() {
+    s.run = function(CANVAS_NAME) {
 		var canvas = document.getElementById(CANVAS_NAME);
+		canvas.focus();
 		
 		var resize = function() {
-			canvas.width = jQuery(document).width();
-			canvas.height = jQuery(document).height();
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
 		}
-		window.onresize = resize;
+		window.addEventListener("resize", resize, false);
 		resize();
 		
-		var pointerState = new CAL.lang.Mouse(canvas); // registerPointer(canvas);
+		var pointerState = new CAL.lang.Mouse(canvas);
 		
 		var keyboardState = new CAL.lang.Keyboard(canvas);
 		
@@ -39,7 +50,6 @@ this.CAL.gamex = this.CAL.gamex || {};
 			createjs.Ticker.setFPS(CAL.gamex.TARGET_FPS);
 			
 			var first = true;
-			canvas.focus();
 			createjs.Ticker.on("tick", function(evt) {			
 				var params = {
 					tickEvent: evt, 
@@ -47,7 +57,8 @@ this.CAL.gamex = this.CAL.gamex || {};
 					canvas: canvas, 
 					first: first,
 					pointer: pointerState,
-					keyboard: keyboardState
+					keyboard: keyboardState,
+					viewport: {x: canvas.width, y: canvas.height},
 				};
 				
 				keyboardState.update();
@@ -60,89 +71,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 		}, this);
 		
 		resources.loadManifest(preloadManifest);
-    }
-	
-	
-	
-	
-	var registerPointer = function(canvas) {
-		var clickListeners = new Array();
-		var pointerState = {
-			LEFT: 1,
-			MIDDLE: 2,
-			RIGHT: 3,
-			
-			down: {},
-			location: {x: 0, y: 0},
-			
-			addEventListener: function(type, callback, callbackScope) {
-				switch (type) {
-					case "click":
-					case "tap":
-						clickListeners[clickListeners.length] = {
-							callback: callback,
-							scope: callbackScope || callback || this,
-						}
-						break;
-					default:
-						canvas.addEventListener(type, function(evt) {
-							callback.call(callbackScope || callback || this, evt);
-						});
-				}
-			}
-		};
-		
-		var mouseupListener = function(evt) {
-			if (pointerState.down[evt.which]) {
-				for (var i = 0; i < clickListeners.length; ++i) {
-					var c = clickListeners[i];
-					c.callback.call(c.scope, evt);
-				}
-			}
-			delete pointerState.down[evt.which];
-		}
-		canvas.addEventListener("mouseup", mouseupListener);
-		
-		var mousemoveListener = function(evt) {
-			pointerState.location = {x: evt.clientX, y: evt.clientY};
-		}
-		canvas.addEventListener("mousemove", mousemoveListener);
-		
-		var mousedownListener = function(evt) {
-			pointerState.down[evt.which] = true;
-			mousemoveListener(evt);
-		}
-		canvas.addEventListener("mousedown", mousedownListener);
-		
-		if ("ontouchstart" in document.documentElement) {
-			var touchstartListener = function(evt) {
-				var first = evt.changedTouches[0];
-				pointerState.down[pointerState.LEFT] = true;
-				mousemoveListener(first);
-			}
-			canvas.addEventListener("touchstart", touchstartListener);
-			
-			var touchmoveListener = function(evt) {
-				mousemoveListener(evt.changedTouches[0]);
-			}
-			canvas.addEventListener("touchmove", touchmoveListener);
-			
-			var touchendListener = function(evt) {
-				var first = evt.changedTouches[0];
-				if (pointerState.down[pointerState.LEFT]) {
-					for (var i = 0; i < clickListeners.length; ++i) {
-						var c = clickListeners[i];
-						c.callback.call(c.scope, evt);
-					}
-				}
-				delete pointerState.down[pointerState.LEFT];
-			}
-			canvas.addEventListener("touchend", touchendListener);
-		}
-		return pointerState;
-	}
-	
-	
+    }	
 	
 	CAL.gamex.Bootstrap = Bootstrap;
 	
