@@ -11,7 +11,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 		CAL.lang.extend(this, new CAL.graphics.DisplayObject());
 		
 		if (typeof params === "undefined") {
-			throw "Undefined paramaters";
+			throw CAL.lang.exception("undefined", "Undefined paramaters");
 		}
 		this.setLocation(params.location || {x: 0, y: 0});
 		this.setSize(params.size || {width: 0, height: 0});
@@ -54,10 +54,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 			}
 			if (typeof params.flip === "undefined") {
 				this.setFlip(sprite.getFlip());
-			}
-			if (typeof params.scale === "undefined") {
-				this.setScale(sprite.getScale());
-			}
+			}			
 			return;
 		} else {
 			var s = this.getSize();
@@ -170,17 +167,24 @@ this.CAL.graphics = this.CAL.graphics || {};
 		this.flip(false, true);
 	}
 	
-	// var DisplayObject$setWidth = p.setWidth;
-	// var DisplayObject$setHeight = p.setHeight;
+	p.scaleWidth = function(scaleW) {
+		this.setWidth(this.getWidth() * scaleW);
+		this.setOriginX(this.getOrigin().x * scaleW);
+	}
+	
+	p.scaleHeight = function(scaleH) {
+		this.setHeight(this.getHeight() * scaleH);
+		this.setOriginY(this.getOrigin().y * scaleH);
+	}
 	
 	p.scaleWidthTo = function(w) {
 		this.setWidth(w);
-		this.setOriginX(w / 2);
+		this.setOriginX(this.getOrigin().x * w / this.getWidth());
 	}
 	
 	p.scaleHeightTo = function(h) {
 		this.setHeight(h);
-		this.setOriginX(h / 2);
+		this.setOriginY(this.getOrigin().y * h / this.getHeight());
 	}
 	
 	p.scaleTo = function(w, h) {
@@ -230,7 +234,16 @@ this.CAL.graphics = this.CAL.graphics || {};
 		
 		context.scale(f.x ? -1 : 1, f.y ? -1 : 1);
 		// context.drawImage(this._image, c.x, c.y, s.x, s.y, position.x, position.y, s.x, s.y);
-		context.drawImage(this._image, c.x, c.y, this._image.width + c.x, this._image.height + c.y, position.x, position.y, s.x, s.y);
+		context.drawImage(
+			this._image, 
+			c.x, 
+			c.y, 
+			this._image.width + c.x, 
+			this._image.height + c.y, 
+			position.x, 
+			position.y, 
+			s.x, 
+			s.y);
 		context.restore();
 	}
 	

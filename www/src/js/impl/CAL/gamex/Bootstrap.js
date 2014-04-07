@@ -17,7 +17,8 @@ this.CAL.gamex = this.CAL.gamex || {};
 	
 	var preloadManifest = [
 		{id: "sky", src: imgPath("sky.png")},
-		{id: "dirt_ground_1", src: imgPath("dirt_ground_1.png")}
+		{id: "dirt_soil_1", src: imgPath("dirt_soil_1.png")},
+		{id: "grass_ground_1", src: imgPath("grass_ground_1.png")},
 	];
 	
 	var Bootstrap = function() {

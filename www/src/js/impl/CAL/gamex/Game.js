@@ -12,13 +12,18 @@ this.CAL.gamex = this.CAL.gamex || {};
 	CAL.gamex.ASPECT_RATIO = CAL.gamex.ASPECT_RATIO_Y / CAL.gamex.ASPECT_RATIO_X;
 	
 	var Keys = {
-		DELTA: 0,
-		UPDATEPARAMS: 1,
-		FPS_TIME: 2,
-		FONT: 3,
-		SPRITE_SKY: 4,
-		SPRITE_GROUND: 5,
-	}
+		DELTA: "delta",
+		UPDATEPARAMS: "update_params",
+		FPS_TIME: "fps_time",
+		FONT: "font",
+		SPRITE_MANAGER: "sprite_manager",
+		Sprites: {
+			SKY: "sky",
+			SOIL: "soil",
+			GROUND: "ground",
+			GROUND_2: "ground2"
+		},
+	};
 	
 	
 	
@@ -39,15 +44,21 @@ this.CAL.gamex = this.CAL.gamex || {};
 		if (updateParams.first) {
 			jQuery(canvas).css("background-color", CAL.graphics.Colors.BLACK);
 			
-			this.cache[Keys.SPRITE_SKY] = new CAL.graphics.Sprite({
+			var sm = this.cache[Keys.SPRITE_MANAGER] = new CAL.graphics.SpriteManager();
+			
+			sm.pushSprite(new CAL.graphics.Sprite({
 				image: updateParams.resources.getResult("sky"),
-			});
+			}), Keys.Sprites.SKY);
 			
-			this.cache[Keys.SPRITE_GROUND] = new CAL.graphics.Sprite({
-				image: updateParams.resources.getResult("dirt_ground_1"),
-			});
+			sm.pushSprite(new CAL.graphics.Sprite({
+				image: updateParams.resources.getResult("dirt_soil_1"),
+			}), Keys.Sprites.SOIL);
 			
-			console.log(this.cache[Keys.SPRITE_SKY]);
+			sm.pushSprite(new CAL.graphics.Sprite({
+				image: updateParams.resources.getResult("grass_ground_1"),
+			}), Keys.Sprites.GROUND);
+			
+			sm.pushSprite(sm.getSprite(Keys.Sprites.GROUND).clone(), Keys.Sprites.GROUND_2);
 
 			var fps = CAL.gamex.TARGET_UPDATE_FPS;
 			this.cache[Keys.FPS_TIMER] = new CAL.util.DeltaTimer(fps, fps)
@@ -59,17 +70,29 @@ this.CAL.gamex = this.CAL.gamex || {};
 			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 50, [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
 		}
 		
+		var sm = this.cache[Keys.SPRITE_MANAGER];
+		
 		this.cache[Keys.FPS_TIMER].update(delta);
 		var viewport = updateParams.viewport;
 		
-		var skySprite = this.cache[Keys.SPRITE_SKY];
+		var skySprite = sm.getSprite(Keys.Sprites.SKY);
 		skySprite.scaleTo(updateParams.viewport);
 		
-		var groundSprite = this.cache[Keys.SPRITE_GROUND];
-		groundSprite.scaleWidthTo(viewport.x);
-		groundSprite.scaleHeightTo(viewport.y / 4);
+		var soilSprite = sm.getSprite(Keys.Sprites.SOIL);
+		soilSprite.scaleWidthTo(viewport.x);
+		soilSprite.scaleHeightTo(viewport.y / 4);
+		soilSprite.setY(viewport.y - soilSprite.getHeight());
 		
-		groundSprite.setY(viewport.y - groundSprite.getHeight());
+		var groundSprite = sm.getSprite(Keys.Sprites.GROUND);
+		groundSprite.scaleWidthTo(viewport.x / 2);
+		groundSprite.scaleHeightTo(viewport.y / 50);
+		groundSprite.setY(soilSprite.getY() - groundSprite.getHeight());
+		
+		var groundSprite2 = sm.getSprite(Keys.Sprites.GROUND_2);
+		groundSprite2.scaleWidthTo(viewport.x / 2);
+		groundSprite2.scaleHeightTo(viewport.y / 50);
+		groundSprite2.setY(groundSprite.getY());
+		groundSprite2.setX(groundSprite.getX() + groundSprite.getWidth() + 1);
 	}
 	
 	p.draw = function(renderParams) {
@@ -80,8 +103,13 @@ this.CAL.gamex = this.CAL.gamex || {};
 		context.fillStyle = CAL.graphics.Colors.BLACK;
 		context.fillRect(0, 0, canvas.width, canvas.height);
 		
-		this.cache[Keys.SPRITE_SKY].draw(context);
-		this.cache[Keys.SPRITE_GROUND].draw(context);
+		this.cache[Keys.SPRITE_MANAGER].draw(context);
+		var sm = this.cache[Keys.SPRITE_MANAGER];
+		var groundSprite = sm.getSprite(Keys.Sprites.GROUND);
+		var c = groundSprite.clone();
+		
+		c.setX(c.getX() + c.getWidth());
+		c.draw(context);
 		
 		context.font = this.cache[Keys.FONT];
 		context.fillStyle = CAL.graphics.Colors.BLACK;
