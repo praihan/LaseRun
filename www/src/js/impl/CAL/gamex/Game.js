@@ -104,12 +104,6 @@ this.CAL.gamex = this.CAL.gamex || {};
 		context.fillRect(0, 0, canvas.width, canvas.height);
 		
 		this.cache[Keys.SPRITE_MANAGER].draw(context);
-		var sm = this.cache[Keys.SPRITE_MANAGER];
-		var groundSprite = sm.getSprite(Keys.Sprites.GROUND);
-		var c = groundSprite.clone();
-		
-		c.setX(c.getX() + c.getWidth());
-		c.draw(context);
 		
 		context.font = this.cache[Keys.FONT];
 		context.fillStyle = CAL.graphics.Colors.BLACK;
