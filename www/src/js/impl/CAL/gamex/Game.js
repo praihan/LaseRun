@@ -92,7 +92,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 		groundSprite2.scaleWidthTo(viewport.x / 2);
 		groundSprite2.scaleHeightTo(viewport.y / 50);
 		groundSprite2.setY(groundSprite.getY());
-		groundSprite2.setX(groundSprite.getX() + groundSprite.getWidth() + 1);
+		groundSprite2.setX(groundSprite.getX() + groundSprite.getWidth());
 	}
 	
 	p.draw = function(renderParams) {
