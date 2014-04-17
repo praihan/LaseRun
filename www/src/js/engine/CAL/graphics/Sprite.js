@@ -32,7 +32,6 @@ this.CAL.graphics = this.CAL.graphics || {};
 				this.setLocation(0, 0);
 			}
 			var s = this.getSize();
-			this.setOrigin(params.origin || {x: s.x / 2, y: s.y / 2});
 			return;
 		} else if (params.sprite) {
 			var sprite = params.sprite;
@@ -49,16 +48,12 @@ this.CAL.graphics = this.CAL.graphics || {};
 			if (typeof params.rotation === "undefined") {
 				this.setRotation(sprite.getRotation());
 			}
-			if (typeof params.origin === "undefined") {
-				this.setOrigin(sprite.getOrigin());
-			}
 			if (typeof params.flip === "undefined") {
 				this.setFlip(sprite.getFlip());
 			}			
 			return;
 		} else {
 			var s = this.getSize();
-			this.setOrigin(params.origin || {x: s.x / 2, y: s.y / 2});
 		}
 		throw "No image source specified";
 	}
@@ -110,26 +105,6 @@ this.CAL.graphics = this.CAL.graphics || {};
 		this._rotation = (this._rotation + radians) % TWO_PI;
 	}
 	
-	p.getOrigin = function() {
-		return this._origin;
-	}
-	
-	p.setOrigin = function(x, y) {
-		if (typeof y === "undefined") {
-			this._origin = CAL.graphics.Vector2(x.x || 0, x.y || 0);
-		} else {
-			this._origin = CAL.graphics.Vector2(x || 0, y);
-		}
-	}
-	
-	p.setOriginX = function(x) {
-		this._origin.x = x;
-	}
-	
-	p.setOriginY = function(y) {
-		this._origin.y = y;
-	}
-	
 	p.setFlip = function(boolX, boolY) {
 		if (typeof boolY === "undefined") {
 			this._flip = {x: boolX.x, y: boolX.y};
@@ -169,22 +144,18 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	p.scaleWidth = function(scaleW) {
 		this.setWidth(this.getWidth() * scaleW);
-		this.setOriginX(this.getOrigin().x * scaleW);
 	}
 	
 	p.scaleHeight = function(scaleH) {
 		this.setHeight(this.getHeight() * scaleH);
-		this.setOriginY(this.getOrigin().y * scaleH);
 	}
 	
 	p.scaleWidthTo = function(w) {
 		this.setWidth(w);
-		this.setOriginX(this.getOrigin().x * w / this.getWidth());
 	}
 	
 	p.scaleHeightTo = function(h) {
 		this.setHeight(h);
-		this.setOriginY(this.getOrigin().y * h / this.getHeight());
 	}
 	
 	p.scaleTo = function(w, h) {
@@ -219,11 +190,11 @@ this.CAL.graphics = this.CAL.graphics || {};
 		var position;
 		if (r != 0) {
 			var o = this.getOrigin();
-			context.translate(l.x + o.x, l.y + o.y);
+			context.translate(l.x + s.x / 2, l.y + s.y / 2);
 			context.rotate(r);
 			position = {
-				x: -s.x / 2,
-				y: -s.y / 2
+				x: (-s.x) / 2,
+				y: (-s.y) / 2
 			}
 		} else {
 			position = {
@@ -240,6 +211,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 			c.y, 
 			this._image.width + c.x, 
 			this._image.height + c.y, 
+			// s.x,s.y,
 			position.x, 
 			position.y, 
 			s.x, 

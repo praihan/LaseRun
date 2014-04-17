@@ -83,10 +83,11 @@ this.CAL.gamex = this.CAL.gamex || {};
 		soilSprite.scaleHeightTo(viewport.y / 4);
 		soilSprite.setY(viewport.y - soilSprite.getHeight());
 		
-		var groundSprite = sm.getSprite(Keys.Sprites.GROUND);
+		var groundSprite = sm.getSprite(Keys.Sprites.GROUND);			
 		groundSprite.scaleWidthTo(viewport.x / 2);
 		groundSprite.scaleHeightTo(viewport.y / 50);
 		groundSprite.setY(soilSprite.getY() - groundSprite.getHeight());
+		
 		
 		var groundSprite2 = sm.getSprite(Keys.Sprites.GROUND_2);
 		groundSprite2.scaleWidthTo(viewport.x / 2);
