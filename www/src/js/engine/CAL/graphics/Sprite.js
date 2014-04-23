@@ -68,7 +68,6 @@ this.CAL.graphics = this.CAL.graphics || {};
 		sAttr.image = this._image;
 		sAttr.clipping = this.getClipping();
 		sAttr.rotation = this.getRotation();
-		sAttr.origin = this.getOrigin();
 		sAttr.flip = this.getFlip();
 		return sAttr;
 	}
@@ -189,7 +188,6 @@ this.CAL.graphics = this.CAL.graphics || {};
 		
 		var position;
 		if (r != 0) {
-			var o = this.getOrigin();
 			context.translate(l.x + s.x / 2, l.y + s.y / 2);
 			context.rotate(r);
 			position = {
