@@ -7,9 +7,14 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	var TWO_PI = Math.PI * 2;
 	
+	var DisplayObject$getAttributes;
+	
 	var Sprite = function(params) {
-		CAL.lang.extend(this, new CAL.graphics.DisplayObject());
-		
+		var base = new CAL.graphics.DisplayObject();
+		if (!DisplayObject$getAttributes) {
+			DisplayObject$getAttributes = base.getAttributes;
+		}
+		CAL.lang.extend(this, base);		
 		if (typeof params === "undefined") {
 			throw CAL.lang.exception("undefined", "Undefined paramaters");
 		}

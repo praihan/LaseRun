@@ -46,6 +46,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 			
 			var sm = this.cache[Keys.SPRITE_MANAGER] = new CAL.graphics.SpriteManager();
 			
+			/*
 			sm.pushSprite(new CAL.graphics.Sprite({
 				image: updateParams.resources.getResult("sky"),
 			}), Keys.Sprites.SKY);
@@ -59,7 +60,13 @@ this.CAL.gamex = this.CAL.gamex || {};
 			}), Keys.Sprites.GROUND);
 			
 			sm.pushSprite(sm.getSprite(Keys.Sprites.GROUND).clone(), Keys.Sprites.GROUND_2);
-
+			
+			*/
+			
+			sm.pushSprite(new CAL.graphics.ParallaxSprite({
+				image: updateParams.resources.getResult("sky"),
+			}), Keys.Sprites.SKY);
+			
 			var fps = CAL.gamex.TARGET_UPDATE_FPS;
 			this.cache[Keys.FPS_TIMER] = new CAL.util.DeltaTimer(fps, fps)
 				.postCallback(
@@ -72,9 +79,13 @@ this.CAL.gamex = this.CAL.gamex || {};
 		
 		var sm = this.cache[Keys.SPRITE_MANAGER];
 		
+		var test = sm.getSprite(Keys.Sprites.SKY);
+		
+		test.
+		
 		this.cache[Keys.FPS_TIMER].update(delta);
 		var viewport = updateParams.viewport;
-		
+		/*
 		var skySprite = sm.getSprite(Keys.Sprites.SKY);
 		skySprite.scaleTo(updateParams.viewport);
 		
@@ -94,6 +105,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 		groundSprite2.scaleHeightTo(viewport.y / 50);
 		groundSprite2.setY(groundSprite.getY());
 		groundSprite2.setX(groundSprite.getX() + groundSprite.getWidth());
+		*/
 	}
 	
 	p.draw = function(renderParams) {
