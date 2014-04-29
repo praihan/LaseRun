@@ -46,11 +46,6 @@ this.CAL.gamex = this.CAL.gamex || {};
 			
 			var sm = this.cache[Keys.SPRITE_MANAGER] = new CAL.graphics.SpriteManager();
 			
-<<<<<<< HEAD
-			
-			sm.pushSprite();
-=======
->>>>>>> ad90f318b9eea925efc04bf0290f769d824e0971
 			/*
 			sm.pushSprite(new CAL.graphics.Sprite({
 				image: updateParams.resources.getResult("sky"),
@@ -65,10 +60,6 @@ this.CAL.gamex = this.CAL.gamex || {};
 			}), Keys.Sprites.GROUND);
 			
 			sm.pushSprite(sm.getSprite(Keys.Sprites.GROUND).clone(), Keys.Sprites.GROUND_2);
-<<<<<<< HEAD
-			*/
-			
-=======
 			
 			*/
 			
@@ -76,7 +67,6 @@ this.CAL.gamex = this.CAL.gamex || {};
 				image: updateParams.resources.getResult("sky"),
 			}), Keys.Sprites.SKY);
 			
->>>>>>> ad90f318b9eea925efc04bf0290f769d824e0971
 			var fps = CAL.gamex.TARGET_UPDATE_FPS;
 			this.cache[Keys.FPS_TIMER] = new CAL.util.DeltaTimer(fps, fps)
 				.postCallback(
