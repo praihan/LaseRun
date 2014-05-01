@@ -81,7 +81,9 @@ this.CAL.gamex = this.CAL.gamex || {};
 		
 		var test = sm.getSprite(Keys.Sprites.SKY);
 		
-		test.
+		test.scrollX(0.1 * delta);
+		// test.scaleTo(updateParams.viewport);
+		test.setSize(500, 500);
 		
 		this.cache[Keys.FPS_TIMER].update(delta);
 		var viewport = updateParams.viewport;

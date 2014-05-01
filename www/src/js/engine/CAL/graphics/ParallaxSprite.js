@@ -26,15 +26,16 @@ this.CAL.graphics = this.CAL.graphics || {};
 			x = x.x;
 		}
 		var s = this.getSize();
-		this._scroll = {x: x % s.x, y: y % s.y};
+		// var c = this.getClipping();
+		this._scroll = {x: x % (s.x), y: y % (s.y)};
 	}
 	
 	p.setScrollX = function(x) {
-		this._scroll.x = x % this.getWidth();
+		this.setScroll(x, this.getScrollY());
 	}
 	
 	p.setScrollY = function(y) {
-		this._scroll.y = y % this.getWidth();
+		this.setScroll(this.getScrollX(), y);
 	}
 	
 	p.getScroll = function() {
@@ -91,6 +92,11 @@ this.CAL.graphics = this.CAL.graphics || {};
 		context.scale(f.x ? -1 : 1, f.y ? -1 : 1);
 		var sc = this.getScroll();
 		// context.drawImage(this._image, c.x, c.y, s.x, s.y, position.x, position.y, s.x, s.y);
+		
+		var drawFirst = true;
+		var drawSecond = false;
+		
+		if (drawFirst)
 		context.drawImage(
 			this._image, 
 			c.x + sc.x, 
@@ -100,11 +106,20 @@ this.CAL.graphics = this.CAL.graphics || {};
 			// s.x,s.y,
 			position.x, 
 			position.y, 
-			s.x, 
-			s.y);
+			s.x - sc.x, 
+			s.y - sc.y);
+		
+		if (drawSecond)
 		context.drawImage(
 			this._image,
 			c.x + s.x + sc.x,
+			c.y + s.y + sc.y,
+			this._image.width + c.x, 
+			this._image.height + c.y,
+			position.x - s.x,
+			position.y - s.y,
+			sc.x,
+			sc.y);
 		
 		context.restore();
 	}
