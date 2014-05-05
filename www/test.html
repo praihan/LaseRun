@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+		
+    <body>
+		<link rel="stylesheet" type="text/css" href="assets/default-style.css" media="screen" />
+		
+        <canvas id="main-canvas" tabindex="0">Your browser does not support HTML5 canvas. Please install a browser that supports HTML5</canvas>
+		
+		<script>
+		
+		var canvas = document.getElementById("main-canvas");
+		var context = canvas.getContext("2d");
+		var img = document.createElement("img");
+		img.src = "assets/img/sky.png";
+		
+		
+		canvas.focus();
+		var resize = function() {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		}
+		window.addEventListener("resize", resize, false);
+		resize();
+		
+		img.onload = function() {
+			window.setInterval(update, 1000/60);
+		}
+		
+		var update = function() {
+			context.drawImage(img, 0, 0, 50, img.height, 0, 0, img.width, img.height);
+		}
+		
+		
+		
+		</script>
+    </body>
+    
+</html>

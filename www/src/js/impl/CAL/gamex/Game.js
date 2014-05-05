@@ -60,12 +60,16 @@ this.CAL.gamex = this.CAL.gamex || {};
 			}), Keys.Sprites.GROUND);
 			
 			sm.pushSprite(sm.getSprite(Keys.Sprites.GROUND).clone(), Keys.Sprites.GROUND_2);
-			
 			*/
+			
 			
 			sm.pushSprite(new CAL.graphics.ParallaxSprite({
 				image: updateParams.resources.getResult("sky"),
 			}), Keys.Sprites.SKY);
+			
+			sm.pushSprite(new CAL.graphics.Sprite({
+				image: updateParams.resources.getResult("sky"),
+			}), "t2");
 			
 			var fps = CAL.gamex.TARGET_UPDATE_FPS;
 			this.cache[Keys.FPS_TIMER] = new CAL.util.DeltaTimer(fps, fps)
@@ -77,17 +81,31 @@ this.CAL.gamex = this.CAL.gamex || {};
 			this.cache[Keys.FONT] = CAL.graphics.getFont("Ubuntu Mono", 50, [CAL.graphics.FontStyles.BOLD, CAL.graphics.FontStyles.ITALIC]);
 		}
 		
+		this.cache[Keys.FPS_TIMER].update(delta);
+		
+		
 		var sm = this.cache[Keys.SPRITE_MANAGER];
 		
 		var test = sm.getSprite(Keys.Sprites.SKY);
+		var t2 = sm.getSprite("t2");
 		
 		test.scrollX(0.1 * delta);
+		// test.scrollY(0.1 * delta);
+		// test.setScrollX(0.1);
 		// test.scaleTo(updateParams.viewport);
-		test.setSize(500, 500);
+		test.setLocation(100, 50);
+		test.scaleByWidthTo(50);
 		
-		this.cache[Keys.FPS_TIMER].update(delta);
-		var viewport = updateParams.viewport;
+		test.setClippingX(100);
+		
+		t2.scaleByWidthTo(400);
+		t2.setLocation(400, 400);
+		t2.setClippingX(0);
+		
+		
 		/*
+		var viewport = updateParams.viewport;
+		
 		var skySprite = sm.getSprite(Keys.Sprites.SKY);
 		skySprite.scaleTo(updateParams.viewport);
 		

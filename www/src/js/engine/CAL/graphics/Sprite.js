@@ -7,14 +7,8 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	var TWO_PI = Math.PI * 2;
 	
-	var DisplayObject$getAttributes;
-	
 	var Sprite = function(params) {
-		var base = new CAL.graphics.DisplayObject();
-		if (!DisplayObject$getAttributes) {
-			DisplayObject$getAttributes = base.getAttributes;
-		}
-		CAL.lang.extend(this, base);		
+		Sprite.super.call(this);		
 		if (typeof params === "undefined") {
 			throw CAL.lang.exception("undefined", "Undefined paramaters");
 		}
@@ -62,6 +56,8 @@ this.CAL.graphics = this.CAL.graphics || {};
 		}
 		throw "No image source specified";
 	}
+	
+	CAL.lang.extend(Sprite, CAL.graphics.DisplayObject);
 	
 	var p = Sprite.prototype;
 	var s = Sprite;
@@ -212,13 +208,15 @@ this.CAL.graphics = this.CAL.graphics || {};
 			this._image, 
 			c.x, 
 			c.y, 
-			this._image.width + c.x, 
-			this._image.height + c.y, 
+			// this._image.width + c.x, 
+			// this._image.height + c.y, 
 			// s.x,s.y,
+			this._image.width, 
+			this._image.height, 
 			position.x, 
 			position.y, 
-			s.x, 
-			s.y);
+			s.x + c.x, 
+			s.y + c.y);
 		context.restore();
 	}
 	

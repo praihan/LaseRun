@@ -148,6 +148,15 @@ this.CAL = this.CAL || {};
 	
 	
 	lang.extend = function(child, parent) {
+		if (typeof child === "function" && typeof parent === "function") {
+			_extend(child.prototype, parent.prototype);
+			_extend(child, parent);
+			child.super = parent;
+		}
+		_extend(child, parent);
+	}
+	
+	var _extend = function(child, parent) {
 		for (var i in parent) {
 			if (!child[i]) {
 				child[i] = parent[i];
@@ -159,11 +168,11 @@ this.CAL = this.CAL || {};
 	
 	
 	var exceptionAliases = {
-		"ioob": "IndexOutOfBoundsException",
-		"undefined": "UndefinedValueException",
-		"badtype": "TypeMismatchException",
-		"nosupport": "UnsupportedFeatureException",
-		"unknown": "UnknownException",		
+		"ioob": "IndexOutOfBoundsException", 
+		"undefined": "UndefinedValueException", 
+		"badtype": "TypeMismatchException", 
+		"nosupport": "UnsupportedFeatureException", 
+		"unknown": "UnknownException", 
 	}
 	lang.exception = function(type, message, disableAlias) {
 		var title = disableAlias ? type : (exceptionAliases[type] || type);

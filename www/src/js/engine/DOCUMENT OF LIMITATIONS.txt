@@ -1,0 +1,10 @@
+CAL.graphics.ParallaxSprite
+===========================
+
+# Clipping is ignored.
+	Solutions:
+	- Use CAL.graphics.Sprite.extractImage to extract the image from a sprite and make a new ParallaxSprite with it.
+
+# Rotation is ignored.
+	Solutions:
+	- None

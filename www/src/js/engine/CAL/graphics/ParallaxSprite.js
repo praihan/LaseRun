@@ -7,27 +7,28 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	var TWO_PI = Math.PI * 2;
 	
-	// var drawBase;
-	
 	var ParallaxSprite = function(params) {
-		var base = new CAL.graphics.Sprite(params);
-		// if (!drawBase) {
-			// drawBase = base.draw;
-		// }
-		CAL.lang.extend(this, base);
+		ParallaxSprite.super.call(this, params);
 		this.setScroll(0, 0);
 	}
 	
+	CAL.lang.extend(ParallaxSprite, CAL.graphics.Sprite);
+	
 	var p = ParallaxSprite.prototype;
+	
+	p.clone = function() {
+		return new ParallaxSprite(this);
+	}
 	
 	p.setScroll = function(x, y) {
 		if (typeof y === "undefined") {
 			y = x.y;
 			x = x.x;
 		}
-		var s = this.getSize();
-		// var c = this.getClipping();
-		this._scroll = {x: x % (s.x), y: y % (s.y)};
+		var c = this.getClipping();
+		// this._scroll = {x: x % (s.x - c.x), y: y % (s.y - c.y)};
+		// this._scroll = {x: x % (s.x - c.x), y: y % (s.y - c.y)};
+		this._scroll = {x: x % (this._image.width - c.x), y: y % (this._image.height - c.y)};
 	}
 	
 	p.setScrollX = function(x) {
@@ -71,99 +72,57 @@ this.CAL.graphics = this.CAL.graphics || {};
 		var c = this.getClipping();
 		var s = this.getSize();
 		var l = this.getLocation();
-		var r = this.getRotation();
 		var f = this.getFlip();
 		
-		var position;
-		if (r != 0) {
-			context.translate(l.x + s.x / 2, l.y + s.y / 2);
-			context.rotate(r);
-			position = {
-				x: (-s.x) / 2,
-				y: (-s.y) / 2
-			}
-		} else {
-			position = {
-				x: l.x,
-				y: l.y
-			}
+		var position = {
+			x: l.x,
+			y: l.y
 		}
+				
+		var img = this._image;
 		
 		context.scale(f.x ? -1 : 1, f.y ? -1 : 1);
+		
 		var sc = this.getScroll();
-		// context.drawImage(this._image, c.x, c.y, s.x, s.y, position.x, position.y, s.x, s.y);
 		
-		var drawFirst = true;
-		var drawSecond = false;
 		
-		if (drawFirst)
+		var ratioX, ratioY;
+		ratioX = (parseFloat(s.x) / parseFloat(img.width));
+		ratioY = (parseFloat(s.y) / parseFloat(img.height));
+		
 		context.drawImage(
-			this._image, 
+			img, 
 			c.x + sc.x, 
 			c.y + sc.y, 
-			this._image.width + c.x, 
-			this._image.height + c.y, 
-			// s.x,s.y,
+			img.width + c.x, 
+			img.height + c.y, 
 			position.x, 
 			position.y, 
-			s.x - sc.x, 
-			s.y - sc.y);
+			s.x + c.x,
+			s.y + c.y
+			// ratioX * (s.x + c.x), 
+			// ratioY * (s.y + c.y)
+			);
+		console.log(ratioX);
 		
-		if (drawSecond)
+		var scx = parseInt(sc.x) ? true : false;
+		var scy = parseInt(sc.y) ? true : false;
+		
+		if (!scx && !scy) return;	
+		
 		context.drawImage(
 			this._image,
-			c.x + s.x + sc.x,
-			c.y + s.y + sc.y,
-			this._image.width + c.x, 
-			this._image.height + c.y,
-			position.x - s.x,
-			position.y - s.y,
-			sc.x,
-			sc.y);
-		
-		context.restore();
-	}
-	
-	/*
-		p.draw = function(context) {
-		context.save();
-		var c = this.getClipping();
-		var s = this.getSize();
-		var l = this.getLocation();
-		var r = this.getRotation();
-		var f = this.getFlip();
-		
-		var position;
-		if (r != 0) {
-			context.translate(l.x + s.x / 2, l.y + s.y / 2);
-			context.rotate(r);
-			position = {
-				x: (-s.x) / 2,
-				y: (-s.y) / 2
-			}
-		} else {
-			position = {
-				x: l.x,
-				y: l.y
-			}
-		}
-		
-		context.scale(f.x ? -1 : 1, f.y ? -1 : 1);
-		// context.drawImage(this._image, c.x, c.y, s.x, s.y, position.x, position.y, s.x, s.y);
-		context.drawImage(
-			this._image, 
 			c.x, 
 			c.y, 
-			this._image.width + c.x, 
-			this._image.height + c.y, 
-			// s.x,s.y,
-			position.x, 
-			position.y, 
-			s.x, 
-			s.y);
+			scx ? sc.x : img.width + c.x, 
+			scy ? sc.y : img.height + c.y, 
+			scx ? (position.x + s.x - ratioX * (sc.x)) : position.x, 
+			scy ? (position.y + s.y - ratioY * (sc.y)) : position.y, 
+			scx ? (ratioX) * (sc.x) : s.x,
+			scy ? ratioY * (sc.y) : s.y);
+		
 		context.restore();
 	}
-	*/
 	
 	CAL.graphics.ParallaxSprite = ParallaxSprite;
 	
