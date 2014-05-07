@@ -46,23 +46,23 @@ this.CAL.gamex = this.CAL.gamex || {};
 			
 			var sm = this.cache[Keys.SPRITE_MANAGER] = new CAL.graphics.SpriteManager();
 			
-			/*
-			sm.pushSprite(new CAL.graphics.Sprite({
+			
+			sm.pushSprite(new CAL.graphics.ParallaxSprite({
 				image: updateParams.resources.getResult("sky"),
 			}), Keys.Sprites.SKY);
 			
-			sm.pushSprite(new CAL.graphics.Sprite({
+			sm.pushSprite(new CAL.graphics.ParallaxSprite({
 				image: updateParams.resources.getResult("dirt_soil_1"),
 			}), Keys.Sprites.SOIL);
 			
-			sm.pushSprite(new CAL.graphics.Sprite({
+			sm.pushSprite(new CAL.graphics.ParallaxSprite({
 				image: updateParams.resources.getResult("grass_ground_1"),
 			}), Keys.Sprites.GROUND);
 			
 			sm.pushSprite(sm.getSprite(Keys.Sprites.GROUND).clone(), Keys.Sprites.GROUND_2);
-			*/
 			
 			
+			/*
 			sm.pushSprite(new CAL.graphics.ParallaxSprite({
 				image: updateParams.resources.getResult("sky"),
 			}), Keys.Sprites.SKY);
@@ -70,6 +70,7 @@ this.CAL.gamex = this.CAL.gamex || {};
 			sm.pushSprite(new CAL.graphics.Sprite({
 				image: updateParams.resources.getResult("sky"),
 			}), "t2");
+			*/
 			
 			var fps = CAL.gamex.TARGET_UPDATE_FPS;
 			this.cache[Keys.FPS_TIMER] = new CAL.util.DeltaTimer(fps, fps)
@@ -86,24 +87,11 @@ this.CAL.gamex = this.CAL.gamex || {};
 		
 		var sm = this.cache[Keys.SPRITE_MANAGER];
 		
-		var test = sm.getSprite(Keys.Sprites.SKY);
-		var t2 = sm.getSprite("t2");
+		var right = updateParams.keyboard.isDown("Right");
+		var left = updateParams.keyboard.isDown("Left");
 		
-		test.scrollX(0.1 * delta);
-		// test.scrollY(0.1 * delta);
-		// test.setScrollX(0.1);
-		// test.scaleTo(updateParams.viewport);
-		test.setLocation(100, 50);
-		test.scaleByWidthTo(50);
+		var scrollVel = right ^ left ? right ? 0.1 : -0.1 : 0;	
 		
-		test.setClippingX(100);
-		
-		t2.scaleByWidthTo(400);
-		t2.setLocation(400, 400);
-		t2.setClippingX(0);
-		
-		
-		/*
 		var viewport = updateParams.viewport;
 		
 		var skySprite = sm.getSprite(Keys.Sprites.SKY);
@@ -119,13 +107,19 @@ this.CAL.gamex = this.CAL.gamex || {};
 		groundSprite.scaleHeightTo(viewport.y / 50);
 		groundSprite.setY(soilSprite.getY() - groundSprite.getHeight());
 		
-		
 		var groundSprite2 = sm.getSprite(Keys.Sprites.GROUND_2);
 		groundSprite2.scaleWidthTo(viewport.x / 2);
 		groundSprite2.scaleHeightTo(viewport.y / 50);
 		groundSprite2.setY(groundSprite.getY());
 		groundSprite2.setX(groundSprite.getX() + groundSprite.getWidth());
-		*/
+		
+		if (scrollVel) {
+			skySprite.scrollX(scrollVel * delta);
+			groundSprite.scrollX(scrollVel * delta);
+			groundSprite2.scrollX(scrollVel * delta);
+			soilSprite.scrollX(scrollVel * delta);
+		}
+		
 	}
 	
 	p.draw = function(renderParams) {

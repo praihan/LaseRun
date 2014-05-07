@@ -1,7 +1,7 @@
 CAL.graphics.ParallaxSprite
 ===========================
 
-# Clipping is ignored.
+# Clipping does not work in conjunction with a change in size and vice versa
 	Solutions:
 	- Use CAL.graphics.Sprite.extractImage to extract the image from a sprite and make a new ParallaxSprite with it.
 

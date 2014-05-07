@@ -17,7 +17,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 	var p = ParallaxSprite.prototype;
 	
 	p.clone = function() {
-		return new ParallaxSprite(this);
+		return new ParallaxSprite({sprite: this});
 	}
 	
 	p.setScroll = function(x, y) {
@@ -90,6 +90,14 @@ this.CAL.graphics = this.CAL.graphics || {};
 		ratioX = (parseFloat(s.x) / parseFloat(img.width));
 		ratioY = (parseFloat(s.y) / parseFloat(img.height));
 		
+		while (sc.x < 0) {
+			sc.x += img.width - c.x;
+		}
+		
+		while (sc.y < 0) {
+			sc.y += img.height + c.y;
+		}
+		
 		context.drawImage(
 			img, 
 			c.x + sc.x, 
@@ -100,26 +108,18 @@ this.CAL.graphics = this.CAL.graphics || {};
 			position.y, 
 			s.x + c.x,
 			s.y + c.y
-			// ratioX * (s.x + c.x), 
-			// ratioY * (s.y + c.y)
 			);
-		console.log(ratioX);
-		
-		var scx = parseInt(sc.x) ? true : false;
-		var scy = parseInt(sc.y) ? true : false;
-		
-		if (!scx && !scy) return;	
 		
 		context.drawImage(
 			this._image,
 			c.x, 
 			c.y, 
-			scx ? sc.x : img.width + c.x, 
-			scy ? sc.y : img.height + c.y, 
-			scx ? (position.x + s.x - ratioX * (sc.x)) : position.x, 
-			scy ? (position.y + s.y - ratioY * (sc.y)) : position.y, 
-			scx ? (ratioX) * (sc.x) : s.x,
-			scy ? ratioY * (sc.y) : s.y);
+			sc.x ? sc.x : img.width + c.x, 
+			sc.y ? sc.y : img.height + c.y, 
+			sc.x ? (position.x + s.x - ratioX * (sc.x)) : position.x, 
+			sc.y ? (position.y + s.y - ratioY * (sc.y)) : position.y, 
+			sc.x ? (ratioX) * (sc.x) : s.x,
+			sc.y ? (ratioY) * (sc.y) : s.y);
 		
 		context.restore();
 	}
