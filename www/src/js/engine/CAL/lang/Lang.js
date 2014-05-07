@@ -130,6 +130,7 @@ this.CAL = this.CAL || {};
 		}
 		return this.length != len;
 	}
+	
 	lang.newList = function() {
 		var rv = [];
 		
@@ -144,6 +145,18 @@ this.CAL = this.CAL || {};
 		return rv;
 	}
 	
+	
+	
+	lang._exposed.cutImage = function (image, x, y, width, height) {
+  		var canvas = document.createElement("canvas");
+  		canvas.width = width;
+  		canvas.height = height;
+  		
+  		var context = canvas.getContext("2d");
+  		context.drawImage(image, x, y, width, height, 0, 0, canvas.width, canvas.height);
+  		
+  		return canvas;
+	};
 	
 	
 	

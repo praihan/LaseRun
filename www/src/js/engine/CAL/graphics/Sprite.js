@@ -62,6 +62,10 @@ this.CAL.graphics = this.CAL.graphics || {};
 	var p = Sprite.prototype;
 	var s = Sprite;
 	
+	s.extractImage = function(sprite) {
+		
+	}
+	
 	var DisplayObject$getAttributes = p.getAttributes;
 	
 	p.getAttributes = function() {

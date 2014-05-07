@@ -28,16 +28,7 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	var p = SpriteSheet.prototype;
 	
-	var cutImage = function (image, x, y, width, height) {
-  		var canvas = document.createElement("canvas");
-  		canvas.width = width;
-  		canvas.height = height;
-  		
-  		var context = canvas.getContext("2d");
-  		context.drawImage(image, x, y, width, height, 0, 0, canvas.width, canvas.height);
-  		
-  		return canvas;
-	};
+	var cutImage = CAL.lang._exposed.cutImage;
 	
 	p.getSprite = function(x, y) {
 		if (typeof x === "string") {
