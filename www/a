@@ -1,0 +1,5 @@
+
+all :
+	java -jar ../tools/htminject/htminject.jar index.html index-test.html build.js
+
+.PHONY : all

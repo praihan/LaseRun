@@ -128,8 +128,8 @@ this.CAL.lang = this.CAL.lang || {};
 		}
 		for (var i = 0; i < arr.length; ++i) {
 			if (arr[i] === callbackObj) {
-				delete arr[i];
-				if (arr.length = 0) {
+				arr.splice(i, 1);
+				if (arr.length < 1) {
 					delete this._listeners[keyCode];
 				}
 				return;
@@ -153,8 +153,8 @@ this.CAL.lang = this.CAL.lang || {};
 		}
 		for (var i = 0; i < arr.length; ++i) {
 			if (arr[i] === callbackObj) {
-				delete arr[i];
-				if (arr.length = 0) {
+				arr.splice(i, 1);
+				if (arr.length < 1) {
 					delete this._pressListeners[keyCode];
 				}
 				return;

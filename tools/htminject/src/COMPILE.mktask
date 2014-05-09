@@ -1,0 +1,12 @@
+PROJECT_ROOT :=../../../..
+include $(PROJECT_ROOT)/GLOBAL.inc
+
+JAVAC_FLAGS :=-source 1.7 -Xlint:-options
+
+all : compile
+
+compile :
+	$(JAVAC) $(JAVAC_FLAGS) $(call fetch,./,*.java)
+	$(RM) -f $(call fetch,./,*.java)
+	
+.PHONY: all compile

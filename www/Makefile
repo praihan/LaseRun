@@ -1,9 +1,8 @@
 include Makefile.inc
+include SOURCES.inc
 
-SOURCE_FOLDER :=src
-INPUT_FILES :=$(call fetch,$(SOURCE_FOLDER)/,*.js)
-BUILD_DIR :=dist
-OUTPUT_FILE_NAME :=build-$(VERSION).js
+BUILD_DIR :=build
+OUTPUT_FILE_NAME :=build.js
 JSC_BASE_DIR :=$(PROJECT_ROOT)/$(TOOLS_JSCOMPILER)
 
 JSC =$(JAVA_JAR) $(JSC_BASE_DIR)/$(TOOLS_JSCOMPILER_FILENAME)
@@ -13,7 +12,10 @@ JSC_FLAGS :=--language_in ECMASCRIPT5
 all: build
 
 build: 
-	$(MKDIR) -p $(BUILD_DIR)/
+	$(MKDIR) -p $(BUILD_DIR)
 	$(JSC) $(JSC_FLAGS) $(TOOLS_JSCOMPILER_FLAG_INPUT) $(INPUT_FILES) $(TOOLS_JSCOMPILER_FLAG_OUTPUT) $(BUILD_DIR)/$(OUTPUT_FILE_NAME)
 
-.PHONY : $(INPUT_FILES) build all
+clean:
+	$(RM) -rf $(BUILD_DIR)
+
+.PHONY : $(INPUT_FILES) build all clean
