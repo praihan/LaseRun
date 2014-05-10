@@ -30,12 +30,12 @@ fetch =$(wildcard $(addsuffix $2, $1)) $(foreach d,$(wildcard $(addsuffix *, $1)
 
 
 
-TOOLS_DIR :=tools
+TOOLS_DIR =tools
 
-TOOLS_JSCOMPILER :=$(TOOLS_DIR)/jscompiler
-TOOLS_JSCOMPILER_FILENAME :=compiler.jar
-TOOLS_JSCOMPILER_FLAG_INPUT :=--js
-TOOLS_JSCOMPILER_FLAG_OUTPUT :=--js_output_file
+TOOLS_JSCOMPILER =$(TOOLS_DIR)/jscompiler
+TOOLS_JSCOMPILER_FILENAME =compiler.jar
+TOOLS_JSCOMPILER_FLAG_INPUT =--js
+TOOLS_JSCOMPILER_FLAG_OUTPUT =--js_output_file
 
-TOOLS_HTMINJECT :=$(TOOLS_DIR)/htminject
-TOOLS_HTMINJECT_FILENAME :=htminject.jar
+TOOLS_HTMINJECT =$(TOOLS_DIR)/htminject
+TOOLS_HTMINJECT_FILENAME =htminject.jar

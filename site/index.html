@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+    	<title>LaseRun - some short description</title>
+        <meta name="description" content="A good description of the game" />
+        <meta charset="utf-8" />
+        <meta http-equiv="content-type" content="text/html" />
+        
+        <link rel="shortcut icon" href="assets/img/favicon.ico" />
+        
+        <link rel="stylesheet" type="text/css" href="assets/default-style.css" media="screen" />
+        
+		<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+		
+		<script src="http://code.createjs.com/tweenjs-0.5.1.min.js"></script>
+		<script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>
+		<script src="http://code.createjs.com/preloadjs-0.4.1.min.js"></script>
+		
+		<div id="local_script">
+		    <script src="src/js/engine/createjs/Ticker.js"></script>
+			
+			<script src="src/js/engine/CAL/lang/Lang.js"></script>
+			<script src="src/js/engine/CAL/lang/IUpdateableObject.js"></script>
+			<script src="src/js/engine/CAL/lang/CachingObject.js"></script>
+			<script src="src/js/engine/CAL/lang/Keyboard.js"></script>
+			<script src="src/js/engine/CAL/lang/Mouse.js"></script>
+			
+			<script src="src/js/engine/CAL/util/DeltaTimer.js"></script>
+            
+			<script src="src/js/engine/CAL/graphics/Vector2.js"></script>
+			<script src="src/js/engine/CAL/graphics/Colors.js"></script>
+			<script src="src/js/engine/CAL/graphics/Fonts.js"></script>
+            <script src="src/js/engine/CAL/graphics/IDrawableObject.js"></script>
+			<script src="src/js/engine/CAL/graphics/DisplayObject.js"></script>
+			<script src="src/js/engine/CAL/graphics/Sprite.js"></script>
+			<script src="src/js/engine/CAL/graphics/ParallaxSprite.js"></script>
+			<script src="src/js/engine/CAL/graphics/SpriteSheet.js"></script>
+			<script src="src/js/engine/CAL/graphics/SpriteManager.js"></script>
+			
+            <script src="src/js/impl/CAL/gamex/GameConstants.js"></script>
+            <script src="src/js/impl/CAL/gamex/screens/Screen.js"></script>
+            <script src="src/js/impl/CAL/gamex/screens/LevelScreen.js"></script>
+            <script src="src/js/impl/CAL/gamex/screens/SkyLandScreen.js"></script>
+			<script src="src/js/impl/CAL/gamex/Game.js"></script>
+			<script src="src/js/impl/CAL/gamex/Bootstrap.js"></script>
+		</div>
+        
+        <script>
+            window.addEventListener('load', function() {CAL.gamex.Bootstrap.run("main-canvas");});
+        </script>
+        
+    </head>
+    
+    <body>
+        <canvas id="main-canvas" tabindex="0">Your browser does not support HTML5 canvas. Please install a browser that supports HTML5</canvas>
+    </body>
+    
+</html>
