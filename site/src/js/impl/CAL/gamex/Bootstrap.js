@@ -18,13 +18,20 @@ this.CAL.gamex = this.CAL.gamex || {};
 	
 	var preloadManifest = [
 	];
+	
 	var loadLevel = function(levelName) {
-		preloadManifest.push({id: levelName + "_sky", src: imgPath(subPath(levelName, "sky.png"))});
-		preloadManifest.push({id: levelName + "_floor", src: imgPath(subPath(levelName, "floor.png"))});
-		preloadManifest.push({id: levelName + "_ground", src: imgPath(subPath(levelName, "ground.png"))});
+		preloadManifest.push({id: levelName + "/sky", src: imgPath(subPath(levelName, "sky.png"))});
+		preloadManifest.push({id: levelName + "/floor", src: imgPath(subPath(levelName, "floor.png"))});
+		preloadManifest.push({id: levelName + "/ground", src: imgPath(subPath(levelName, "ground.png"))});
+	}
+	
+	var loadChar = function(charName) {
+		preloadManifest.push({id: "chars/" + charName, src: imgPath(subPath("chars", charName + ".png"))});
 	}
 	
 	loadLevel("skyland");
+	loadChar("red_ball");
+	loadChar("blue_ball");
 	
 	var Bootstrap = function() {
 	}

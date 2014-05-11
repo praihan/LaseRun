@@ -11,16 +11,9 @@ this.CAL.graphics = this.CAL.graphics || {};
 		this._size = CAL.graphics.Vector2(0, 0);
 	}
 	
-	CAL.lang.extend(DisplayObject, [CAL.lang.IUpdateableObject, CAL.graphics.IDrawableObject]);
+	CAL.lang.extend(DisplayObject, [CAL.graphics.IDrawableObject]);
 	
 	var p = DisplayObject.prototype;
-	
-	p.getAttributes = function() {
-		return  {
-			location: this.getLocation(),
-			size: this.getSize()
-		};
-	}
 	
 	p.getLocation = function() {
 		return this._location;
@@ -96,7 +89,41 @@ this.CAL.graphics = this.CAL.graphics || {};
 		this.setLocation(l.x + x, l.y + y);
 	}
 	
-	p.draw = function(params) {
+	p.scaleWidth = function(scaleW) {
+		this.setWidth(this.getWidth() * scaleW);
+	}
+	
+	p.scaleHeight = function(scaleH) {
+		this.setHeight(this.getHeight() * scaleH);
+	}
+	
+	p.scaleWidthTo = function(w) {
+		this.setWidth(w);
+	}
+	
+	p.scaleHeightTo = function(h) {
+		this.setHeight(h);
+	}
+	
+	p.scaleTo = function(w, h) {
+		if (typeof h === "undefined") {
+			h = w.y || w.height;
+			w = w.x || w.width;
+		}
+		this.scaleWidthTo(w);
+		this.scaleHeightTo(h);
+	}
+	
+	p.scaleByWidthTo = function(w) {
+		var newHeight = this.getHeight() * w / this.getWidth();
+		this.scaleWidthTo(w);
+		this.scaleHeightTo(newHeight);
+	}
+	
+	p.scaleByHeightTo = function(h) {
+		var newWidth = this.getWidth() * h / this.getHeight();
+		this.scaleHeightTo(h);
+		this.scaleWidthTo(newWidth);
 	}
 	
 	CAL.graphics.DisplayObject = DisplayObject;

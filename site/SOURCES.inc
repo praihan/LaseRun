@@ -21,7 +21,10 @@ INPUT_FILES := \
 	$(ENGINE)/graphics/Sprite.js \
 	$(ENGINE)/graphics/ParallaxSprite.js \
 	$(ENGINE)/graphics/SpriteSheet.js \
-	$(ENGINE)/graphics/SpriteManager.js \
+	$(ENGINE)/graphics/DrawableManager.js \
+	\
+	$(ENGINE)/objects/GameObject.js \
+	$(ENGINE)/objects/TexturedObject.js \
 	\
 	$(IMPL)/gamex/GameConstants.js \
 	$(IMPL)/gamex/screens/Screen.js \

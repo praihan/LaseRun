@@ -72,17 +72,6 @@ this.CAL.graphics = this.CAL.graphics || {};
 		return canvas;
 	}
 	
-	var DisplayObject$getAttributes = p.getAttributes;
-	
-	p.getAttributes = function() {
-		var sAttr = DisplayObject$getAttributes.call(this);
-		sAttr.image = this._image;
-		sAttr.clipping = this.getClipping();
-		sAttr.rotation = this.getRotation();
-		sAttr.flip = this.getFlip();
-		return sAttr;
-	}
-	
 	p.getClipping = function() {
 		return this._clipping;
 	}
@@ -152,43 +141,6 @@ this.CAL.graphics = this.CAL.graphics || {};
 		this.flip(false, true);
 	}
 	
-	p.scaleWidth = function(scaleW) {
-		this.setWidth(this.getWidth() * scaleW);
-	}
-	
-	p.scaleHeight = function(scaleH) {
-		this.setHeight(this.getHeight() * scaleH);
-	}
-	
-	p.scaleWidthTo = function(w) {
-		this.setWidth(w);
-	}
-	
-	p.scaleHeightTo = function(h) {
-		this.setHeight(h);
-	}
-	
-	p.scaleTo = function(w, h) {
-		if (typeof h === "undefined") {
-			h = w.y || w.height;
-			w = w.x || w.width;
-		}
-		this.scaleWidthTo(w);
-		this.scaleHeightTo(h);
-	}
-	
-	p.scaleByWidthTo = function(w) {
-		var newHeight = this.getHeight() * w / this.getWidth();
-		this.scaleWidthTo(w);
-		this.scaleHeightTo(newHeight);
-	}
-	
-	p.scaleByHeightTo = function(h) {
-		var newWidth = this.getWidth() * h / this.getHeight();
-		this.scaleHeightTo(h);
-		this.scaleWidthTo(newWidth);
-	}
-	
 	p.draw = function(context) {
 		context.save();
 		var c = this.getClipping();
@@ -232,6 +184,32 @@ this.CAL.graphics = this.CAL.graphics || {};
 	
 	p.clone = function() {
 		return new Sprite({sprite: this});
+	}
+	
+	s.relativeSize = function(type) {
+		var _this = this;
+		switch (type.toLowerCase()) {
+			case "display":
+			case "screen":
+				return {
+					width: function(val) {
+						return val.getWidth() / _this.getWidth(); 
+					},
+					height: function(val) {
+						return val.getHeight() / _this.getHeight(); 
+					}
+				}
+			case "image":
+			case "img":
+				return {
+					width: function(val) {
+						return val._image.width / _this._image.width; 
+					},
+					height: function(val) {
+						return val._image.height / _this._image.height; 
+					}
+				}
+		}
 	}
 	
 	CAL.graphics.Sprite = Sprite;

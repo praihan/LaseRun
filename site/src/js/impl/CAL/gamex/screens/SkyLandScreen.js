@@ -19,63 +19,65 @@ this.CAL.gamex.screens = this.CAL.gamex.screens || {};
 	
 	p.update = function(params) {
 		if (params.first) {
-			var sm = this._sm = new CAL.graphics.SpriteManager();
+			var dm = this._dm = new CAL.graphics.DrawableManager();
 			
 			var lvl = this.getLevelName();
 			
 			var res = function(name) {
-				return params.resources.getResult(lvl + "_" + name);
+				return params.resources.getResult(lvl + "/" + name);
 			}
 			
-			sm.pushSprite(new CAL.graphics.ParallaxSprite({
+			dm.pushDrawable(new CAL.objects.TexturedObject(new CAL.graphics.ParallaxSprite({
 				image: res("sky"),
-			}), "sky");
+			})), "sky");
 			
-			sm.pushSprite(new CAL.graphics.ParallaxSprite({
+			dm.pushDrawable(new CAL.objects.TexturedObject(new CAL.graphics.ParallaxSprite({
 				image: res("ground"),
-			}), "ground");
+			})), "ground");
 			
-			sm.pushSprite(new CAL.graphics.ParallaxSprite({
+			dm.pushDrawable(new CAL.objects.TexturedObject(new CAL.graphics.ParallaxSprite({
 				image: res("floor"),
-			}), "floor");
+			})), "floor");
 			
-			sm.pushSprite(sm.getSprite("floor").clone(), "floor2");
+			dm.pushDrawable(new CAL.objects.TexturedObject(new CAL.graphics.ParallaxSprite({
+				image: res("floor"),
+			})), "floor2");
 		}
 		
 		var delta = params.tickEvent.delta;
 		
-		var sm = this._sm;
+		var dm = this._dm;
 		
 		var right = params.keyboard.isDown("right");
 		var left = params.keyboard.isDown("left");
 		
-		var scrollVel = right ^ left ? right ? 0.1 : -0.1 : 0;	
+		var scrollVel = right ^ left ? right ? 3e-1 : -3e-1 : 0;	
 		
 		var viewport = params.viewport;
 		
-		var sky = sm.getSprite("sky");
+		var sky = dm.getDrawable("sky");
 		sky.scaleTo(params.viewport);
 		
-		var ground = sm.getSprite("ground");
+		var ground = dm.getDrawable("ground");
 		ground.scaleWidthTo(viewport.x);
 		ground.scaleHeightTo(viewport.y / 4);
 		ground.setY(viewport.y - ground.getHeight());
 		
-		var floor = sm.getSprite("floor");			
+		var floor = dm.getDrawable("floor");			
 		floor.scaleWidthTo(viewport.x / 2);
 		floor.scaleHeightTo(viewport.y / 50);
 		floor.setY(ground.getY() - floor.getHeight());
 		
-		var floor2 = sm.getSprite("floor2");
+		var floor2 = dm.getDrawable("floor2");
 		floor2.scaleWidthTo(viewport.x / 2);
 		floor2.scaleHeightTo(viewport.y / 50);
 		floor2.setY(floor.getY());
 		floor2.setX(floor.getX() + floor.getWidth());
 		
 		if (scrollVel) {
-			var baseWidth = sky._image.width;
+			var baseWidth = sky.getTexture()._image.width;
 			var s = function(spr, modifier) {
-				spr.scrollX(scrollVel * delta * (spr._image.width / baseWidth) * (modifier ? modifier : 1));
+				spr.getTexture().scrollX(scrollVel * delta * (spr.getTexture()._image.width / baseWidth) * (modifier ? modifier : 1));
 			}
 			s(sky, 0.3)
 			s(floor, 2);
@@ -85,7 +87,7 @@ this.CAL.gamex.screens = this.CAL.gamex.screens || {};
 	}
 	
 	p.draw = function(params) {
-		this._sm.draw(params.canvas.getContext("2d"));
+		this._dm.draw(params);
 	}
 	
 	CAL.gamex.screens.SkyLandScreen = SkyLandScreen;

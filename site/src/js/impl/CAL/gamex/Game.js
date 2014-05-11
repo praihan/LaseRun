@@ -3,25 +3,7 @@ this.CAL = this.CAL || {};
 this.CAL.gamex = this.CAL.gamex || {};
 
 (function(undefined) {
-	"use strict";
-	
-	/*
-	var Keys = {
-		DELTA: "delta",
-		UPDATEPARAMS: "update_params",
-		FPS_TIME: "fps_time",
-		FONT: "font",
-		SPRITE_MANAGER: "sprite_manager",
-		Sprites: {
-			SKY: "skyland_sky",
-			SOIL: "skyland_ground",
-			GROUND: "skyland_floor",
-			GROUND_2: "ground2"
-		},
-	};
-	*/
-	
-	
+	"use strict";	
 	
 	var Game = function(resources, screen) {
 		Game.super[0].call(this);
