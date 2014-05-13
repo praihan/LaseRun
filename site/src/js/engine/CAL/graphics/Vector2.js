@@ -11,7 +11,6 @@ this.CAL.graphics = this.CAL.graphics || {};
 	 * @param {number} x the X component
 	 * @param {number} y the Y component
 	 * 
-	 * @constructor
 	 * @final
 	 */
 	var Vector2 = function(x, y) {
