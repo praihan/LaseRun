@@ -49,6 +49,8 @@ this.CAL.gamex = this.CAL.gamex || {};
 		window.addEventListener("resize", resize, false);
 		resize();
 		
+		var createjs = CAL.ext.createjs;
+		
 		jQuery(canvas).css("background-color", CAL.graphics.Colors.BLACK);
 		
 		var pointerState = new CAL.lang.Mouse(canvas);

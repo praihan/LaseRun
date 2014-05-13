@@ -3,7 +3,12 @@ ENGINE :=$(SRC)/js/engine/CAL
 IMPL :=$(SRC)/js/impl/CAL
 
 INPUT_FILES := \
-	$(SRC)/js/engine/createjs/Ticker.js \
+	$(ENGINE)/ext/Box2D.js \
+	\
+	$(ENGINE)/ext/createjs/TweenJS.js \
+	$(ENGINE)/ext/createjs/SoundJS.js \
+	$(ENGINE)/ext/createjs/PreloadJS.js \
+	$(ENGINE)/ext/createjs/Ticker.js \
 	\
 	$(ENGINE)/lang/Lang.js \
 	$(ENGINE)/lang/IUpdateableObject.js \
