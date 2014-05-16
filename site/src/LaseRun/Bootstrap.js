@@ -1,0 +1,48 @@
+this.LaseRun = this.LaseRun || {};
+
+(function(undefined) {
+    "use strict";
+
+    var Bootstrap = {};
+
+    var s = Bootstrap;
+
+    s.run = function(GAMEDIV, VIEWPORT_X, VIEWPORT_Y, IMG_DIR, SOUND_DIR) {
+
+        var path = LaseRun.path;
+
+        path.assets.img = path.getPath(IMG_DIR);
+        path.assets.sound = path.getPath(SOUND_DIR);
+
+        var preload = function() {
+        }
+
+        var create = function() {
+            LaseRun.game.state.add("SkylandState", new LaseRun.SkylandState());
+
+            LaseRun.game.state.start("SkylandState");
+        }
+
+        var update = function() {
+        }
+
+        var render = function() {
+        }
+
+        LaseRun.game = new Phaser.Game(
+            VIEWPORT_X, 
+            VIEWPORT_Y, 
+            Phaser.CANVAS, 
+            GAMEDIV, 
+            {
+                preload: preload, 
+                create: create, 
+                update: update,
+                render: render
+            }
+        );
+    }
+
+    LaseRun.Bootstrap = Bootstrap;
+
+})();

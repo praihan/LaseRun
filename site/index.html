@@ -20,50 +20,31 @@
 		-->
 		
 		<div id="local_script">
-        	<script src="src/js/engine/CAL/ext/Box2D.js"></script>
-            
-			<script src="src/js/engine/CAL/ext/createjs/TweenJS.js"></script>
-			<script src="src/js/engine/CAL/ext/createjs/SoundJS.js"></script>
-			<script src="src/js/engine/CAL/ext/createjs/PreloadJS.js"></script>
-			<script src="src/js/engine/CAL/ext/createjs/Ticker.js"></script>
-			
-			<script src="src/js/engine/CAL/lang/Lang.js"></script>
-			<script src="src/js/engine/CAL/lang/IUpdateableObject.js"></script>
-			<script src="src/js/engine/CAL/lang/CachingObject.js"></script>
-			<script src="src/js/engine/CAL/lang/Keyboard.js"></script>
-			<script src="src/js/engine/CAL/lang/Mouse.js"></script>
-			
-			<script src="src/js/engine/CAL/util/DeltaTimer.js"></script>
-            
-			<script src="src/js/engine/CAL/graphics/Vector2.js"></script>
-			<script src="src/js/engine/CAL/graphics/Colors.js"></script>
-			<script src="src/js/engine/CAL/graphics/Fonts.js"></script>
-            <script src="src/js/engine/CAL/graphics/IDrawableObject.js"></script>
-			<script src="src/js/engine/CAL/graphics/DisplayObject.js"></script>
-			<script src="src/js/engine/CAL/graphics/Sprite.js"></script>
-			<script src="src/js/engine/CAL/graphics/ParallaxSprite.js"></script>
-			<script src="src/js/engine/CAL/graphics/SpriteSheet.js"></script>
-			<script src="src/js/engine/CAL/graphics/DrawableManager.js"></script>
-            
-            <script src="src/js/engine/CAL/objects/GameObject.js"></script>
-            <script src="src/js/engine/CAL/objects/TexturedObject.js"></script>
-			
-            <script src="src/js/impl/CAL/gamex/GameConstants.js"></script>
-            <script src="src/js/impl/CAL/gamex/screens/Screen.js"></script>
-            <script src="src/js/impl/CAL/gamex/screens/LevelScreen.js"></script>
-            <script src="src/js/impl/CAL/gamex/screens/SkyLandScreen.js"></script>
-			<script src="src/js/impl/CAL/gamex/Game.js"></script>
-			<script src="src/js/impl/CAL/gamex/Bootstrap.js"></script>
+            <script src="lib/phaser/phaser.js"></script>
+
+            <script src="src/LaseRun/LaseRun.js"></script>
+            <script src="src/LaseRun/GameState.js"></script>
+            <script src="src/LaseRun/SkylandState.js"></script>
+
+            <script src="src/LaseRun/Bootstrap.js"></script>
 		</div>
         
         <script>
-            window.addEventListener('load', function() {CAL.gamex.Bootstrap.run("main-canvas");});
+            window.addEventListener('load', function() {
+                var canvas = document.getElementById("game-div");
+                LaseRun.Bootstrap.run(canvas, 800, 600, "assets/img", "assets/sound");
+            });
         </script>
         
     </head>
     
     <body>
-        <canvas id="main-canvas" tabindex="0">Your browser does not support HTML5 canvas. Please install a browser that supports HTML5</canvas>
+        <div id="game-div"></div>
+        <!--
+        <canvas id="main-canvas" width="800" height="600" tabindex="0">
+            Your browser does not support HTML5 canvas. Please install a browser that supports HTML5
+        </canvas>
+        -->
     </body>
     
 </html>

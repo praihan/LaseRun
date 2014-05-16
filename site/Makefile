@@ -4,7 +4,7 @@ include SOURCES.inc
 BUILD_DIR :=build
 DEBUG_DIR :=debug
 RELEASE_DIR :=release
-CP_FILES :=assets lib
+CP_FILES :=assets
 INDEX_FILENAME :=index.html
 OUTPUT_FILE_NAME :=build.js
 JSC_BASE_DIR :=$(PROJECT_ROOT)/$(TOOLS_JSCOMPILER)
