@@ -1,0 +1,25 @@
+{
+    "physics": {
+        "type": "arcade",
+        "gravity.x": 0,
+        "gravity.y": 250
+    },
+    "map": {
+        "name": "SkyLand",
+        "layers" : {
+            "tiles": {
+                "collisions": [81]
+            }
+        }
+    },
+    "char": {
+        "size": {
+            "width": 32,
+            "height": 32
+        },
+        "body": {
+            "bounce.y": 0.2,
+            "collideWorldBounds": true
+        }
+    }
+}

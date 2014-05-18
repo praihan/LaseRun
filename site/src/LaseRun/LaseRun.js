@@ -25,6 +25,39 @@ this.LaseRun = this.LaseRun || {};
         _extend(child, parent);
     }
 
+    LaseRun.property = LaseRun.property || {};
+
+    LaseRun.property.get = function(obj, prop) {
+        prop = prop.split(".");
+        for (var i = 0; i < prop.length; ++i) {
+            obj = obj[prop[i]];
+            if (typeof obj === "undefined") {
+                return undefined;
+            }
+        }
+        return obj;
+    }
+
+    LaseRun.property.set = function(obj, prop, value) {
+        prop = prop.split(".");
+        for (var i = 0; i < prop.length - 1; ++i) {
+            var tmp = obj;
+            obj = obj[prop[i]];
+            if (typeof obj === "undefined") {
+                obj = tmp[prop[i]] = {};
+            }
+        }
+        obj[prop[prop.length - 1]] = value;
+    }
+
+    LaseRun.property.apply = function(obj, props, force) {
+        for (var propName in props) {
+            if (force || typeof LaseRun.property.get(obj, propName) !== "undefined") {
+                LaseRun.property.set(obj, propName, props[propName]);
+            }
+        }
+    }
+
     LaseRun.path = LaseRun.path || {};
 
     LaseRun.path.subPath = function(basePath, relPath) {
@@ -40,9 +73,5 @@ this.LaseRun = this.LaseRun || {};
     }
 
     LaseRun.path.assets = LaseRun.path.assets || {};
-
-    LaseRun.path.assets.img = LaseRun.path.assets.img || null;
-
-    LaseRun.path.assets.sound = LaseRun.path.assets.sound || null;
 
 })();

@@ -7,13 +7,14 @@
         <meta charset="utf-8" />
         <meta http-equiv="content-type" content="text/html" />
         
-        <link rel="shortcut icon" href="assets/img/favicon.ico" />
+        <link rel="shortcut icon" href="assets/common/favicon.ico" />
         
         <link rel="stylesheet" type="text/css" href="assets/default-style.css" media="screen" />
         
-		<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+		
 		
 		<!--
+        <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 		<script src="http://code.createjs.com/tweenjs-0.5.1.min.js"></script>
 		<script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>
 		<script src="http://code.createjs.com/preloadjs-0.4.1.min.js"></script>
@@ -21,6 +22,7 @@
 		
 		<div id="local_script">
             <script src="lib/phaser/phaser.js"></script>
+            <script src="lib/jquery/jquery-2.1.0.min.js"></script>
 
             <script src="src/LaseRun/LaseRun.js"></script>
             <script src="src/LaseRun/GameState.js"></script>
@@ -31,8 +33,8 @@
         
         <script>
             window.addEventListener('load', function() {
-                var canvas = document.getElementById("game-div");
-                LaseRun.Bootstrap.run(canvas, 800, 600, "assets/img", "assets/sound");
+                var gameDiv = document.getElementById("game-div");
+                LaseRun.Bootstrap.run(gameDiv, 800, 600, "assets/common", "assets/level");
             });
         </script>
         

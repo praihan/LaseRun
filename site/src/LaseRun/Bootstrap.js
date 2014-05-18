@@ -7,12 +7,12 @@ this.LaseRun = this.LaseRun || {};
 
     var s = Bootstrap;
 
-    s.run = function(GAMEDIV, VIEWPORT_X, VIEWPORT_Y, IMG_DIR, SOUND_DIR) {
+    s.run = function(GAMEDIV, VIEWPORT_X, VIEWPORT_Y, COMMON_DIR, LEVEL_DIR) {
 
         var path = LaseRun.path;
 
-        path.assets.img = path.getPath(IMG_DIR);
-        path.assets.sound = path.getPath(SOUND_DIR);
+        path.assets.common = path.getPath(COMMON_DIR);
+        path.assets.level = path.getPath(LEVEL_DIR);
 
         var preload = function() {
         }
