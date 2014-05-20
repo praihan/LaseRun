@@ -27,7 +27,7 @@ this.LaseRun = this.LaseRun || {};
 
         var rules = JSON.parse(this.cache.getText("skyland/map/rules"));
 
-        var physicsType = rules["physics"]["type"];
+        var physicsType = this._cachedValues["physicsType"] = rules["physics"]["type"];
 
         this.physics.startSystem(Phaser.Physics[physicsType.toUpperCase()]);
 
@@ -57,21 +57,48 @@ this.LaseRun = this.LaseRun || {};
         this.camera.y = map.heightInPixels;
 
         this.camera.follow(redBall);
-        var init = rules["map"]["init"];
-        this._cachedValues["dv"] = init["deltaVelocity"];
-        this._cachedValues["v"] = init["velocity"];
-        this.objects["checkpoints"] = rules["map"]["checkpoints"];
+        var init = rules["char"]["movement"];
+        applyMovement(this._cachedValues, rules["char"]["movement"]);
+        var checkpoints = this.objects["checkpoints"] = rules["map"]["checkpoints"];
+        this._cachedValues["currentCheckpoint"] = checkpoints[0];
+        this._cachedValues["currentCheckpointIndex"] = 0;
+    }
+
+    var applyMovement = function(obj, json) {
+        var dvdt = json["acceleration"];
+        var v = json["velocity"];
+
+        if (dvdt) {
+            obj["acceleration"] = dvdt;
+        }
+        if (v) {
+            obj["velocity"] = v;
+        }
     }
 
     p.update = function() {
         var redBall = this.objects["redBall"];
-        this.physics.arcade.collide(redBall, this.objects["ground"]);
+        this.physics[this._cachedValues["physicsType"]].collide(redBall, this.objects["ground"]);
         
         var cursors = this.objects["cursors"];
 
-        redBall.body.velocity.x = this._cachedValues["v"];
+        var currentCheckpointIndex = this._cachedValues["currentCheckpointIndex"];
+
+        var currentCheckpoint = this._cachedValues["currentCheckpoint"];;
+        if (currentCheckpoint) {
+            if (redBall.body.x >= currentCheckpoint["distance"] * this.map.tileWidth) {
+                applyMovement(this._cachedValues, currentCheckpoint);
+                var bodyRules = currentCheckpoint["body"];
+                if (bodyRules) {
+                    LaseRun.property.apply(redBall.body, bodyRules);
+                }
+                this._cachedValues["currentCheckpoint"] = this.objects["checkpoints"][++this._cachedValues["currentCheckpointIndex"]];
+            }
+        }
+
+        redBall.body.velocity.x = this._cachedValues["velocity"];
         if (cursors.up.isDown) {
-            redBall.body.velocity.y -= this._cachedValues["dv"];
+            redBall.body.velocity.y -= this._cachedValues["acceleration"];
         }
     }
 
