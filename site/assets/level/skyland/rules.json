@@ -6,11 +6,18 @@
     },
     "map": {
         "name": "SkyLand",
+        "init": {
+            "velocity": 200,
+            "deltaVelocity": 8
+        },
         "layers" : {
             "tiles": {
                 "collisions": [81]
             }
-        }
+        },
+        "checkpoints": [
+            {"distance": 100, "newVelocity": 250, "newDeltaVelocity": 8}
+        ]
     },
     "char": {
         "size": {

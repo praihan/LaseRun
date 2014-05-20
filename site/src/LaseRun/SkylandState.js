@@ -5,6 +5,7 @@ this.LaseRun = this.LaseRun || {};
 
     var SkylandState = function() {
         this.objects = {};
+        this._cachedValues = {};
     }
 
     LaseRun.extend(SkylandState, LaseRun.GameState);
@@ -56,6 +57,10 @@ this.LaseRun = this.LaseRun || {};
         this.camera.y = map.heightInPixels;
 
         this.camera.follow(redBall);
+        var init = rules["map"]["init"];
+        this._cachedValues["dv"] = init["deltaVelocity"];
+        this._cachedValues["v"] = init["velocity"];
+        this.objects["checkpoints"] = rules["map"]["checkpoints"];
     }
 
     p.update = function() {
@@ -63,18 +68,11 @@ this.LaseRun = this.LaseRun || {};
         this.physics.arcade.collide(redBall, this.objects["ground"]);
         
         var cursors = this.objects["cursors"];
-        var left = cursors.left.isDown;
-        var right = cursors.right.isDown;
-        var down = cursors.down.isDown;
-        var up = cursors.up.isDown;
 
-        if (left ^ right) {
-            redBall.body.velocity.x += left ? -8 : 8;
+        redBall.body.velocity.x = this._cachedValues["v"];
+        if (cursors.up.isDown) {
+            redBall.body.velocity.y -= this._cachedValues["dv"];
         }
-        if (up ^ down) {
-            redBall.body.velocity.y += up ? -8 : 8;
-        }
-        
     }
 
     p.render = function() {
