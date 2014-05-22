@@ -29,7 +29,7 @@ this.LaseRun = this.LaseRun || {};
 
         var physicsType = this._cachedValues["physicsType"] = rules["physics"]["type"];
 
-        this.physics.startSystem(Phaser.Physics[physicsType.toUpperCase()]);
+        this.physics.startSystem(LaseRun.mapPhysicsType(physicsType.toUpperCase()));
 
         var map = this.map = this.add.tilemap("skyland/map");
         map.addTilesetImage("tiles", "skyland/map/tiles");

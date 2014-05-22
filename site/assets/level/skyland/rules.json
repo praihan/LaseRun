@@ -13,7 +13,7 @@
         },
         "checkpoints": [
             {"distance": 5, "velocity": 150, "acceleration": 8},
-            {"distance": 10, "velocity": 50, "acceleration": 16, "body": { "bounce.y": 0.8 }}
+            {"distance": 10, "velocity": 250, "acceleration": 16, "body": { "bounce.y": 0.8 }}
         ]
     },
     "char": {

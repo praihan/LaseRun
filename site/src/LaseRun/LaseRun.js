@@ -25,6 +25,16 @@ this.LaseRun = this.LaseRun || {};
         _extend(child, parent);
     }
 
+    var physicsTypeMap = {
+        "p2": Phaser.Physics.P2JS,
+        "arcade": Phaser.Physics.ARCADE,
+        "ninja": Phaser.Physics.NINJA
+    }
+
+    LaseRun.mapPhysicsType = function(name) {
+        return physicsTypeMap[name.toLowerCase()];
+    }
+
     LaseRun.property = LaseRun.property || {};
 
     LaseRun.property.get = function(obj, prop) {
