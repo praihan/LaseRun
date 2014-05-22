@@ -19,7 +19,6 @@ this.LaseRun = this.LaseRun || {};
 
         var create = function() {
             LaseRun.game.state.add("SkylandState", new LaseRun.SkylandState());
-
             LaseRun.game.state.start("SkylandState");
         }
 

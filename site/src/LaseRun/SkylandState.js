@@ -39,6 +39,7 @@ this.LaseRun = this.LaseRun || {};
         var ground = this.objects["ground"] = map.createLayer("tiles");
         
         map.setCollision(rules["map"]["layers"]["tiles"]["collisions"], true, ground);
+
         ground.resizeWorld();
 
         var redBall = this.objects["redBall"] = this.add.sprite(map.tileWidth * 2, map.heightInPixels - map.tileWidth * 5, "skyland/chars/redBall");
@@ -59,7 +60,7 @@ this.LaseRun = this.LaseRun || {};
         this.camera.follow(redBall);
         var init = rules["char"]["movement"];
         applyMovement(this._cachedValues, rules["char"]["movement"]);
-        var checkpoints = this.objects["checkpoints"] = rules["map"]["checkpoints"];
+        var checkpoints = this.objects["checkpoints"] = rules["map"]["checkpoints"] || [];
         this._cachedValues["currentCheckpoint"] = checkpoints[0];
         this._cachedValues["currentCheckpointIndex"] = 0;
     }
