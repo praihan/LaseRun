@@ -1,0 +1,38 @@
+{
+    "physics": {
+        "type": "arcade",
+        "gravity.x": 0,
+        "gravity.y": 250
+    },
+    "map": {
+        "name": "SkyLand",
+        "layers" : {
+            "tiles": {
+                "collisions": [81]
+            }
+        },
+        "camera": {
+            "follow": "FOLLOW_PLATFORMER"
+        },
+        "checkpoints": [
+            {"distance": 5, "velocity": 150, "acceleration": 8, "backpedal": 100},
+            {"distance": 10, "velocity": 250, "acceleration": 16, "body": { "bounce.y": 0.8 }}
+        ]
+    },
+    "char": {
+        "size": {
+            "width": 32,
+            "height": 32
+        },
+        "body": {
+            "bounce.x": 0.3,
+            "bounce.y": 0.3,
+            "collideWorldBounds": true
+        },
+        "movement": {
+            "velocity": 50,
+            "acceleration": 8,
+            "backpedal": 25
+        }
+    }
+}
