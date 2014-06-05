@@ -30,7 +30,6 @@ this.LaseRun = this.LaseRun || {};
 
         var physicsType = this._cachedValues["physicsType"] = rules["physics"]["type"];
 
-
         this.physics.startSystem(LaseRun.mapPhysicsType(physicsType.toUpperCase()));
 
         var map = this.map = this.add.tilemap("skyland/map");
@@ -43,6 +42,8 @@ this.LaseRun = this.LaseRun || {};
         map.setCollision(rules["map"]["layers"]["tiles"]["collisions"], true, ground);
 
         ground.resizeWorld();
+
+        this.game.add.button(this.world.centerX + 95, 400, "skyland/map/tiles");
 
         var coins = this.objects["coins"] = this.add.group();
         coins.enableBody = true;

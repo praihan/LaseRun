@@ -43,15 +43,43 @@ this.LaseRun = this.LaseRun || {};
             }
         }
     }
-/*
-    LaseRun.resizeSpriteTo = function(s, w, h) {
-        if (typeof h === "undefined") {
-            h = w.height || w.y;
-            w = w.width || w.x;
-        }
-        s.scale.setTo(w / s.texture.width, h / s.texture.height);
+
+    var LabelButton = function(game, x, y, style, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
+        Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
+
+        style = style || {
+            "font": "10px Arial",
+            "fill": "black"
+        };
+
+        this.label = new Phaser.Text(game, 0, 0, "Label", style);
+        this.addChild(this.label);
+        this.setText("Label");
     }
-*/
+
+    LabelButton.prototype = Object.create(Phaser.Button.prototype);
+    LabelButton.prototype.constructor = LabelButton;
+
+    LabelButton.prototype.setText = function(label) {
+        this.label.setText(label);
+        this.label.x = Math.floor((this.width - this.label.width) * 0.5);
+        this.label.y = Math.floor((this.height - this.label.height)*0.5);
+    }
+
+    LaseRun.ui = LaseRun.ui || {};
+
+    LaseRun.ui.LabelButton = LabelButton;
+
+    Phaser.GameObjectFactory.prototype.labelButton = function (x, y, style, key, 
+        callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group) {
+
+        if (typeof group === 'undefined') { group = this.world; }
+
+        return group.add(new LaseRun.ui.LabelButton(this.game, x, y, style, key, 
+            callback, callbackContext, overFrame, outFrame, downFrame, upFrame));
+
+    }
+
     var physicsTypeMap = {
         "p2": Phaser.Physics.P2JS,
         "arcade": Phaser.Physics.ARCADE,
