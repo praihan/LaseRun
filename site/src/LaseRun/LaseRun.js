@@ -63,19 +63,19 @@ this.LaseRun = this.LaseRun || {};
     LabelButton.prototype.setText = function(label) {
         this.label.setText(label);
         this.label.x = Math.floor((this.width - this.label.width) * 0.5);
-        this.label.y = Math.floor((this.height - this.label.height)*0.5);
+        this.label.y = Math.floor((this.height - this.label.height) * 0.5);
     }
 
     LaseRun.ui = LaseRun.ui || {};
 
     LaseRun.ui.LabelButton = LabelButton;
 
-    Phaser.GameObjectFactory.prototype.labelButton = function (x, y, style, key, 
+    Phaser.GameObjectFactory.prototype.labelButton = function (x, y, key, style,  
         callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group) {
 
         if (typeof group === 'undefined') { group = this.world; }
 
-        return group.add(new LaseRun.ui.LabelButton(this.game, x, y, style, key, 
+        return group.add(new LaseRun.ui.LabelButton(this.game, x, y, key, style,  
             callback, callbackContext, overFrame, outFrame, downFrame, upFrame));
 
     }
