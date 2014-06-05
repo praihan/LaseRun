@@ -25,6 +25,33 @@ this.LaseRun = this.LaseRun || {};
         _extend(child, parent);
     }
 
+    LaseRun.scaler = function(obj, subObj) {
+        var subObjAvailable = (typeof subObj !== "undefined");
+        return {
+            scale: function(w, h) {
+                if (typeof h === "undefined") {
+                    h = w.height || w.y;
+                    w = w.width || w.x;
+                }
+                if (subObjAvailable) {
+                    var sub = LaseRun.property.get(obj, subObj);
+                    obj.scale.setTo(w / (sub.width || sub.x), h / (sub.height || sub.y));
+                } else {
+                    obj.scale.setTo(w, h);
+                }
+                
+            }
+        }
+    }
+/*
+    LaseRun.resizeSpriteTo = function(s, w, h) {
+        if (typeof h === "undefined") {
+            h = w.height || w.y;
+            w = w.width || w.x;
+        }
+        s.scale.setTo(w / s.texture.width, h / s.texture.height);
+    }
+*/
     var physicsTypeMap = {
         "p2": Phaser.Physics.P2JS,
         "arcade": Phaser.Physics.ARCADE,

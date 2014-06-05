@@ -17,7 +17,7 @@ this.LaseRun = this.LaseRun || {};
         this.load.image("skyland/map/sky", assets.common.child("textures/blueSky.png"));
         this.load.image("skyland/map/tiles", assets.common.child("textures/kennyTiles.png"));
         this.load.image("skyland/chars/redBall", assets.common.child("chars/redBall.png"));
-        this.load.spritesheet("skyland/map/coins", assets.common.child("textures/coins.png"));
+        this.load.spritesheet("skyland/map/coins", assets.common.child("textures/coins.png"), 32, 32);
 
         this.load.tilemap("skyland/map", assets.level.child("skyland/map.json"), null, Phaser.Tilemap.TILED_JSON);
         this.load.text("skyland/map/rules", assets.level.child("skyland/rules.json"));
@@ -29,6 +29,7 @@ this.LaseRun = this.LaseRun || {};
         var rules = JSON.parse(this.cache.getText("skyland/map/rules"));
 
         var physicsType = this._cachedValues["physicsType"] = rules["physics"]["type"];
+
 
         this.physics.startSystem(LaseRun.mapPhysicsType(physicsType.toUpperCase()));
 
@@ -45,19 +46,18 @@ this.LaseRun = this.LaseRun || {};
 
         var coins = this.objects["coins"] = this.add.group();
         coins.enableBody = true;
+        coins.physicsBodyType = LaseRun.mapPhysicsType(physicsType.toUpperCase())
 
-        map.createFromObjects('coins', 158, 'skyland/map/coins', 0, true, false, coins);
-        coins.callAll('animations.add', 'animations', 'spin', [0, 1, 2, 3, 4, 5], 10, true);
-        coins.callAll('animations.play', 'animations', 'spin');
+        map.createFromObjects("coins", 158, "skyland/map/coins", 0, true, false, coins);
+        coins.callAll("animations.add", "animations", "spin", [0, 1, 2, 3, 4, 5], 10, true);
+        coins.callAll("animations.play", "animations", "spin");
+        coins.setAll("body.allowGravity", false);
 
         var redBall = this.objects["redBall"] = this.add.sprite(map.tileWidth * 2, map.heightInPixels - map.tileWidth * 5, "skyland/chars/redBall");
-        (function() {
-            var size = rules["char"]["size"];
-            redBall.scale.setTo(size["width"] / redBall.texture.width, size["height"] / redBall.texture.height);
-        })();
+
+        LaseRun.scaler(redBall, "texture").scale(rules["char"]["size"]);
 
         this.physics.enable(redBall);
-
         LaseRun.property.apply(redBall.body, rules["char"]["body"]);
         delete rules["physics"]["type"];
         LaseRun.property.apply(this.physics[physicsType.toLowerCase()], rules["physics"]);
