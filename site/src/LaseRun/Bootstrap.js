@@ -18,8 +18,8 @@ this.LaseRun = this.LaseRun || {};
         }
 
         var create = function() {
-            LaseRun.game.state.add("SkylandState", new LaseRun.SkylandState());
-            LaseRun.game.state.start("SkylandState");
+            LaseRun.game.state.add("MainMenuState", new LaseRun.MainMenuState());
+            LaseRun.game.state.start("MainMenuState");
         }
 
         var update = function() {

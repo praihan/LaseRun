@@ -8,6 +8,7 @@ INPUT_FILES := \
 	$(SRC)/LaseRun.js \
 	$(SRC)/GameState.js \
 	$(SRC)/SkylandState.js \
+    $(SRC)/MainMenuState.js \
 	\
 	$(SRC)/Bootstrap.js
 	

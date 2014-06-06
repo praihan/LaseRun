@@ -44,38 +44,35 @@ this.LaseRun = this.LaseRun || {};
         }
     }
 
-    var LabelButton = function(game, x, y, style, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
+    var LabelButton = function(game, x, y, key, style, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
         Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
 
-        style = style || {
-            "font": "10px Arial",
-            "fill": "black"
-        };
+        style = style || {};
 
-        this.label = new Phaser.Text(game, 0, 0, "Label", style);
-        this.addChild(this.label);
+        this.text = new Phaser.Text(game, 0, 0, "Label", style);
+        this.addChild(this.text);
         this.setText("Label");
     }
 
     LabelButton.prototype = Object.create(Phaser.Button.prototype);
     LabelButton.prototype.constructor = LabelButton;
 
-    LabelButton.prototype.setText = function(label) {
-        this.label.setText(label);
-        this.label.x = Math.floor((this.width - this.label.width) * 0.5);
-        this.label.y = Math.floor((this.height - this.label.height) * 0.5);
+    LabelButton.prototype.setText = function(text) {
+        this.text.setText(text);
+        this.text.x = Math.floor((this.width - this.text.width) * 0.5);
+        this.text.y = Math.floor((this.height - this.text.height) * 0.5);
     }
 
     LaseRun.ui = LaseRun.ui || {};
 
     LaseRun.ui.LabelButton = LabelButton;
 
-    Phaser.GameObjectFactory.prototype.labelButton = function (x, y, key, style,  
+    Phaser.GameObjectFactory.prototype.labelButton = function (x, y, key, style, 
         callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group) {
 
         if (typeof group === 'undefined') { group = this.world; }
 
-        return group.add(new LaseRun.ui.LabelButton(this.game, x, y, key, style,  
+        return group.add(new LaseRun.ui.LabelButton(this.game, x, y, key, style, 
             callback, callbackContext, overFrame, outFrame, downFrame, upFrame));
 
     }

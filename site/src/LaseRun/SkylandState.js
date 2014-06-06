@@ -14,27 +14,35 @@ this.LaseRun = this.LaseRun || {};
 
     p.preload = function() {
         var assets = LaseRun.path.assets;
-        this.load.image("skyland/map/sky", assets.common.child("textures/blueSky.png"));
-        this.load.image("skyland/map/tiles", assets.common.child("textures/kennyTiles.png"));
-        this.load.image("skyland/chars/redBall", assets.common.child("chars/redBall.png"));
-        this.load.spritesheet("skyland/map/coins", assets.common.child("textures/coins.png"), 32, 32);
+        this.load.image("SkylandState/map/sky", assets.common.child("bitmaps/blueSky.png"));
+        this.load.image("SkylandState/map/tiles", assets.common.child("spritesheets/kennyTiles.png"));
+        this.load.image("SkylandState/chars/redBall", assets.common.child("bitmaps/redBall.png"));
+        this.load.spritesheet("SkylandState/map/coins", assets.common.child("spritesheets/coins.png"), 32, 32);
 
-        this.load.tilemap("skyland/map", assets.level.child("skyland/map.json"), null, Phaser.Tilemap.TILED_JSON);
-        this.load.text("skyland/map/rules", assets.level.child("skyland/rules.json"));
+        this.load.tilemap("SkylandState/map", assets.level.child("SkylandState/map.json"), null, Phaser.Tilemap.TILED_JSON);
+        this.load.text("SkylandState/map/rules", assets.level.child("SkylandState/rules.json"));
+
+        this.load.audio("SkylandState/audio/coinCollect", [assets.common.child("audio/coinCollect.mp3"), assets.common.child("audio/coinCollect.ogg")]);
     }
 
     p.create = function() {
+        var tween = this.add.tween(this.world).to({alpha: 1}, 400, Phaser.Easing.Quadratic.InOut, false, 0, 0, false);
+        tween.onComplete.add(function() {
+
+        }, this);
+        tween.start();
+
         this.objects["cursors"] = this.input.keyboard.createCursorKeys();
 
-        var rules = JSON.parse(this.cache.getText("skyland/map/rules"));
+        var rules = JSON.parse(this.cache.getText("SkylandState/map/rules"));
 
         var physicsType = this._cachedValues["physicsType"] = rules["physics"]["type"];
 
         this.physics.startSystem(LaseRun.mapPhysicsType(physicsType.toUpperCase()));
 
-        var map = this.map = this.add.tilemap("skyland/map");
-        map.addTilesetImage("tiles", "skyland/map/tiles");
-        map.addTilesetImage("sky", "skyland/map/sky");
+        var map = this.map = this.add.tilemap("SkylandState/map");
+        map.addTilesetImage("tiles", "SkylandState/map/tiles");
+        map.addTilesetImage("sky", "SkylandState/map/sky");
 
         var sky = this.objects["sky"] = map.createLayer("sky");
         var ground = this.objects["ground"] = map.createLayer("tiles");
@@ -43,18 +51,16 @@ this.LaseRun = this.LaseRun || {};
 
         ground.resizeWorld();
 
-        this.game.add.button(this.world.centerX + 95, 400, "skyland/map/tiles");
-
         var coins = this.objects["coins"] = this.add.group();
         coins.enableBody = true;
         coins.physicsBodyType = LaseRun.mapPhysicsType(physicsType.toUpperCase())
 
-        map.createFromObjects("coins", 158, "skyland/map/coins", 0, true, false, coins);
+        map.createFromObjects("coins", 158, "SkylandState/map/coins", 0, true, false, coins);
         coins.callAll("animations.add", "animations", "spin", [0, 1, 2, 3, 4, 5], 10, true);
         coins.callAll("animations.play", "animations", "spin");
         coins.setAll("body.allowGravity", false);
 
-        var redBall = this.objects["redBall"] = this.add.sprite(map.tileWidth * 2, map.heightInPixels - map.tileWidth * 5, "skyland/chars/redBall");
+        var redBall = this.objects["redBall"] = this.add.sprite(map.tileWidth * 2, map.heightInPixels - map.tileWidth * 5, "SkylandState/chars/redBall");
 
         LaseRun.scaler(redBall, "texture").scale(rules["char"]["size"]);
 
@@ -72,6 +78,37 @@ this.LaseRun = this.LaseRun || {};
         var checkpoints = this.objects["checkpoints"] = rules["map"]["checkpoints"] || [];
         this._cachedValues["currentCheckpoint"] = checkpoints[0];
         this._cachedValues["currentCheckpointIndex"] = 0;
+
+        redBall.body.moves = false;
+
+        // init countdown
+        (function() {
+            var g = this.add.graphics(0, 0);
+            g.lineStyle(1, 0, 0.5);
+            g.beginFill(0, 0.5);
+            g.drawRect(0, 0, this.stage.bounds.width, this.stage.bounds.height);
+            g.endFill();
+
+            var style = { font: "200px monospace", fill: "#FFFFFF", align: "center", stroke: "#000000", strokeThickness: 3};
+            var count = 3;
+            var t = this.add.text(this.stage.bounds.width / 2, this.stage.bounds.height / 2, count, style);
+            t.anchor.set(0.5);
+            this.time.events.repeat(Phaser.Timer.SECOND, count, 
+                function() {
+                    count--;
+                    if (count == 0) {
+                        t.destroy();
+                        g.destroy();
+                        redBall.body.moves = true;
+                    } else {
+                        t.anchor.set(0.5);
+                        t.setText(count);
+                    }
+
+                }, this);
+        }).call(this);
+
+        this.objects["audio/coinCollect"] = this.add.audio("SkylandState/audio/coinCollect");
     }
 
     p.update = function() {
@@ -125,6 +162,7 @@ this.LaseRun = this.LaseRun || {};
 
     var collectCoin = function(ball, coin) {
         coin.kill();
+        this.objects["audio/coinCollect"].play();
     }
 
     LaseRun.SkylandState = SkylandState;
