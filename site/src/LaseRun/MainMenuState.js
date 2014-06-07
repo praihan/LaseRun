@@ -14,7 +14,7 @@ this.LaseRun = this.LaseRun || {};
 
     p.preload = function() {
         var assets = LaseRun.path.assets;
-        this.load.spritesheet("MainMenuState/button", assets.common.child("spritesheets/button.png"), 186, 64);
+        this.load.spritesheet("MainMenuState/button", assets.common.child("spritesheet/button.png"), 186, 64);
         this.load.image("MainMenuState/background", assets.level.child("MainMenuState/background.png"));
     }
 

@@ -14,13 +14,16 @@ this.LaseRun = this.LaseRun || {};
 
     p.preload = function() {
         var assets = LaseRun.path.assets;
-        this.load.image("SkylandState/map/sky", assets.common.child("bitmaps/blueSky.png"));
-        this.load.image("SkylandState/map/tiles", assets.common.child("spritesheets/kennyTiles.png"));
-        this.load.image("SkylandState/chars/redBall", assets.common.child("bitmaps/redBall.png"));
-        this.load.spritesheet("SkylandState/map/coins", assets.common.child("spritesheets/coins.png"), 32, 32);
+        this.load.image("SkylandState/map/sky", assets.common.child("bitmap/blueSky.png"));
+        this.load.image("SkylandState/map/tiles", assets.common.child("spritesheet/kennyTiles.png"));
+        this.load.image("SkylandState/map/laserButt", assets.common.child("bitmap/laserButt.png"))
+        this.load.image("SkylandState/chars/redBall", assets.common.child("bitmap/redBall.png"));
+        this.load.spritesheet("SkylandState/map/coins", assets.common.child("spritesheet/coins.png"), 32, 32);
 
         this.load.tilemap("SkylandState/map", assets.level.child("SkylandState/map.json"), null, Phaser.Tilemap.TILED_JSON);
         this.load.text("SkylandState/map/rules", assets.level.child("SkylandState/rules.json"));
+
+        this.load.atlas("laser", assets.common.child("atlas/laser.png"), assets.common.child("atlas/laser.json"), null, Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY);
 
         this.load.audio("SkylandState/audio/coinCollect", [assets.common.child("audio/coinCollect.mp3"), assets.common.child("audio/coinCollect.ogg")]);
     }
@@ -31,6 +34,7 @@ this.LaseRun = this.LaseRun || {};
 
         }, this);
         tween.start();
+        // TODO: countdown sound
 
         this.objects["cursors"] = this.input.keyboard.createCursorKeys();
 
@@ -46,8 +50,9 @@ this.LaseRun = this.LaseRun || {};
 
         var sky = this.objects["sky"] = map.createLayer("sky");
         var ground = this.objects["ground"] = map.createLayer("tiles");
+        map.createLayer("signs");
         
-        map.setCollision(rules["map"]["layers"]["tiles"]["collisions"], true, ground);
+        map.setCollision(rules["map"]["tiles"]["collisions"], true, ground);
 
         ground.resizeWorld();
 
@@ -55,7 +60,7 @@ this.LaseRun = this.LaseRun || {};
         coins.enableBody = true;
         coins.physicsBodyType = LaseRun.mapPhysicsType(physicsType.toUpperCase())
 
-        map.createFromObjects("coins", 158, "SkylandState/map/coins", 0, true, false, coins);
+        map.createFromObjects("coins", rules["map"]["tiles"]["coins"], "SkylandState/map/coins", 0, true, false, coins);
         coins.callAll("animations.add", "animations", "spin", [0, 1, 2, 3, 4, 5], 10, true);
         coins.callAll("animations.play", "animations", "spin");
         coins.setAll("body.allowGravity", false);
@@ -108,7 +113,34 @@ this.LaseRun = this.LaseRun || {};
                 }, this);
         }).call(this);
 
+        
+        (function() {
+            var laserCollisions = this.objects["laserCollisions"] = [];
+            var lasers = [];
+            var layers = map.objects;
+            for (var layer in layers) {
+                if (layer.indexOf("laser") == 0) {
+                    if (layers[layer].length == 2) {
+                        lasers.push((function() {
+                            var laserGroup = this.add.group();
+                            laserGroup.enableBody = true;
+                            map.createFromObjects(layer, rules["map"]["tiles"]["laserPoles"], "SkylandState/map/laserButt", 0, true, false, laserGroup);
+                            laserGroup.setAll("body.allowGravity", false);
+                            return laserGroup;
+                        }).call(this));
+                    }
+                }
+            }
+            
+        }).call(this);
+        
+
         this.objects["audio/coinCollect"] = this.add.audio("SkylandState/audio/coinCollect");
+        /*
+        var laser = this.add.sprite(200, 200, "laser");
+        laser.animations.add('shoot');
+        laser.animations.play('shoot', 20, false);
+        */
     }
 
     p.update = function() {
@@ -163,6 +195,10 @@ this.LaseRun = this.LaseRun || {};
     var collectCoin = function(ball, coin) {
         coin.kill();
         this.objects["audio/coinCollect"].play();
+    }
+
+    var hitLaser = function(ball, laser) {
+
     }
 
     LaseRun.SkylandState = SkylandState;

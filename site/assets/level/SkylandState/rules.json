@@ -6,10 +6,10 @@
     },
     "map": {
         "name": "SkyLand",
-        "layers" : {
-            "tiles": {
-                "collisions": [81]
-            }
+        "tiles": {
+            "collisions": [81],
+            "coins": 158,
+            "laserPoles": 164
         },
         "camera": {
             "follow": "FOLLOW_PLATFORMER"
@@ -28,9 +28,9 @@
             "collideWorldBounds": true
         },
         "movement": {
-            "velocity": 100,
+            "velocity": 200,
             "acceleration": 16,
-            "backpedal": 25
+            "backpedal": 100
         }
     }
 }
