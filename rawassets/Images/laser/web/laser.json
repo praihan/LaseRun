@@ -1,0 +1,107 @@
+{"frames":{
+
+"Laser0001.png":
+{
+	"frame":{"x":0,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0002.png":
+{
+	"frame":{"x":45,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0003.png":
+{
+	"frame":{"x":90,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0004.png":
+{
+	"frame":{"x":135,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0005.png":
+{
+	"frame":{"x":180,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0006.png":
+{
+	"frame":{"x":225,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0007.png":
+{
+	"frame":{"x":270,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0008.png":
+{
+	"frame":{"x":315,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0009.png":
+{
+	"frame":{"x":360,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0010.png":
+{
+	"frame":{"x":405,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0011.png":
+{
+	"frame":{"x":450,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0012.png":
+{
+	"frame":{"x":495,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+},
+"Laser0013.png":
+{
+	"frame":{"x":540,"y":0,"w":45,"h":800},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":45,"y":800},
+	"sourceSize":{"w":45,"h":800}
+}
+}}

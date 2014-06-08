@@ -44,6 +44,8 @@ this.LaseRun = this.LaseRun || {};
         }
     }
 
+    LaseRun.settings = LaseRun.settings || {};
+
     var LabelButton = function(game, x, y, key, style, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
         Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
 
@@ -54,10 +56,23 @@ this.LaseRun = this.LaseRun || {};
         this.setText("Label");
     }
 
+    var BitmapLabelButton = function(game, x, y, key, font, style, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
+        Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
+
+        style = style || {};
+
+        this.text = new Phaser.BitmapText(game, 0, 0, font, "Label", style);
+        this.addChild(this.text);
+        this.setText("Label");
+    }
+
     LabelButton.prototype = Object.create(Phaser.Button.prototype);
     LabelButton.prototype.constructor = LabelButton;
 
-    LabelButton.prototype.setText = function(text) {
+    BitmapLabelButton.prototype = Object.create(Phaser.Button.prototype);
+    BitmapLabelButton.prototype.constructor = BitmapLabelButton;
+
+    LabelButton.prototype.setText = BitmapLabelButton.prototype.setText = function(text) {
         this.text.setText(text);
         this.text.x = Math.floor((this.width - this.text.width) * 0.5);
         this.text.y = Math.floor((this.height - this.text.height) * 0.5);
@@ -66,6 +81,7 @@ this.LaseRun = this.LaseRun || {};
     LaseRun.ui = LaseRun.ui || {};
 
     LaseRun.ui.LabelButton = LabelButton;
+    LaseRun.ui.BitmapLabelButton = BitmapLabelButton;
 
     Phaser.GameObjectFactory.prototype.labelButton = function (x, y, key, style, 
         callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group) {
@@ -77,14 +93,14 @@ this.LaseRun = this.LaseRun || {};
 
     }
 
-    var physicsTypeMap = {
-        "p2": Phaser.Physics.P2JS,
-        "arcade": Phaser.Physics.ARCADE,
-        "ninja": Phaser.Physics.NINJA
-    }
+    Phaser.GameObjectFactory.prototype.bitmapLabelButton = function (x, y, key, font, style, 
+        callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group) {
 
-    LaseRun.mapPhysicsType = function(name) {
-        return physicsTypeMap[name.toLowerCase()];
+        if (typeof group === 'undefined') { group = this.world; }
+
+        return group.add(new LaseRun.ui.BitmapLabelButton(this.game, x, y, key, font, style, 
+            callback, callbackContext, overFrame, outFrame, downFrame, upFrame));
+
     }
 
     LaseRun.property = LaseRun.property || {};

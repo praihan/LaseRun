@@ -18,7 +18,7 @@ this.LaseRun = this.LaseRun || {};
         }
 
         var create = function() {
-            var settings = LaseRun.settings = LaseRun.settings || {};
+            var settings = LaseRun.settings;
             settings.musicEnabled = true;
             settings.soundEnabled = true;
 

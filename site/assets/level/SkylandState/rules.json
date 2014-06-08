@@ -1,6 +1,5 @@
 {
     "physics": {
-        "type": "arcade",
         "gravity.x": 0,
         "gravity.y": 250
     },
@@ -14,8 +13,94 @@
         "camera": {
             "follow": "FOLLOW_PLATFORMER"
         },
+        "coins": {
+            "initScore": 0,
+            "score": 10
+        },
         "checkpoints": [
         ]
+    },
+    "ui": {
+        "backButton": {
+            "position": {
+                "x": 16,
+                "y": 16
+            },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "soundButton": {
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "musicButton": {
+            "position": {
+                "x": 0,
+                "x": 0
+             },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "scoreDisplay": {
+            "position": {
+                "x": 110,
+                "y": 20
+            },
+            "style": {
+                "font": "62px monospace", 
+                "fill": "#FFFFFF", 
+                "align": "center", 
+                "stroke": "#000000",
+                "strokeThickness": 3
+            }
+        },
+        "countDown": {
+            "style": {
+                "font": "200px monospace", 
+                "fill": "#FFFFFF", 
+                "align": "center", 
+                "stroke": "#000000", 
+                "strokeThickness": 3
+            }
+        },
+        "menuPanel": {
+            "size": {
+                "width": 400,
+                "height": 400
+            }
+        },
+        "acceptButton": {
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "denyButton": {
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "closeWarning": {
+            "text": "Continue playing?",
+            "style": {
+                "font": "bold 30px monospace", 
+                "fill": "#000000", 
+                "align": "center", 
+                "stroke": "#FFFFFF", 
+                "strokeThickness": 1
+            }
+        }
     },
     "char": {
         "size": {
@@ -29,8 +114,11 @@
         },
         "movement": {
             "velocity": 200,
-            "acceleration": 16,
-            "backpedal": 100
+            "acceleration": 14
+        },
+        "position": {
+            "x": 2,
+            "y": 4
         }
     }
 }

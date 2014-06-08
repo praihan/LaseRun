@@ -288,6 +288,132 @@
                  "width":0,
                  "x":1452,
                  "y":116
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1929,
+                 "y":340
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1983,
+                 "y":305
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2024,
+                 "y":264
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2089,
+                 "y":232
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2133,
+                 "y":189
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2208,
+                 "y":139
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2292,
+                 "y":101
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2397,
+                 "y":105
+                }, 
+                {
+                 "gid":158,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2451,
+                 "y":148
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -311,8 +437,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1834,
-                 "y":299
+                 "x":2326,
+                 "y":482
                 }, 
                 {
                  "gid":164,
@@ -325,8 +451,21 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1834,
-                 "y":45
+                 "x":2326,
+                 "y":210
+                }, 
+                {
+                 "height":261,
+                 "name":"laser",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":25,
+                 "x":2322,
+                 "y":209
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -350,8 +489,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":2324,
-                 "y":478
+                 "x":1822,
+                 "y":301
                 }, 
                 {
                  "gid":164,
@@ -364,8 +503,21 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":2328,
-                 "y":210
+                 "x":1822,
+                 "y":29
+                }, 
+                {
+                 "height":261,
+                 "name":"laser",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":25,
+                 "x":1818,
+                 "y":28
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -440,6 +592,21 @@
          "spacing":0,
          "tileheight":14,
          "tilewidth":19
+        }, 
+        {
+         "firstgid":165,
+         "image":"..\/Documents\/GitHub\/cal-gamex-js\/rawassets\/Maps\/textures\/laser.png",
+         "imageheight":800,
+         "imagewidth":315,
+         "margin":0,
+         "name":"laser",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":800,
+         "tilewidth":45
         }],
  "tilewidth":70,
  "version":1,

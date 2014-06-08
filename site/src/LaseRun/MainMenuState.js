@@ -16,9 +16,11 @@ this.LaseRun = this.LaseRun || {};
         var assets = LaseRun.path.assets;
         this.load.spritesheet("MainMenuState/button", assets.common.child("spritesheet/button.png"), 186, 64);
         this.load.image("MainMenuState/background", assets.level.child("MainMenuState/background.png"));
+        // this.load.bitmapFont("MainMenuState/font", assets.common.child("bitmapFont/ubuntuMono.png"), assets.common.child("bitmapFont/ubuntuMono.fnt"));
     }
 
     p.create = function() {
+        this.world.alpha = 1;
         var background = this.objects["background"] = this.add.sprite(0, 0, "MainMenuState/background");
         LaseRun.scaler(background, "texture").scale(this.stage.bounds);
         var clicked = false;

@@ -7,6 +7,7 @@ INPUT_FILES := \
 	\
 	$(SRC)/LaseRun.js \
 	$(SRC)/GameState.js \
+	$(SRC)/BaseLevelState.js \
 	$(SRC)/SkylandState.js \
     $(SRC)/MainMenuState.js \
 	\
