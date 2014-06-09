@@ -53,14 +53,22 @@ this.LaseRun = this.LaseRun || {};
     p.create = function() {
         var params = this._params;
 
+        this._isPaused = true;
+
+        this._isInputDown = false;
+        this.input.touch.touchStartCallback = function() {
+            _this._isInputDown = true;
+        }
+        this.input.touch.touchEndCallback = function() {
+            _this._isInputDown = false;
+        }
+
         var tween = this.add.tween(this.world).to({alpha: 1}, 400, Phaser.Easing.Quadratic.InOut, false, 0, 0, false);
         tween.onComplete.add(function() {
 
         }, this);
         tween.start();
         // TODO: countdown sound
-
-        this.objects["cursors"] = this.input.keyboard.createCursorKeys();
 
         var rules = this.objects["rules"] = this.cache.getJSON(params.name + "/map/rules");
 
@@ -179,6 +187,7 @@ this.LaseRun = this.LaseRun || {};
                                 b.inputEnabled = true;
                             }, this);
                             tween.start();
+                            this._isPaused = false;
                             ball.body.moves = true;
                         } else {
                             t.anchor.set(0.5);
@@ -461,8 +470,6 @@ this.LaseRun = this.LaseRun || {};
 
         var coins = this.objects["coins"];
         this.physics.arcade.overlap(ball, coins, collectCoin, null, this);
-        
-        var cursors = this.objects["cursors"];
 
         var currentCheckpointIndex = this._cachedValues["currentCheckpointIndex"];
 
@@ -478,7 +485,11 @@ this.LaseRun = this.LaseRun || {};
             }
         }
 
-        if (cursors.up.isDown) {
+        if (this.input.keyboard.isDown(Phaser.Keyboard.UP) || 
+            this.input.keyboard.isDown(Phaser.Keyboard.W) || 
+            this.input.mousePointer.isDown || 
+            this._isInputDown) {
+            // console.log(this.input);
             ball.body.velocity.y -= this._cachedValues["acceleration"];
         }
 
@@ -508,7 +519,7 @@ this.LaseRun = this.LaseRun || {};
         this.objects["score"] += this.objects["rules"]["map"]["coins"]["score"];
 
         this.objects["scoreDisplay"].setText(this.objects["score"].toString());
-        
+
         var params = this._params;
         if (!params.callbacks) {
             return;

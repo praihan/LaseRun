@@ -15,7 +15,7 @@
         },
         "coins": {
             "initScore": 0,
-            "score": 10
+            "score": 1
         },
         "end": 795,
         "checkpoints": [
@@ -159,8 +159,8 @@
     },
     "char": {
         "size": {
-            "width": 32,
-            "height": 32
+            "width": 40,
+            "height": 40
         },
         "body": {
             "bounce.x": 0.3,

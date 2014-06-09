@@ -1,9 +1,21 @@
 /*@import url("http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic");*/
 
+* {
+   margin: 0;
+   padding: 0;
+}
+
+.automargin {
+   display : block;
+   margin : auto;
+}
+
 html, body {
     margin-top: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
     margin-right: 0px;
 	overflow: hidden;
+    height: 100%;
+    margin: 0;
 }

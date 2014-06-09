@@ -10,6 +10,13 @@
         <link rel="shortcut icon" href="assets/common/favicon.ico" />
         
         <link rel="stylesheet" type="text/css" href="assets/styles/default-style.css" media="screen" />
+        <!--[if lte IE 6]>
+        <style type="text/css">
+            #container {
+                height: 100%;
+            }
+        </style>
+        <![endif]-->
 		
 		<div id="local_script">
             <script src="lib/jquery/jquery-2.1.0.min.js"></script>
@@ -26,7 +33,7 @@
         
         <script>
             window.addEventListener('load', function() {
-                var gameDiv = document.getElementById("game-div");
+                var gameDiv = document.getElementById("game_div");
                 LaseRun.Bootstrap.run(gameDiv, 840, 630, "assets/common", "assets/level");
             });
         </script>
@@ -34,7 +41,7 @@
     </head>
     
     <body>
-        <div id="game-div"></div>
+        <div class="automargin" id="game_div"></div>
     </body>
     
 </html>

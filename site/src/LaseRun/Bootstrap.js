@@ -19,6 +19,10 @@ this.LaseRun = this.LaseRun || {};
 
         var create = function() {
             LaseRun.settings.debugEnabled = true;
+            if (LaseRun.game.canvas) {
+                LaseRun.game.canvas.focus();
+                LaseRun.game.canvas.className = "automargin";
+            }
             
             LaseRun.game.state.add("MainMenuState", new LaseRun.MainMenuState());
             LaseRun.game.state.start("MainMenuState");
