@@ -25,6 +25,12 @@ this.LaseRun = this.LaseRun || {};
         _extend(child, parent);
     }
 
+    LaseRun.update = function() {
+        if (LaseRun.music && typeof LaseRun.music.volume != undefined) {
+            LaseRun.music.volume = LaseRun.settings.musicEnabled ? 1 : 0;
+        }
+    }
+
     LaseRun.scaler = function(obj, subObj) {
         var subObjAvailable = (typeof subObj !== "undefined");
         return {

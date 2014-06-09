@@ -24,8 +24,8 @@
     "ui": {
         "backButton": {
             "position": {
-                "x": 46,
-                "y": 46
+                "x": 51,
+                "y": 51
             },
             "size": {
                 "width": 70,

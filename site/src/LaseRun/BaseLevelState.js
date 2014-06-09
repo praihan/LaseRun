@@ -399,6 +399,7 @@ this.LaseRun = this.LaseRun || {};
     }
 
     p.update = function() {
+        LaseRun.update();
         if (this._inQuestion || this._isPaused) {
             return;
         }
@@ -419,6 +420,7 @@ this.LaseRun = this.LaseRun || {};
             var g = this.objects["blackOverlay"];
             var gTween = this.add.tween(g).to({alpha: 1}, 200, Phaser.Easing.Linear.None, false, 0, 0, false);
             gTween.onComplete.add(function() {
+                this.objects["backButton"].inputEnabled = false;
                 var gameEndPanelRules = rules["ui"]["gameEndPanel"];
                 var s = gameEndPanelRules["size"];
                 var t = gameEndPanelRules["text"];
@@ -432,8 +434,9 @@ this.LaseRun = this.LaseRun || {};
                     x: s["width"] / gameEndPanel.texture.width, 
                     y: s["height"] / gameEndPanel.texture.width
                 }
+
                 gameEndPanel.fixedToCamera = true;
-                gameEndPanel.anchor.set(0.5);
+                gameEndPanel.anchor.setTo(0.5);
                 gameEndPanel.visible = true;
                 var gameEndPanelTween = this.add.tween(gameEndPanel.scale).to(sQ, 300, Phaser.Easing.Sinusoidal.InOut, false, 0, 0, false);
                 gameEndPanelTween.onComplete.add(function() {
@@ -444,12 +447,12 @@ this.LaseRun = this.LaseRun || {};
                         st
                     );
                     levelCompleteText.anchor.set(0.5);
+                    levelCompleteText.fixedToCamera = true;
 
                     var scoreDisplay = this.objects["scoreDisplay"];
                     this.world.bringToTop(scoreDisplay);
                     scoreDisplay.fixedToCamera = false;
 
-                    gameEndPanel.fixedToCamera = true;
                     gameEndPanel.inputEnabled = true;
                     gameEndPanel.events.onInputDown.add(function() {
                         gameEndPanel.inputEnabled = false;
@@ -665,7 +668,7 @@ this.LaseRun = this.LaseRun || {};
                                     failPanel.inputEnabled = true;
                                     failPanel.events.onInputDown.add(function() {
                                         failPanel.inputEnabled = false;
-                                        var tween = this.add.tween(this.world).to({alpha: 0}, 400, Phaser.Easing.Quadratic.InOut, false, 0, 0, false);
+                                        var tween = this.add.tween(this.world).to({alpha: 0}, 1000, Phaser.Easing.Quadratic.InOut, false, 0, 0, false);
                                         tween.onComplete.add(function() {
                                             this.state.add("MainMenuState", new LaseRun.MainMenuState());
                                             this.state.start("MainMenuState");

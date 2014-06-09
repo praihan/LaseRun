@@ -1,0 +1,12 @@
+{
+    "text": "This is only a preview of the game and only contains one level named \"SkyLand\"\n\nA 2D Platformer created by \nPranjal Raihan",
+    "style": {
+        "font": "bold 30px monospace", 
+        "fill": "#FFFFFF", 
+        "align": "center", 
+        "stroke": "#000000", 
+        "strokeThickness": 1,
+        "wordWrap": true,
+        "wordWrapWidth": 400
+    }
+}
