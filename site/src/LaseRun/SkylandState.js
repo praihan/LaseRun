@@ -60,6 +60,24 @@ this.LaseRun = this.LaseRun || {};
                     },
                     "denyButton": {
                         "path": assets.common.child("ui/denyButton.png")
+                    },
+                    "questionPanel": {
+                        "path": assets.common.child("ui/mediumMenu.png")
+                    },
+                    "correctAnswer": {
+                        "path": assets.common.child("ui/correctAnswer.png")
+                    },
+                    "wrongAnswer": {
+                        "path": assets.common.child("ui/wrongAnswer.png")
+                    },
+                    "defaultAnswer": {
+                        "path": assets.common.child("ui/defaultAnswer.png")
+                    },
+                    "questionFailPanel": {
+                        "path": assets.common.child("ui/smallMenu.png")
+                    },
+                    "gameEndPanel": {
+                        "path": assets.common.child("ui/smallMenu.png")
                     }
                 }
             },
@@ -78,23 +96,9 @@ this.LaseRun = this.LaseRun || {};
     }
 
     var collectCoin = function(ball, coin) {
-        coin.kill();
-
-        if (LaseRun.settings.soundEnabled) {
-            this.objects["audio/coinCollect"].play();
-        }
-
-        this.objects["score"] += this.objects["rules"]["map"]["coins"]["score"];
-
-        this.objects["scoreDisplay"].setText(this.objects["score"].toString());
     }
 
     var hitLaser = function(ball, laser) {
-        if (laser.alreadyHit) {
-            return;
-        }
-        laser.alreadyHit = true;
-        console.log("it works");
     }
 
     LaseRun.extend(SkylandState, LaseRun.BaseLevelState);

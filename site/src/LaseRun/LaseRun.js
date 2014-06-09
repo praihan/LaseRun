@@ -45,10 +45,13 @@ this.LaseRun = this.LaseRun || {};
     }
 
     LaseRun.settings = LaseRun.settings || {};
+    
+    LaseRun.settings.musicEnabled = true;
+    LaseRun.settings.soundEnabled = true;
+    LaseRun.settings.debugEnabled = false;
 
     var LabelButton = function(game, x, y, key, style, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
         Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
-
         style = style || {};
 
         this.text = new Phaser.Text(game, 0, 0, "Label", style);
@@ -56,23 +59,22 @@ this.LaseRun = this.LaseRun || {};
         this.setText("Label");
     }
 
-    var BitmapLabelButton = function(game, x, y, key, font, style, callback, callbackContext, overFrame, outFrame, downFrame, upFrame) {
-        Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
+    LabelButton.prototype = Object.create(Phaser.Button.prototype);
+    LabelButton.prototype.constructor = LabelButton;
 
+    var LabelSprite = function(game, x, y, key, style, frame) {
+        Phaser.Sprite.call(this, game, x, y, key, frame);
         style = style || {};
 
-        this.text = new Phaser.BitmapText(game, 0, 0, font, "Label", style);
+        this.text = new Phaser.Text(game, 0, 0, "Label", style);
         this.addChild(this.text);
         this.setText("Label");
     }
 
-    LabelButton.prototype = Object.create(Phaser.Button.prototype);
-    LabelButton.prototype.constructor = LabelButton;
+    LabelSprite.prototype = Object.create(Phaser.Sprite.prototype);
+    LabelSprite.prototype.constructor = LabelSprite;
 
-    BitmapLabelButton.prototype = Object.create(Phaser.Button.prototype);
-    BitmapLabelButton.prototype.constructor = BitmapLabelButton;
-
-    LabelButton.prototype.setText = BitmapLabelButton.prototype.setText = function(text) {
+    LabelButton.prototype.setText = LabelSprite.prototype.setText = function(text) {
         this.text.setText(text);
         this.text.x = Math.floor((this.width - this.text.width) * 0.5);
         this.text.y = Math.floor((this.height - this.text.height) * 0.5);
@@ -81,7 +83,7 @@ this.LaseRun = this.LaseRun || {};
     LaseRun.ui = LaseRun.ui || {};
 
     LaseRun.ui.LabelButton = LabelButton;
-    LaseRun.ui.BitmapLabelButton = BitmapLabelButton;
+    LaseRun.ui.LabelSprite = LabelSprite;
 
     Phaser.GameObjectFactory.prototype.labelButton = function (x, y, key, style, 
         callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group) {
@@ -90,17 +92,40 @@ this.LaseRun = this.LaseRun || {};
 
         return group.add(new LaseRun.ui.LabelButton(this.game, x, y, key, style, 
             callback, callbackContext, overFrame, outFrame, downFrame, upFrame));
-
     }
 
-    Phaser.GameObjectFactory.prototype.bitmapLabelButton = function (x, y, key, font, style, 
-        callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group) {
+    Phaser.GameObjectFactory.prototype.labelSprite = function (x, y, key, style, frame, group) {
 
         if (typeof group === 'undefined') { group = this.world; }
 
-        return group.add(new LaseRun.ui.BitmapLabelButton(this.game, x, y, key, font, style, 
-            callback, callbackContext, overFrame, outFrame, downFrame, upFrame));
+        var create = function(x, y, key, style, frame, exists) {
+            if (typeof exists === 'undefined') { exists = true; }
 
+            var child = new LaseRun.ui.LabelSprite(this.game, x, y, key, frame);
+
+            if (this.enableBody) {
+                this.game.physics.enable(child, this.physicsBodyType);
+            }
+
+            child.exists = exists;
+            child.visible = exists;
+            child.alive = exists;
+
+            this.addChild(child);
+
+            child.z = this.children.length;
+
+            if (child.events) {
+                child.events.onAddedToGroup.dispatch(child, this);
+            }
+
+            if (this.cursor === null) {
+                this.cursor = child;
+            }
+
+            return child;
+        }
+        return create.call(group, x, y, key, style, frame);
     }
 
     LaseRun.property = LaseRun.property || {};

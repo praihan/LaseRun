@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+    	<title>LaseRun - some short description</title>
+        <meta name="description" content="A good description of the game" />
+        <meta charset="utf-8" />
+        <meta http-equiv="content-type" content="text/html" />
+        
+        <link rel="shortcut icon" href="assets/common/favicon.ico" />
+        
+        <link rel="stylesheet" type="text/css" href="assets/styles/default-style.css" media="screen" />
+		
+		<div id="local_script">
+            <script src="lib/phaser/phaser.js"></script>
+		</div>
+        
+        <script>
+            var game;
+            var create = function() {
+                for (var i = 0; i < 100; ++i) {
+                    console.log(game.rnd.integerInRange(-4, 4));
+                }
+            };
+            var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { create: create });
+        </script>
+        
+    </head>
+    
+    <body>
+        <div id="game-div"></div>
+    </body>
+    
+</html>

@@ -17,14 +17,15 @@
             "initScore": 0,
             "score": 10
         },
+        "end": 795,
         "checkpoints": [
         ]
     },
     "ui": {
         "backButton": {
             "position": {
-                "x": 16,
-                "y": 16
+                "x": 46,
+                "y": 46
             },
             "size": {
                 "width": 70,
@@ -33,8 +34,8 @@
         },
         "soundButton": {
             "position": {
-                "x": 0,
-                "y": 0
+                "x": 660,
+                "y": 16
             },
             "size": {
                 "width": 70,
@@ -43,8 +44,8 @@
         },
         "musicButton": {
             "position": {
-                "x": 0,
-                "x": 0
+                "x": 750,
+                "y": 16
              },
             "size": {
                 "width": 70,
@@ -57,11 +58,11 @@
                 "y": 20
             },
             "style": {
-                "font": "62px monospace", 
+                "font": "60px monospace", 
                 "fill": "#FFFFFF", 
                 "align": "center", 
                 "stroke": "#000000",
-                "strokeThickness": 3
+                "strokeThickness": 5
             }
         },
         "countDown": {
@@ -77,6 +78,16 @@
             "size": {
                 "width": 400,
                 "height": 400
+            },
+            "closeWarning": {
+                "text": "Continue playing?",
+                "style": {
+                    "font": "bold 30px monospace", 
+                    "fill": "#000000", 
+                    "align": "center", 
+                    "stroke": "#FFFFFF", 
+                    "strokeThickness": 1
+                }
             }
         },
         "acceptButton": {
@@ -91,13 +102,57 @@
                 "height": 70
             }
         },
-        "closeWarning": {
-            "text": "Continue playing?",
+        "questionPanel": {
+            "size": {
+                "width": 400,
+                "height": 400
+            },
             "style": {
                 "font": "bold 30px monospace", 
                 "fill": "#000000", 
                 "align": "center", 
                 "stroke": "#FFFFFF", 
+                "strokeThickness": 1
+            }
+        },
+        "answerButton": {
+            "size": {
+                "width": 120,
+                "height": 45
+            },
+            "style": {
+                "font": "bold 30px monospace", 
+                "fill": "#000000", 
+                "align": "center", 
+                "stroke": "#FFFFFF", 
+                "strokeThickness": 1
+            }
+        },
+        "questionFailPanel": {
+            "size": {
+                "width": 400,
+                "height": 250
+            },
+            "text": "Game Over",
+            "style": {
+                "font": "bold 30px monospace",
+                "fill": "#000000",
+                "align": "center",
+                "stroke": "#FFFFFF",
+                "strokeThickness": 1
+            }
+        },
+        "gameEndPanel": {
+            "size": {
+                "width": 400,
+                "height": 250
+            },
+            "text": "Level Completed!",
+            "style": {
+                "font": "bold 30px monospace",
+                "fill": "#000000",
+                "align": "center",
+                "stroke": "#FFFFFF",
                 "strokeThickness": 1
             }
         }
