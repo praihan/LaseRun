@@ -1,0 +1,35 @@
+{
+  "name": "LaseRun",
+  "version": "0.0.1",
+  "release": "PREVIEW",
+  "description": "A 2D platformer",
+  "author": "Richard Davey",
+  "bugs": "https://github.com/photonstorm/phaser/issues",
+  "license": "Apache License 2.0",
+  "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.txt",
+  "repository": {
+    "type": "git",
+    "url": "https://prshreshtha@github.com/prshreshtha/cal-gamex-js.git"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test grunt jshint"
+  },
+  "keywords": [
+    "HTML5",
+    "game",
+    "canvas",
+    "2d",
+    "WebGL",
+    "web audio",
+    "physics",
+    "tweens",
+    "javascript",
+    "typescript",
+    "platformer",
+    "sidescroller",
+    "fun"
+  ],
+  "dependencies": {
+    "http-server": "^0.6.1"
+  }
+}

@@ -1,0 +1,184 @@
+{
+    "physics": {
+        "gravity.x": 0,
+        "gravity.y": 350
+    },
+    "map": {
+        "name": "Purpleland",
+        "tiles": {
+            "collisions": [8],
+            "coins": 158,
+            "laserPoles": 164
+        },
+        "camera": {
+            "follow": "FOLLOW_LOCKON"
+        },
+        "coins": {
+            "initScore": 0,
+            "score": 1,
+            "correctScore": 5
+        },
+        "end": 1595,
+        "checkpoints": [
+            {"distance": 200, "velocity": 320}, 
+            {"distance": 460, "velocity": 350}, 
+            {"distance": 820, "velocity": 400}, 
+            {"distance": 1210, "velocity": 500}
+        ]
+    },
+    "ui": {
+        "backButton": {
+            "position": {
+                "x": 51,
+                "y": 51
+            },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "soundButton": {
+            "position": {
+                "x": 660,
+                "y": 16
+            },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "musicButton": {
+            "position": {
+                "x": 750,
+                "y": 16
+             },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "scoreDisplay": {
+            "position": {
+                "x": 110,
+                "y": 20
+            },
+            "style": {
+                "font": "60px monospace", 
+                "fill": "#FFFFFF", 
+                "align": "center", 
+                "stroke": "#000000",
+                "strokeThickness": 5
+            }
+        },
+        "countDown": {
+            "style": {
+                "font": "200px monospace", 
+                "fill": "#FFFFFF", 
+                "align": "center", 
+                "stroke": "#000000", 
+                "strokeThickness": 3
+            }
+        },
+        "menuPanel": {
+            "size": {
+                "width": 400,
+                "height": 400
+            },
+            "closeWarning": {
+                "text": "Continue playing?",
+                "style": {
+                    "font": "bold 30px monospace", 
+                    "fill": "#000000", 
+                    "align": "center", 
+                    "stroke": "#FFFFFF", 
+                    "strokeThickness": 1
+                }
+            }
+        },
+        "acceptButton": {
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "denyButton": {
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "questionPanel": {
+            "size": {
+                "width": 400,
+                "height": 400
+            },
+            "style": {
+                "font": "bold 30px monospace", 
+                "fill": "#000000", 
+                "align": "center", 
+                "stroke": "#FFFFFF", 
+                "strokeThickness": 1
+            }
+        },
+        "answerButton": {
+            "size": {
+                "width": 120,
+                "height": 45
+            },
+            "style": {
+                "font": "bold 30px monospace", 
+                "fill": "#000000", 
+                "align": "center", 
+                "stroke": "#FFFFFF", 
+                "strokeThickness": 1
+            }
+        },
+        "questionFailPanel": {
+            "size": {
+                "width": 400,
+                "height": 250
+            },
+            "text": "Game Over",
+            "style": {
+                "font": "bold 30px monospace",
+                "fill": "#000000",
+                "align": "center",
+                "stroke": "#FFFFFF",
+                "strokeThickness": 1
+            }
+        },
+        "gameEndPanel": {
+            "size": {
+                "width": 400,
+                "height": 250
+            },
+            "text": "Level Completed!",
+            "style": {
+                "font": "bold 30px monospace",
+                "fill": "#000000",
+                "align": "center",
+                "stroke": "#FFFFFF",
+                "strokeThickness": 1
+            }
+        }
+    },
+    "char": {
+        "size": {
+            "width": 40,
+            "height": 40
+        },
+        "body": {
+            "bounce.x": 0.5,
+            "bounce.y": 0.5,
+            "collideWorldBounds": true
+        },
+        "movement": {
+            "velocity": 300,
+            "acceleration": 20
+        },
+        "position": {
+            "x": 2,
+            "y": 4
+        }
+    }
+}

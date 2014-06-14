@@ -400,12 +400,16 @@ this.LaseRun = this.LaseRun || {};
 
     p.update = function() {
         LaseRun.update();
+        var ball = this.objects["ball"];
         if (this._inQuestion || this._isPaused) {
+            if (ball && ball.body) {
+                ball.body.moves = false;
+            }
             return;
         }
         var rules = this.objects["rules"];
         var map = this.objects["map"];
-        var ball = this.objects["ball"];
+        
         var params = this._params;
         this.physics.arcade.collide(ball, this.objects["ground"]);
         if (!this._ended && (ball.x + (ball.scale.x * ball.texture.width) > (rules["map"]["end"] * map.tileWidth))) {
@@ -478,11 +482,15 @@ this.LaseRun = this.LaseRun || {};
 
         var currentCheckpoint = this._cachedValues["currentCheckpoint"];;
         if (currentCheckpoint) {
-            if (ball.body.x >= currentCheckpoint["distance"] * this.map.tileWidth) {
+            if (ball.body.x >= currentCheckpoint["distance"] * this.objects["map"].tileWidth) {
                 applyMovement(this._cachedValues, currentCheckpoint);
                 var bodyRules = currentCheckpoint["body"];
+                var physicsRules = currentCheckpoint["physics"];
                 if (bodyRules) {
                     LaseRun.property.apply(ball.body, bodyRules);
+                }
+                if (physicsRules) {
+                    LaseRun.property.apply(this.physics.arcade, physicsRules);
                 }
                 this._cachedValues["currentCheckpoint"] = this.objects["checkpoints"][++this._cachedValues["currentCheckpointIndex"]];
             }
@@ -621,6 +629,8 @@ this.LaseRun = this.LaseRun || {};
                             buttonGroup.setAll("inputEnabled", false);
                             buttonGroup.callAll("loadAppropriateTextureForAnswer", null);
                             if (correctAnswer) {
+                                this.objects["score"] += rules["map"]["coins"]["correctScore"];
+                                this.objects["scoreDisplay"].setText(this.objects["score"].toString());
                                 buttonGroup.forEach(function(obj) {
                                     if (b !== obj) {
                                         smallenAndKill.call(this, obj, 500);

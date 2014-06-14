@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if type http-server >/dev/null 2>&1
-then
-	http-server -p 8000
-else
-	echo http-server not found... attempting to use python server
-	python run_server.py
-fi

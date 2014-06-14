@@ -41,8 +41,8 @@ this.LaseRun = this.LaseRun || {};
                 playButton.inputEnabled = false;
                 var tween = this.add.tween(this.world).to({alpha: 0}, 1000, Phaser.Easing.Quadratic.InOut, false, 0, 0, false);
                 tween.onComplete.add(function() {
-                    this.state.add("SkylandState", new LaseRun.SkylandState());
-                    this.state.start("SkylandState");
+                    this.state.add("SelectState", new LaseRun.SelectState());
+                    this.state.start("SelectState");
                 }, this);
                 tween.start();
             }, 

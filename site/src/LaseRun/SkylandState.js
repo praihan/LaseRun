@@ -13,7 +13,7 @@ this.LaseRun = this.LaseRun || {};
                 "sky": {path: assets.common.child("bitmap/blueSky.png")},
                 "tiles": {path: assets.common.child("spritesheet/kennyTiles.png")},
                 "laserButt": {path: assets.common.child("bitmap/laserButt.png")},
-                "ball": {path: assets.common.child("bitmap/redBall.png")},
+                "ball": {path: assets.common.child("bitmap/blueBall.png")},
                 "coins": {
                     "path": assets.common.child("spritesheet/coins.png"),
                     "tileWidth": 32,

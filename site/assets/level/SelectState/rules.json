@@ -1,0 +1,34 @@
+{
+    "ui": {
+        "soundButton": {
+            "position": {
+                "x": 660,
+                "y": 16
+            },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "musicButton": {
+            "position": {
+                "x": 750,
+                "y": 16
+             },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        },
+        "backButton": {
+            "position": {
+                "x": 51,
+                "y": 51
+             },
+            "size": {
+                "width": 70,
+                "height": 70
+            }
+        }
+    }
+}

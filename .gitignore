@@ -35,6 +35,7 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+site/build
 
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
@@ -163,3 +164,6 @@ pip-log.txt
 
 .mr.developer.cfg
 Thumbs.db
+
+# node stuff
+node_modules/

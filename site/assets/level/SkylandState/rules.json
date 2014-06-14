@@ -4,7 +4,7 @@
         "gravity.y": 250
     },
     "map": {
-        "name": "SkyLand",
+        "name": "Skyland",
         "tiles": {
             "collisions": [81],
             "coins": 158,
@@ -15,10 +15,17 @@
         },
         "coins": {
             "initScore": 0,
-            "score": 1
+            "score": 1,
+            "correctScore": 5
         },
         "end": 795,
         "checkpoints": [
+            {"distance": 50, "velocity": 240}, 
+            {"distance": 128, "velocity": 270}, 
+            {"distance": 225, "velocity": 300},
+            {"distance": 300, "velocity": 320}, 
+            {"distance": 700, "velocity": 350},
+            {"distance": 790, "velocity": 100}
         ]
     },
     "ui": {
