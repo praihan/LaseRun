@@ -1,24 +1,28 @@
 {
     "physics": {
         "gravity.x": 0,
-        "gravity.y": 250
+        "gravity.y": 100
     },
     "map": {
-        "name": "SkyLand",
+        "name": "Spaceland",
         "tiles": {
-            "collisions": [81],
+            "collisions": [123],
             "coins": 158,
             "laserPoles": 164
         },
         "camera": {
-            "follow": "FOLLOW_PLATFORMER"
+            "follow": "FOLLOW_LOCKON"
         },
         "coins": {
             "initScore": 0,
-            "score": 1
+            "score": 1, 
+            "correctScore": 5
         },
-        "end": 795,
+        "end": 1595,
         "checkpoints": [
+            {"distance": 280, "velocity": 250 , "acceleration": 18}, 
+            {"distance": 970, "velocity": 300}, 
+            {"distance": 1325, "velocity": 350}
         ]
     },
     "ui": {
@@ -163,12 +167,12 @@
             "height": 40
         },
         "body": {
-            "bounce.x": 0.3,
-            "bounce.y": 0.3,
+            "bounce.x": 0.6,
+            "bounce.y": 0.6,
             "collideWorldBounds": true
         },
         "movement": {
-            "velocity": 200,
+            "velocity": 220,
             "acceleration": 14
         },
         "position": {
