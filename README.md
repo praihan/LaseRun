@@ -39,12 +39,12 @@ To run the project using nodejs:
         called 'node_modules'.
     </li>
     <li>
-        Run http-server from the same directory. So on Windows run 'call ./node_modules/.bin/http-server -p <PORT> ./site'. 
-        Replace '<PORT>' with whatever port you want, for example 8000. So an example would be 'call ./node_modules/.bin/http-server -p 8000 ./site'.
+        Run http-server from the same directory. So on Windows run 'call ./node_modules/.bin/http-server -p $PORT ./site'. 
+        Replace '$PORT' with whatever port you want, for example 8000. So an example would be 'call ./node_modules/.bin/http-server -p 8000 ./site'.
     </li>
     <li>
-        Open your web browser and go to 'localhost:<PORT>/build/release' where '<PORT>' is the port you used. If you did not build, 
-        you can also just do 'localhost:<PORT>'. This will open the original source which is easier to debug.
+        Open your web browser and go to 'localhost:$PORT/build/release' where '$PORT' is the port you used. If you did not build, 
+        you can also just do 'localhost:$PORT'. This will open the original source which is easier to debug.
     </li>
 </ul>
 
