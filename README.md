@@ -16,10 +16,10 @@ NOTE: You do not necessarily have to build to run.
 To build the project, you require the following:
 <ul>
     <li>
-        [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
+        <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html" title="Java 8">Java 8</a>
     </li>
     <li>
-        [GNU make](http://www.gnu.org/software/make/)
+        <a href="http://www.gnu.org/software/make/" title="GNU make">GNU make</a>
     </li>
 </ul>
 In the 'site' folder, there is a Makefile. From the commandline execute 'make release' on 
@@ -29,7 +29,7 @@ clean up the build too.
 To run the project, you require the following:
 <ul>
     <li>
-        [nodejs](http://nodejs.org/) (npm) or any webserver.
+        <a href="http://nodejs.org/" title="nodejs">nodejs</a> (npm) or any webserver.
     </li>
 </ul>
 To run the project using nodejs:
